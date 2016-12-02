@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-
 class StudentController extends Controller
 {
     public function getName(){
         $dbCon = new DBConnection();
-        $dbCon->getName();
-//        $student_list=DB::select("select * from students");
-//        return view('welcome')->with('students', $student_list);
+        $result=$dbCon->getName();
+        $students = array();
+        while($row=$result->fetch_assoc()){
+            array_push($students, $row['name']);
+        }
+
+//        if ($result->num_rows > 0) {
+//            // output data of each row
+//            return view('welcome')->with('students', $students);
+////            while($row = $result->fetch_assoc()) {
+////                echo "name: " . $row["name"]. "<br>";
+////            }
+//        } else {
+//            echo "0 results";
+//        }
     }
 }
