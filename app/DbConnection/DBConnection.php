@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\DbConnection;
 
 use mysqli;
 
@@ -17,14 +17,14 @@ class DBConnection
 
         // Check connection
         if ($conn->connect_error) {
-//            die("Connection failed: " . $conn->connect_error);
+            die("Connection failed: " . $conn->connect_error);
         }
-//        echo "Connected successfully";
+        echo "Connected successfully";
         $sql = "USE MusicSchool";
         if ($conn->query($sql) === TRUE) {
-//            echo "Database connected successfully";
+            echo "Database connected successfully";
         } else {
-//            echo "Error connecting DB : " . $conn->error;
+            echo "Error connecting DB : " . $conn->error;
         }
         return $conn;
     }

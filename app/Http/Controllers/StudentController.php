@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
+use App\DbConnection\DBConnection;
+
 class StudentController extends Controller
 {
     public function getName(){
@@ -11,7 +14,7 @@ class StudentController extends Controller
         while($row=$result->fetch_assoc()){
             array_push($students, $row['name']);
         }
-
+        return view('welcome')->with('students', $students);
 //        if ($result->num_rows > 0) {
 //            // output data of each row
 //            return view('welcome')->with('students', $students);

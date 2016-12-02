@@ -6,7 +6,8 @@ echo var_dump($students); ?>
     <form>
         <div class="form-group">
             <label for="exampleInputEmail1">Name</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Name" value="{{$students[$i]}}">
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Name"
+                   value="{{$students[$i]}}">
         </div>
 
     </form>
