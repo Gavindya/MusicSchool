@@ -2,6 +2,7 @@
 namespace App\DbConnection;
 
 use mysqli;
+use Symfony\Component\HttpFoundation\Request;
 
 class DBConnection
 {
@@ -19,10 +20,10 @@ class DBConnection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        echo "Connected successfully";
-        $sql = "USE MusicSchool";
+        //echo "Connected successfully";
+        $sql = "USE musicschool_";
         if ($conn->query($sql) === TRUE) {
-            echo "Database connected successfully";
+            // echo "Database connected successfully";
         } else {
             echo "Error connecting DB : " . $conn->error;
         }
@@ -31,6 +32,26 @@ class DBConnection
     public function getName(){
         $conn = $this->openConnection();
         $sql = "SELECT students.name FROM students";
+        $result = $conn->query($sql);
+        $conn->close();
+        return $result;
+
+    }
+
+    public function storeStudent(Request $request)
+    {
+        $conn = $this->openConnection();
+        //$sql="INSERT INTO `students` (`id`, `name`) VALUES (NULL,dileka)";
+        $sql = "SELECT students.name FROM students";
+        $result = $conn->query($sql);
+        $conn->close();
+        return $result;
+    }
+
+    public function getStudents()
+    {
+        $conn = $this->openConnection();
+        $sql = "SELECT * FROM students";
         $result = $conn->query($sql);
         $conn->close();
         return $result;

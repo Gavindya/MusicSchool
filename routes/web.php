@@ -12,5 +12,20 @@
 */
 
 Route::get('/', [
+    'uses' => 'HomeController@index'
+]);
+Route::get('/students', [
     'uses'=> 'StudentController@getName'
+]);
+
+Route::get('/student/new', [
+    'uses' => 'StudentController@newStudent'
+]);
+
+Route::patch('/student/enroll', [
+    'uses' => 'StudentController@storeStudent'
+]);
+
+Route::get('/view/students', [
+    'uses' => 'StudentController@getStudents'
 ]);
