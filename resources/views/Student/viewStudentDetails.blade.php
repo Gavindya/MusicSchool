@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="../../../public/css/user1.css">
 @endsection
 @section('scripts')
-    <script src="../../../public/js/jquery1.min.js"></script>
-    <script src="../../../public/js/bootstrap.min.js"></script>
+    <script src="public/js/jquery1.min.js"></script>
+    <script src="public/js/bootstrap.min.js"></script>
 @endsection
 
 
@@ -22,7 +22,7 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Name</th>
+                    <th>Names</th>
                 </tr>
                 </thead>
                 <tbody>
