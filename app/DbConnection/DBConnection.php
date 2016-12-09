@@ -36,4 +36,9 @@ class DBConnection
         return $result;
 
     }
+//    public function __destruct()
+//    {
+//        //Close connection
+//        mysqli_close($this -> conn);
+//    }
 }

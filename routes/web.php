@@ -14,3 +14,9 @@
 Route::get('/', [
     'uses'=> 'StudentController@getName'
 ]);
+Route::get('/Teacher', [
+    'uses' => 'TeacherController@getTeachers'
+]);
+Route::patch('/addTeacher', [
+    'uses' => 'TeacherController@addTeacher'
+]);
