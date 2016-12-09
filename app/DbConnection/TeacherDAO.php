@@ -16,13 +16,23 @@ class TeacherDAO
 
     }
 
+    public function getTeachers()
+    {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openConnection();
+        $sql = "SELECT * FROM teachers";
+        $result = $conn->query($sql);
+        $conn->close();
+        return $result;
+
+    }
+
     public function addNewTeacher(teacher $teacher)
     {
         echo "*received in teacher DAO-/-*";
         $dbCon = new DBConnection();
         $conn = $dbCon->openConnection();
         $nameOfT = $teacher->getName();
-        //$teacher->getName();
         echo "**name of the teacher---";
         echo $nameOfT;
         $sql = "INSERT INTO `teachers` (`id`, `name`, `created_at`, `updated_at`) VALUES (NULL, '{$nameOfT}', NULL, NULL)";

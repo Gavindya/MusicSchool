@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class teacher extends Model
 {
     protected $fillable = ['name'];
+    public $id;
     public $name;
+    public $created_at;
+    public $updated_at;
 
     public function getName()
     {

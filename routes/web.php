@@ -15,8 +15,24 @@ Route::get('/', [
     'uses'=> 'StudentController@getName'
 ]);
 Route::get('/Teacher', [
-    'uses' => 'TeacherController@getTeachers'
+    'uses' => 'TeacherController@getTeachersNames',
+    
 ]);
 Route::patch('/addTeacher', [
-    'uses' => 'TeacherController@addTeacher'
+    'uses' => 'TeacherController@addTeacher',
+]);
+
+Route::get('/TeacherManagement', [
+    'uses' => 'TeacherController@getTeachers',
+    'as' => 'TeacherManagement'
+]);
+
+Route::get('/TeacherInformation/ID/{id}', [
+    'uses' => 'TeacherController@getTeacherInformation',
+    'as' => 'teacherInfo'
+]);
+
+Route::get('/Payrole', [
+    'uses' => 'SalaryController@getPayments',
+    'as' => 'salaryController'
 ]);
