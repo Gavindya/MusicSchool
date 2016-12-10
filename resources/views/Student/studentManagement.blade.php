@@ -19,38 +19,33 @@
 
 @endsection
 
-
-@section('content')
 @section('headline')
-    New Student
+    Student Management
 @endsection
-<h1></h1>
-<div class="col-lg-6">
-    <form action=/student/enroll method="POST">
-        {{csrf_token()}}
+@section('content')
 
-        @include('Student.partials.student_form')
-        {{csrf_field()}}
-    </form>
+    <div class="dropdown ">
+        <button class="btn btn-default dropdown-toggle col-lg-5" data-toggle="dropdown" aria-expanded="false"
+                type="button" name="student-id">Select a student <span class="caret"></span></button>
+        <ul class="dropdown-menu col-lg-5" role="menu" name="student">
+            <li><a href="#">First Item</a></li>
+            <li><a href="#">Second Item</a></li>
+            <li><a href="#">Third Item</a></li>
+            @for($i =0; $i < sizeof($students); $i++)
 
-    {{var_dump($errors)}}
-    @if(count($errors))
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{$error}}</li>
-            @endforeach
+
+                <li value="{{$i}}"><a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['name']}}</a>
+                </li>
+            @endfor
         </ul>
-    @endif
-</div>
+        ]
+
+    </div>
+
+
+
+
 
 
 
 @endsection
-
-
-   
-            
-
-
-
-

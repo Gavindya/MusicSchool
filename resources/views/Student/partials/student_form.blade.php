@@ -1,6 +1,8 @@
+
 <div class="form-group">
     <label for="firstname"><span class="req">* </span> First name: </label>
-    <input class="form-control" type="text" name="first_name" id="txt" onkeyup="Validate(this)" required/>
+    <input class="form-control" class="col-lg-2" type="text" name="first_name" id="txt" onkeyup="Validate(this)"
+           required/>
     <div id="errFirst"></div>
 </div>
 
@@ -8,7 +10,7 @@
 <div class="form-group">
     <label for="lastname"><span class="req">* </span> Last name: </label>
     <input class="form-control" type="text" name="last_name" id="txt" onkeyup="Validate(this)"
-           placeholder="hyphen or single quote OK" required/>
+           placeholder="{{old('first_name')}}" required/>
     <div id="errLast"></div>
 </div>
 
@@ -28,13 +30,13 @@
 
 <div class="form-group">
     <label for="firstname"><span class="req">* </span> Parent name: </label>
-    <input class="form-control" type="text" name="parent_name" id="phone" onkeyup="Validate(this)" required/>
+    <input class="form-control" type="text" name="guardian_name" id="phone" onkeyup="Validate(this)" required/>
     <div id="errFirst"></div>
 </div>
 
 <div class="form-group">
     <label for="phonenumber"><span class="req">* </span> Phone Number: </label>
-    <input required type="text" name="parent_phone_number" id="phone" class="form-control phone" maxlength="28"
+    <input required type="text" name="guardian_phone" id="phone" class="form-control phone" maxlength="28"
            onkeyup="validatephone(this);" placeholder="not used for marketing"/>
 </div>
 
