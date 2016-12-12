@@ -27,17 +27,25 @@ class TeacherDAO
 
     }
 
+    public function getATeacher($id)
+    {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $sql = "SELECT * FROM `teachers` WHERE `id` = :id";
+        $q = $conn->prepare($sql);
+        $q->execute(array(':id' => "$id"));
+        $done = $q->fetch();  //returns an array $done[0]=id and $done[1]=name
+        return $done;
+    }
+
     public function addNewTeacher(teacher $teacher)
     {
-        echo "*received in teacher DAO-/-*";
         $dbCon = new DBConnection();
         $conn = $dbCon->openConnection();
         $nameOfT = $teacher->getName();
-        echo "**name of the teacher---";
         echo $nameOfT;
         $sql = "INSERT INTO `teachers` (`id`, `name`, `created_at`, `updated_at`) VALUES (NULL, '{$nameOfT}', NULL, NULL)";
         $conn->query($sql);
-        echo "***sql query ran***";
         $conn->close();
     }
 }

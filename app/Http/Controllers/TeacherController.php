@@ -67,7 +67,31 @@ class TeacherController extends Controller
 
     public function getTeacherInformation($id)
     {
-        
-        return view('TeacherInformation', ['teacherID' => ($id)]);
+        $dbCon = new TeacherDAO();
+        $result = $dbCon->getATeacher($id);
+        $teachers = array();
+//        echo $result[0];  /*id*/
+//        echo $result[1];  /*name*/
+        array_push($teachers, $id);
+        array_push($teachers, $result[1]);
+
+        $payments = new SalaryController();
+        $paymentsHistory = $payments->getPaymentsOfTeacher($id);
+        array_push($teachers, $paymentsHistory);
+
+        $clses = new ClsController();
+        $clssAssigned = $clses->getAssignedClasDetails($id);
+        array_push($teachers, $clssAssigned);
+
+//        return view('TeacherInformation', ['teacherId' => ($id),'teacherName' => ($result[1])]);
+        return view('TeacherInformation', ['teacher' => ($teachers)]);
+
+    }
+
+
+    public function updateTeacher($id)
+    {
+        echo "inside UPDATE";
+        return redirect()->route('teacherInfo', ['id' => $id]);
     }
 }

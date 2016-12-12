@@ -22,6 +22,11 @@ Route::patch('/addTeacher', [
     'uses' => 'TeacherController@addTeacher',
 ]);
 
+Route::get('/updateTeacher/{id}', [
+    'uses' => 'TeacherController@updateTeacher',
+    'as' => 'updateTeacherInfo'
+]);
+
 Route::get('/TeacherManagement', [
     'uses' => 'TeacherController@getTeachers',
     'as' => 'TeacherManagement'
