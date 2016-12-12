@@ -1,31 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-echo $teacher[0];
-echo "*************";
-echo $teacher[1];
-echo "*************";
-echo $teacher[2][0];
-echo "**";
-echo $teacher[2][1];
-echo "**";
-echo $teacher[2][2];
-echo "**";
-echo $teacher[2][3];
-echo "*************";
-echo $teacher[3][0];
-echo "**";
-echo $teacher[3][1];
-echo "**";
-echo $teacher[3][2];
-echo "**";
-echo $teacher[3][3];
-echo "**";
-echo $teacher[3][4];
-echo "**";
-echo $teacher[3][5];
-echo "*************";
-
 ?>
 <head>
     <title>Teacher Management</title>
@@ -74,8 +49,6 @@ echo "*************";
     <h2>Personal Details</h2>
     <div id="form" class="row">
         <form method="post" action="/updateTeacher">
-            {{--for no this is GET. it should be PATCH--}}
-            {{--{{method_field('PATCH')}}--}}
             {{method_field('PATCH')}}
             <div class="col-lg-4 col-md-4">
                 <div class="form-group">
@@ -118,16 +91,17 @@ echo "*************";
                 </div>
                 <div class="form-group">
                     <label for="mobile">Mobile Number</label>
-                    <input type="text" class="form-control" id="mobile" name="mobile" readonly value={{$teacher[0]}}>
+                    <input type="text" class="form-control" id="mobile" name="mobile" readonly value={{$teacher[2]}}>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" readonly value={{$teacher[0]}}>
+                    <input type="text" class="form-control" id="address" name="address" readonly value={{$teacher[3]}}>
                 </div>
             </div>
             <div class="form-group container-fluid pull-left">
-                <a id="update" disabled href="{{ route('updateTeacherInfo',['id' => $teacher[0]]) }}" type="button"
-                   class="btn btn-primary">Update</a>
+                {{--<a id="update" disabled href="{{ route('updateTeacherInfo') }}" type="button"--}}
+                {{--class="btn btn-primary">Update</a>--}}
+                <button id="update" disabled type="submit" class="btn btn-primary">Update teacher</button>
             </div>
             {{csrf_field()}}
         </form>
@@ -159,13 +133,13 @@ echo "*************";
             </tr>
             </thead>
             <tbody>
-            @for($i =0; $i < sizeof($teacher[3]) ; $i++)
+            @for($i =0; $i < 2 ; $i++)
                 <tr class="clickable-row">
-                    <td>{{$teacher[3][2]}}</td>
-                    <td>{{$teacher[3][0]}}</td>
-                    <td>{{$teacher[3][4]}}</td>
-                    <td>{{$teacher[3][5]}}</td>
-                    <td>{{$teacher[3][3]}}</td>
+                    <td>{{$teacher[5][2]}}</td>
+                    <td>{{$teacher[5][0]}}</td>
+                    <td>{{$teacher[5][4]}}</td>
+                    <td>{{$teacher[5][5]}}</td>
+                    <td>{{$teacher[5][3]}}</td>
                 </tr>
             @endfor
             {{--{{$teachers->links()}}--}}
@@ -192,11 +166,11 @@ echo "*************";
             </tr>
             </thead>
             <tbody>
-            @for($i =0; $i < sizeof($teacher[2]) ; $i++)
+            @for($i =0; $i < 2 ; $i++)
                 <tr class="clickable-row">
-                    <td>{{$teacher[2][3]}}</td>
-                    <td>{{$teacher[2][2]}}</td>
-                    <td>{{$teacher[2][0]}}</td>
+                    <td>{{$teacher[4][3]}}</td>
+                    <td>{{$teacher[4][2]}}</td>
+                    <td>{{$teacher[4][0]}}</td>
                 </tr>
             @endfor
             {{--{{$teachers->links()}}--}}

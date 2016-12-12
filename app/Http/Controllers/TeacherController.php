@@ -74,6 +74,8 @@ class TeacherController extends Controller
 //        echo $result[1];  /*name*/
         array_push($teachers, $id);
         array_push($teachers, $result[1]);
+        array_push($teachers, $result[4]);
+        array_push($teachers, $result[5]);
 
         $payments = new SalaryController();
         $paymentsHistory = $payments->getPaymentsOfTeacher($id);
@@ -89,9 +91,17 @@ class TeacherController extends Controller
     }
 
 
-    public function updateTeacher($id)
+    public function updateTeacher(Request $request)
     {
+        $dbCon = new TeacherDAO();
+        $mobile = $request->mobile;
+        $address = $request->address;
+        $id = $request->id;
+        $dbCon->updateTeacher($mobile, $address, $id);
         echo "inside UPDATE";
         return redirect()->route('teacherInfo', ['id' => $id]);
+
     }
+
+
 }

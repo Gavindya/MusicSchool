@@ -48,4 +48,19 @@ class TeacherDAO
         $conn->query($sql);
         $conn->close();
     }
+
+    public function updateTeacher($mobile, $address, $id)
+    {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $sql = "UPDATE `teachers` SET `mobile` = :mobile,
+                                      `address` = :address
+                                      WHERE `id` = :id";
+        $statement = $conn->prepare($sql);
+//        $statement->execute(array(":mobile"=> "$mobile",":address"=> "$address",":telephone"=>"$telephone"));
+        $statement->bindValue(":mobile", $mobile);
+        $statement->bindValue(":address", $address);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+    }
 }

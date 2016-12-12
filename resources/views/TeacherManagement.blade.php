@@ -37,12 +37,11 @@
             </thead>
             <tbody>
             @for($i =0; $i < sizeof($teachers); $i++)
-            $id = $teachers[$i]['id']
             <tr class="clickable-row" data-href="{{ route('teacherInfo',['id' => $teachers[$i]['id']])}}">
                 <td>{{$teachers[$i]['id']}}</td>
                 <td>{{$teachers[$i]['name']}}</td>
-                <td>{{$teachers[$i]['created_at']}}</td>
-                <td>{{$teachers[$i]['updated_at']}}</td>
+                <td>{{$teachers[$i]['mobile']}}</td>
+                <td>{{$teachers[$i]['address']}}</td>
                 <td>{{$teachers[$i]['name']}}</td>
             </tr>
             @endfor
