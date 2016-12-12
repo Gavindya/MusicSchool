@@ -34,7 +34,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/student/new_class', [
         'uses' => 'StudentController@addNewClass'
     ]);
-    Route::patch('/student/subscribe', [
+    Route::post('/student/subscribe', [
         'uses' => 'StudentController@addClass'
     ]);
     Route::get('/student/management', [
@@ -45,6 +45,9 @@ Route::group(['middleware' => ['web']], function () {
     ]);
     Route::post('/student/{id}/update', [
         'uses' => 'StudentController@updateStudent'
+    ]);
+    Route::get('/student/progress/{id}', [
+        'uses' => 'StudentController@viewProgress'
     ]);
 
 });

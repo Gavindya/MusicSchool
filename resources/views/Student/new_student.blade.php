@@ -24,23 +24,31 @@
 @section('headline')
     New Student
 @endsection
-<h1></h1>
+
 <div class="col-lg-6">
+
+    @if (Session::has('msg'))
+        <div class="alert alert-success">{{ Session::get('msg') }}</div>
+    @endif
+    @if(count($errors))
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+
     <form action=/student/enroll method="POST">
-        {{csrf_token()}}
+
 
         @include('Student.partials.student_form')
         {{csrf_field()}}
     </form>
 
-    {{var_dump($errors)}}
-    @if(count($errors))
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{$error}}</li>
-            @endforeach
-        </ul>
-    @endif
+
 </div>
 
 

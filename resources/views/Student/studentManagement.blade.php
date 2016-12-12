@@ -16,36 +16,36 @@
 
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ URL::asset('css/searchBar.css') }}"/>
+
+
 
 @endsection
-
 @section('headline')
     Student Management
 @endsection
 @section('content')
-
-    <div class="dropdown ">
-        <button class="btn btn-default dropdown-toggle col-lg-5" data-toggle="dropdown" aria-expanded="false"
-                type="button" name="student-id">Select a student <span class="caret"></span></button>
-        <ul class="dropdown-menu col-lg-5" role="menu" name="student">
-            <li><a href="#">First Item</a></li>
-            <li><a href="#">Second Item</a></li>
-            <li><a href="#">Third Item</a></li>
-            @for($i =0; $i < sizeof($students); $i++)
+    @include('templates.partials.searchbar')
+    <div class="col-lg-6">
 
 
-                <li value="{{$i}}"><a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['name']}}</a>
-                </li>
-            @endfor
-        </ul>
-        ]
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">HTML</a></li>
+                <li><a href="#">CSS</a></li>
+                <li><a href="#">JavaScript</a></li>
+                @for($i =0; $i < sizeof($students); $i++)
+
+
+                    <li value="{{$i}}"><a
+                                href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['name']}}</a></li>
+                @endfor
+
+
+            </ul>
+        </div>
 
     </div>
-
-
-
-
-
-
-
 @endsection

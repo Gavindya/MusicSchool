@@ -30,6 +30,8 @@
 
 @section('content')
 
+
+
     <div class="container-fluid ">
         <div class="table-responsive ">
             <table class="table">

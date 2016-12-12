@@ -9,7 +9,7 @@
 namespace app\DbModels;
 
 
-use App\DbConnection\DBConnection;
+use mysqli;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -20,55 +20,55 @@ class StudentTableConnector
     /**
      * @return array
      */
-    public function getName()
+    public function getName(mysqli $conn)
     {
-        $conn = DBConnection::openConnection();
+
         $sql = "SELECT students.name FROM students";
         $result = $conn->query($sql);
-        $conn->close();
+        //$conn->close();
         $students = array();
         while ($row = $result->fetch_assoc()) {
             array_push($students, $row['name']);
         }
-        return $students;
+        return [$conn, $students];
 
 
     }
 
-    public function storeStudent(Request $request)
+    public function storeStudent(mysqli $conn, Request $request)
     {
-        $conn = DBConnection::openConnection();
-        //$sql="INSERT INTO `students` (`id`, `name`) VALUES (NULL,dileka)";
-        $sql = "INSERT INTO `students`(`id`, `name`, `address`, `telephone`, `family_id`, `created_at`, `updated_at`) VALUES (NULL ,'{$request->first_name}','{$request->student_address}','{$request->student_telephone}','1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
+
+
+        $sql = "INSERT INTO `students`(`id`, `name`, `address`, `telephone`, `family_id`, `created_at`, `updated_at`) VALUES (NULL ,'{$request->first_name}','{$request->student_address}','{$request->student_phone_number}','1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
         $result = $conn->query($sql);
-        $conn->close();
-        return $result;
+
+
+        return $conn;
     }
 
-    public function getStudents()
+    public function getStudents(mysqli $conn)
     {
-        $conn = DBConnection::openConnection();
+        // $conn = DBConnection::openConnection();
         $sql = "SELECT * FROM students";
         $result = $conn->query($sql);
-        $conn->close();
+        // $conn->close();
         $students = array();
 
         while ($row = $result->fetch_assoc()) {
 
             array_push($students, $row);
         }
-        return $students;
+        return [$conn, $students];
 
     }
 
-    public function updateStudent(Request $student)
+    public function updateStudent(mysqli $conn, Request $student)
     {
-        $conn = DBConnection::openConnection();
-        //$sql="INSERT INTO `students` (`id`, `name`) VALUES (NULL,dileka)";
-        $sql = "UPDATE `students` SET `name` = '{$student->name}', `address` = '{$student->address}', `telephone` = '{$student->telephone}', `family_id` = '{$student->family_id}' ,`updated_at` = CURRENT_TIMESTAMP WHERE `students`.`id` = {$student->id}";
+
+        $sql = "UPDATE `students` SET `name` = '{$student->name}', `address` = '{$student->address}', `telephone` = '{$student->telephone}', `family_id` = '4' ,`updated_at` = CURRENT_TIMESTAMP WHERE `students`.`id` = {$student->id}";
         $result = $conn->query($sql);
-        $conn->close();
-        return $result;
+        //$conn->close();
+        return $conn;
 
     }
 

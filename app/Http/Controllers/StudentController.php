@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\DbConnection\DBConnection;
+use App\DbModels\ClassTableConnector;
+use App\DbModels\EnrollTableConnector;
 use App\DbModels\ParentTableConnector;
+use App\DbModels\StudentPaymentsConnector;
+use App\DbModels\studentProgressConnector;
 use App\DbModels\StudentTableConnector;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,26 +17,21 @@ class StudentController extends Controller
 {
 
 
-    public function getName(){
+    public function getName()
+    {
+
+        $conn = DBConnection::openConnection();
         $studentConnector = new StudentTableConnector();
 
-        $students = $studentConnector->getName();
-       
+        list($conn, $students) = $studentConnector->getName($conn);
+        $conn->close;
         
         return view('welcome')->with('students', $students);
         //return $students;
 //       
     }
 
-    /*  public function storeGuardian(Request $request){
-   
-           $conn = DBConnection::openConnection();
-           //$sql="INSERT INTO `students` (`id`, `name`) VALUES (NULL,dileka)";
-           $sql="INSERT INTO `guardians`(`id`, `name`, `telephone`, `created_at`, `updated_at`) VALUES (NULL ,'{$request->guardian_name}','{$request->guardian_phone}',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
-           $result = $conn->query($sql);
-           $conn->close();
-           return $result;
-       }*/
+
 
 
     public function newStudent()
@@ -47,26 +47,35 @@ class StudentController extends Controller
 
     {
         $this->validate($request, [
-            'first_name' => 'required|min:10'
+            'first_name', 'last_name' => 'required|min:2|max:45',
+            'guardian_phone' => 'required|digits:10',
+            'student_phone_number' => 'required|digits:10',
+            'student_address' => 'required|max:45',
+            'guardian_name' => 'required|min:2|max:45'
         ]);
 
+        $conn = DBConnection::openConnection();
+
         $guardianConnector = new GuardianController();
-        $result2 = $guardianConnector->storeGuardian($request);
+        $result = $guardianConnector->storeGuardian($conn, $request);
+
         $studentConnector = new StudentTableConnector();
 
-        $result = $studentConnector->storeStudent($request);
+        $result2 = $studentConnector->storeStudent($result, $request);
 
-
-        return "{$result2}";
-
+        session()->flash('msg', 'Admission is successful.');
+        return redirect()->back();
+        //return Redirect::back()->with('msg', 'The Message');
     }
+
 
     public function getStudents()
     {
-
+        $conn = DBConnection::openConnection();
         $studentConnector = new StudentTableConnector();
 
-        $students = $studentConnector->getStudents();
+        list($conn, $students) = $studentConnector->getStudents($conn);
+        $conn->close();
      
         return view('Student.viewStudentDetails')->with('students', $students);
         //return view('welcome');
@@ -75,20 +84,31 @@ class StudentController extends Controller
 
     public function addNewClass()
     {
+        $conn = DBConnection::openConnection();
         $studentConnector = new StudentTableConnector();
-        $namelist = $studentConnector->getName();
+        list($conn, $students) = $studentConnector->getStudents($conn);
+        $conn->close();
 
-        return view('Student.newClass', compact('namelist'));
+        return view('Student.newClass', compact('students'));
     }
 
     public function addClass(Request $request)
+
     {
-        $studentConnector = new StudentTableConnector();
 
-        $result = $studentConnector->addClass($request);
+        $this->validate($request, [
+            'student_id' => 'required',
+            'class_id' => 'required'
+        ]);
+        $conn = DBConnection::openConnection();
+        $classConnector = new ClassTableConnector();
+        list($conn, $result) = $classConnector->getClassDetails($conn, $request->class_id);
+        $enrollConnector = new EnrollTableConnector();
 
-
-        return "{$result}";
+        $conn = $enrollConnector->enroll($conn, $request, $result);
+        $conn->close();
+        session()->flash('msg', 'Enrollment is successful.');
+        return redirect()->back();
 
     }
 
@@ -97,10 +117,11 @@ class StudentController extends Controller
 
         //$studentConnector=new StudentTableConnector();
         //$namelist=$studentConnector->getName();
-
+        $conn = DBConnection::openConnection();
         $studentConnector = new StudentTableConnector();
 
-        $students = $studentConnector->getStudents();
+        list($conn, $students) = $studentConnector->getStudents($conn);
+        $conn->close();
 
         return view('Student.studentManagement', compact('students'));
     }
@@ -108,27 +129,43 @@ class StudentController extends Controller
     public function viewPayment($id)
     {
         // return $id;
+        $conn = DBConnection::openConnection();
 
         $studentConnector = new StudentTableConnector();
 
-        $students = $studentConnector->getStudents();
-        $studentConnector2 = new StudentTableConnector();
-        //$namelist=$studentConnector2->getName();
+        list($conn, $students) = $studentConnector->getStudents($conn);
+        $studentPaymentConnector = new StudentPaymentsConnector();
+        list($conn, $studentpayments) = $studentPaymentConnector->getStudentPayments($conn, $id);
+        $conn->close();
 
         // return view('Student.singleStudentManagement')->with('students', $students,'id',$id);
-        return view('Student.singleStudentManagement', compact('students', 'id'));
+        return view('Student.singleStudentManagement', compact('students', 'id', 'studentpayments'));
     }
 
     public function updateStudent(Request $request, $id)
     {
         return $request;
-
+        $conn = DBConnection::openConnection();
         $studentConnector = new StudentTableConnector();
 
-        $students = $studentConnector->getStudents();
-        $studentConnector2 = new StudentTableConnector();
-        //$namelist=$studentConnector2->getName();
+
+        $conn = $studentConnector->updateStudent($conn, $request);
+        $conn->close();
+        
 
         return view('Student.singleStudentManagement')->with('students', $students);
+    }
+
+    public function viewProgress(Request $request, $id)
+    {
+
+        $conn = DBConnection::openConnection();
+        $studentConnector = new studentProgressConnector();
+
+        list($conn, $studentprogress) = $studentConnector->getStudentProgress($conn, $id);
+        $conn->close();
+
+
+        return view('Student.viewProgress')->with('studentprogress', $studentprogress);
     }
 }
