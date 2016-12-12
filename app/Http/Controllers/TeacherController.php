@@ -23,6 +23,21 @@ class TeacherController extends Controller
         return view('addTeacher')->with('teachers', $teachers);
     }
 
+    public function getATeacher($id)
+    {
+        $dbCon = new TeacherDAO();
+        $result = $dbCon->getATeacher($id);
+        $teacher = array();
+        array_push($teachers, $id);
+        array_push($teachers, $result[1]);
+        array_push($teachers, $result[2]);
+        array_push($teachers, $result[3]);
+        array_push($teachers, $result[4]);
+        array_push($teachers, $result[5]);
+
+        return $teacher;
+    }
+
 
     public function addTeacher(Request $request)
     {
@@ -39,15 +54,20 @@ class TeacherController extends Controller
 //        echo "sent to Teacher DAO";
     }
 
-    public function getTeachers()
+    public function getTeachersWithoutPagination()
     {
         $dbCon = new TeacherDAO();
-        $dbInstrument = new InstrumentDAO();
-        $instrumentsResults = $dbInstrument->getInstruments();
-        $instruments = array();
-        while ($row = $instrumentsResults->fetch_assoc()) {
-            array_push($instruments, $row);
+        $result = $dbCon->getTeachers();
+        $teachers = array();
+        while ($row = $result->fetch_assoc()) {
+            array_push($teachers, $row);
         }
+        return $teachers;
+    }
+
+    public function getTeachersWithPagination()
+    {
+        $dbCon = new TeacherDAO();
         $result = $dbCon->getTeachers();
         $teachers = array();
         while ($row = $result->fetch_assoc()) {
@@ -57,11 +77,21 @@ class TeacherController extends Controller
         $currentPage = Input::get('page') - 1;
         $pagedData = array_slice($teachers, $currentPage * $perPage, $perPage);
         $teachers = new LengthAwarePaginator($pagedData, count($teachers), $perPage);
+        return $teachers;
+    }
+
+    public function getTeachersForManagement()
+    {
+        $teachers = $this->getTeachersWithPagination();
         $teachers->setPath('TeacherManagement');
-//        foreach ($teachers as &$value) {
-//            echo $value['name'];
-//        }
-//        return view('TeacherManagement')->with('teachers', $teachers);
+
+        $dbInstrument = new InstrumentDAO();
+        $instrumentsResults = $dbInstrument->getInstruments();
+        $instruments = array();
+        while ($row = $instrumentsResults->fetch_assoc()) {
+            array_push($instruments, $row);
+        }
+
         return view('TeacherManagement', ['teachers' => $teachers, 'instruments' => $instruments]);
     }
 

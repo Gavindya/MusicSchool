@@ -28,13 +28,23 @@ Route::patch('/updateTeacher', [
 ]);
 
 Route::get('/TeacherManagement', [
-    'uses' => 'TeacherController@getTeachers',
+    'uses' => 'TeacherController@getTeachersForManagement',
     'as' => 'TeacherManagement'
 ]);
 
 Route::get('/TeacherInformation/ID/{id}', [
     'uses' => 'TeacherController@getTeacherInformation',
     'as' => 'teacherInfo'
+]);
+
+/*Attendence rotes*/
+Route::get('/TeacherAttendence', [
+    'uses' => 'AttendenceController@getTeachersForAttendence',
+    'as' => 'TeacherAttendence'
+]);
+
+Route::patch('/markAttenedence', [
+    'uses' => 'AttendenceController@markAttendence',
 ]);
 
 Route::get('/Payrole', [

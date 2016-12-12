@@ -63,4 +63,9 @@ class TeacherDAO
         $statement->bindValue(":id", $id);
         $statement->execute();
     }
+
+    public function recordAttendence($id, $name, $arrive, $depart)
+    {
+        echo "inside rec attndnc";
+    }
 }
