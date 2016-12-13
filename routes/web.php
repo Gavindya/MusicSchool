@@ -43,6 +43,11 @@ Route::get('/TeacherAttendence', [
     'as' => 'TeacherAttendence'
 ]);
 
+Route::get('/TeacherAttendence/{id}', [
+    'uses' => 'AttendenceController@getTeacherAttendenceInformation',
+    'as' => 'attendence'
+]);
+
 Route::patch('/markAttenedence', [
     'uses' => 'AttendenceController@markAttendence',
 ]);

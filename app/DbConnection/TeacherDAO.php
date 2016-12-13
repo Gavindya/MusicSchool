@@ -64,8 +64,33 @@ class TeacherDAO
         $statement->execute();
     }
 
-    public function recordAttendence($id, $name, $arrive, $depart)
+    public function recordAttendence($id, $arrive, $depart)
     {
-        echo "inside rec attndnc";
+        $today = date("y-m-d");
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $sql = "INSERT INTO `teachers` (`id`, `date`, `arrive`, `depart`) VALUES (:id,:today,:arrive,:depart)";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":today", $today);
+        $statement->bindValue(":arrive", $arrive);
+        $statement->bindValue(":depart", $depart);
+        $statement->execute();
+
+    }
+
+    public function getAttendence($id)
+    {
+        $today = date("y-m-d");
+        $dbcon = new DBConnection();
+        $conn = $dbcon->openPDO();
+        $sql = "SELECT * FROM `teachers` WHERE `date`=:today AND `id`=:id";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":id", $id);
+        $statement->bindValue(":today", $today);
+        $statement->execute();
+        $result = $statement->fetch();  //returns an array $result[0]=id and $result[1]=date etc
+        return $result;
+
     }
 }

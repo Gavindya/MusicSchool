@@ -3,7 +3,7 @@
 <?php
 ?>
 <head>
-    <title>Teacher Management</title>
+    <title>Teacher Informationt</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -125,11 +125,11 @@
         <table id="classesTable" class="table table-hover table-responsive" style="display:none;">
             <thead>
             <tr>
-                <th>Instrument</th>
-                <th>Date</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Status</th>
+                <th width="35%">Instrument</th>
+                <th width="25%">Date</th>
+                <th width="10%">Start Time</th>
+                <th width="10%">End Time</th>
+                <th width="10%">Status</th>
             </tr>
             </thead>
             <tbody>

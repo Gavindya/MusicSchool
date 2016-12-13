@@ -28,11 +28,11 @@
         <table id="teachersTable" class="table table-hover table-responsive">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Telephone</th>
-                <th>Address</th>
-                <th>Instruments</th>
+                <th width="10%">ID</th>
+                <th width="30%">Name</th>
+                <th width="10%">Telephone</th>
+                <th width="30%">Address</th>
+                <th width="20%">Instruments</th>
             </tr>
             </thead>
             <tbody>
