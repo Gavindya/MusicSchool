@@ -27,28 +27,25 @@ class TeacherController extends Controller
     {
         $dbCon = new TeacherDAO();
         $result = $dbCon->getATeacher($id);
-        $teacher = array();
-        array_push($teachers, $id);
-        array_push($teachers, $result[1]);
-        array_push($teachers, $result[2]);
-        array_push($teachers, $result[3]);
-        array_push($teachers, $result[4]);
-        array_push($teachers, $result[5]);
-
-        return $teacher;
+        return $result;  //can be accessed as an array $result[0] = id etc
     }
 
 
     public function addTeacher(Request $request)
     {
         $dbTeacher = new TeacherDAO();
-//       $result=$dbCon->addNewTeacher();
         $teacher = new teacher();
         if (isset($request->name)) {
             $teacher->setName($request->name);
         }
+        if (isset($request->telephone)) {
+            $teacher->setTelephone($request->telephone);
+        }
+        if (isset($request->address)) {
+            $teacher->setAddress($request->address);
+        }
+        $teacher->setJoindate(date("y-m-d"));
         $dbTeacher->addNewTeacher($teacher);
-        $request->session()->flash('alert-success', 'User was successful added!');
         return redirect()->route("TeacherManagement");
 //        echo $teacher->getName();
 //        echo "sent to Teacher DAO";
@@ -104,8 +101,9 @@ class TeacherController extends Controller
 //        echo $result[1];  /*name*/
         array_push($teachers, $id);
         array_push($teachers, $result[1]);
+        array_push($teachers, $result[2]);
+        array_push($teachers, $result[3]);
         array_push($teachers, $result[4]);
-        array_push($teachers, $result[5]);
 
         $payments = new SalaryController();
         $paymentsHistory = $payments->getPaymentsOfTeacher($id);
@@ -124,10 +122,11 @@ class TeacherController extends Controller
     public function updateTeacher(Request $request)
     {
         $dbCon = new TeacherDAO();
-        $mobile = $request->mobile;
+        $telephone = $request->telephone;
         $address = $request->address;
         $id = $request->id;
-        $dbCon->updateTeacher($mobile, $address, $id);
+
+        $dbCon->updateTeacher($telephone, $address, $id);
         echo "inside UPDATE";
         return redirect()->route('teacherInfo', ['id' => $id]);
 

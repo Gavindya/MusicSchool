@@ -2,7 +2,6 @@
 <html lang="en">
 <?php
 
-//echo date("y-m-d");
 ?>
 <head>
     <title>Teacher Attendance</title>
@@ -43,7 +42,13 @@
 //                var $selectedName = $row.find(".nrName").text();
 //                $("#name").val($selectedName);
             });
-            document.getElementById("date").innerHTML = Date();
+
+            var dt = new Date();
+            var todayDate = (dt.getFullYear()) + "." + (("0" + (dt.getMonth() + 1)).slice(-2)) + "." + (("0" + dt.getDate()).slice(-2));
+            document.getElementById("day").value = todayDate;
+            document.getElementById("date").innerHTML = todayDate;
+            document.getElementById("time").innerHTML = (("0" + dt.getHours()).slice(-2)) + ":" + (("0" + dt.getMinutes()).slice(-2));
+
             var $rows = $('#teachersTable tr');
             $('#search').keyup(function () {
                 var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
@@ -53,12 +58,15 @@
                 }).hide();
             });
         })
+
     </script>
+
 </head>
 <body>
 <div class="row">
     <div class="container">
-        <h1 id="date"></h1>
+        <h2>Date: <span id="date"></span></h2>
+        <h3>Time: <span id="time"></span></h3>
         <hr>
         <h2>Staff</h2>
         <div class="col-lg-5 col-sm-5 col-xs-5">
@@ -74,9 +82,10 @@
                 </thead>
                 <tbody>
                 @for($i =0; $i < sizeof($teachers); $i++)
-                    <tr class="clickable-row" data-href="{{ route('attendence',['id' => $teachers[$i]['id']])}}">
-                    <td class="nrId">{{$teachers[$i]['id']}}</td>
-                    <td class="nrName">{{$teachers[$i]['name']}}</td>
+                    <tr class="clickable-row"
+                        data-href="{{ route('attendence',['id' => $teachers[$i]['teacher_id']])}}">
+                        <td class="nrId">{{$teachers[$i]['teacher_id']}}</td>
+                        <td class="nrName">{{$teachers[$i]['teacher_name']}}</td>
                 </tr>
                 @endfor
                 </tbody>
@@ -89,26 +98,27 @@
                 <div class="form-group">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" placeholder="ID" name="id" readonly
-                           value={{$teacherRecord[0]}}>
+                           value={{$teacher[0]}}>
                 </div>
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" readonly>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" readonly
+                           value={{$teacher[1]}}>
                 </div>
                 <div class="form-group">
                     <label for="day">Date</label>
-                    <input type="text" class="form-control" id="day" name="day" placeholder="Date" readonly
-                           value={{$teacherRecord[1]}}>
+                    <input type="text" class="form-control" id="day" name="day" placeholder="Date" readonly>
                 </div>
                 <div class="form-group">
                     <label for="arrive">Arrival Time</label>
-                    <input type="text" class="form-control" id="arrive" placeholder="Arrival Time" name="arrive"
-                           value={{$teacherRecord[2]}}>
+                    <input type="time" id="arrive" name="arrive" value={{$teacherRecord[2]}}>
+                    {{--<input type="text" class="form-control" id="arrive" placeholder="Arrival Time" name="arrive" value={{$teacherRecord[2]}}>--}}
                 </div>
                 <div class="form-group">
                     <label for="depart">Departure Time</label>
-                    <input type="text" class="form-control" id="depart" placeholder="Arrival Time" name="depart"
-                           value={{$teacherRecord[3]}}>
+                    <input type="time" id="depart" name="depart" value={{$teacherRecord[3]}}>
+                    {{--<input type="text" class="form-control" id="depart" placeholder="Arrival Time" name="depart" value={{$teacherRecord[3]}}>--}}
+
                 </div>
                 <div class="form-group">
                     <button type="submit">Save</button>

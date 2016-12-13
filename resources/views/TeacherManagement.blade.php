@@ -32,17 +32,17 @@
                 <th width="30%">Name</th>
                 <th width="10%">Telephone</th>
                 <th width="30%">Address</th>
-                <th width="20%">Instruments</th>
+                <th width="20%">Joined Date</th>
             </tr>
             </thead>
             <tbody>
             @for($i =0; $i < sizeof($teachers); $i++)
-            <tr class="clickable-row" data-href="{{ route('teacherInfo',['id' => $teachers[$i]['id']])}}">
-                <td>{{$teachers[$i]['id']}}</td>
-                <td>{{$teachers[$i]['name']}}</td>
-                <td>{{$teachers[$i]['mobile']}}</td>
-                <td>{{$teachers[$i]['address']}}</td>
-                <td>{{$teachers[$i]['name']}}</td>
+            <tr class="clickable-row" data-href="{{ route('teacherInfo',['id' => $teachers[$i]['teacher_id']])}}">
+                <td>{{$teachers[$i]['teacher_id']}}</td>
+                <td>{{$teachers[$i]['teacher_name']}}</td>
+                <td>{{$teachers[$i]['teacher_telephone']}}</td>
+                <td>{{$teachers[$i]['teacher_address']}}</td>
+                <td>{{$teachers[$i]['teacher_joindate']}}</td>
             </tr>
             @endfor
             {{$teachers->links()}}
@@ -60,8 +60,8 @@
             <input type="text" class="form-control" id="name" name="name">
         </div>
         <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Email" name="email">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" placeholder="Address" name="address">
         </div>
         <div class="form-group">
             <label for="telephone">Telephone</label>
@@ -71,7 +71,7 @@
         <div class="container">
             @for($i =0; $i < sizeof($instruments); $i++)
             <div class="checkbox">
-                <label><input type="checkbox" value="">{{$instruments[$i]['name']}}</label>
+                <label><input type="checkbox" value="">{{$instruments[$i]['instrument_name']}}</label>
             </div>
             @endfor
         </div>

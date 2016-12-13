@@ -27,18 +27,14 @@
         });
 
         function edit() {
-            var eTP = document.getElementById("telephone");
-            eTP.removeAttribute('readonly');
-            var eMN = document.getElementById("mobile");
-            eMN.removeAttribute('readonly');
-            var eAD = document.getElementById("address");
-            eAD.removeAttribute('readonly');
-            var eINS = document.getElementById("instruments");
-            eINS.removeAttribute('readonly');
-            var eUPDT = document.getElementById("update");
-            eUPDT.removeAttribute('disabled');
+            document.getElementById("telephone").removeAttribute('readonly');
+            document.getElementById("address").removeAttribute('readonly');
+            document.getElementById("username").removeAttribute('readonly');
+            document.getElementById("instruments").removeAttribute('readonly');
+            document.getElementById("password").removeAttribute('readonly');
+            document.getElementById("re-password").removeAttribute('readonly');
+            document.getElementById("update").removeAttribute('disabled');
         }
-
     </script>
 
 </head>
@@ -87,15 +83,11 @@
                 <div class="form-group">
                     <label for="telephone">Telephone Number</label>
                     <input type="text" class="form-control" id="telephone" placeholder="Telephone Number"
-                           name="telephone" readonly value={{$teacher[0]}}>
-                </div>
-                <div class="form-group">
-                    <label for="mobile">Mobile Number</label>
-                    <input type="text" class="form-control" id="mobile" name="mobile" readonly value={{$teacher[2]}}>
+                           name="telephone" readonly value={{$teacher[3]}}>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" readonly value={{$teacher[3]}}>
+                    <input type="text" class="form-control" id="address" name="address" readonly value={{$teacher[2]}}>
                 </div>
             </div>
             <div class="form-group container-fluid pull-left">
@@ -127,19 +119,19 @@
             <tr>
                 <th width="35%">Instrument</th>
                 <th width="25%">Date</th>
-                <th width="10%">Start Time</th>
-                <th width="10%">End Time</th>
+                <th width="15%">Start Time</th>
+                <th width="15%">End Time</th>
                 <th width="10%">Status</th>
             </tr>
             </thead>
             <tbody>
             @for($i =0; $i < 2 ; $i++)
                 <tr class="clickable-row">
-                    <td>{{$teacher[5][2]}}</td>
-                    <td>{{$teacher[5][0]}}</td>
-                    <td>{{$teacher[5][4]}}</td>
-                    <td>{{$teacher[5][5]}}</td>
-                    <td>{{$teacher[5][3]}}</td>
+                    <td>{{$teacher[6][2]}}</td>
+                    <td>{{$teacher[6][0]}}</td>
+                    <td>{{$teacher[6][4]}}</td>
+                    <td>{{$teacher[6][5]}}</td>
+                    <td>{{$teacher[6][3]}}</td>
                 </tr>
             @endfor
             {{--{{$teachers->links()}}--}}
@@ -159,18 +151,18 @@
         <table id="paymentsTable" class="table table-hover table-responsive" style="display:none;">
             <thead>
             <tr>
-                <th>Payment Date</th>
-                <th>Amount</th>
-                <th>Worked Hours</th>
-                <th>Worked Dates</th>
+                <th width="20%">Payment Date</th>
+                <th width="20%">Amount</th>
+                <th width="30%">Worked Hours</th>
+                <th width="30%">Worked Dates</th>
             </tr>
             </thead>
             <tbody>
             @for($i =0; $i < 2 ; $i++)
                 <tr class="clickable-row">
-                    <td>{{$teacher[4][3]}}</td>
-                    <td>{{$teacher[4][2]}}</td>
-                    <td>{{$teacher[4][0]}}</td>
+                    <td>{{$teacher[5][3]}}</td>
+                    <td>{{$teacher[5][2]}}</td>
+                    <td>{{$teacher[5][0]}}</td>
                 </tr>
             @endfor
             {{--{{$teachers->links()}}--}}

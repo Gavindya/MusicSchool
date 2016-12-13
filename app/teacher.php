@@ -9,8 +9,40 @@ class teacher extends Model
     protected $fillable = ['name'];
     private $id;
     private $name;
-    public $created_at;
-    public $updated_at;
+    private $address;
+    private $telephone;
+    private $joindate;
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    public function getTelephone()
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
+    }
+
+    public function getJoindate()
+    {
+        return $this->joindate;
+    }
+
+    public function setJoindate($joindate)
+    {
+        $this->joindate = $joindate;
+    }
+    
 
     public function getId()
     {

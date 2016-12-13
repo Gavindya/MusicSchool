@@ -9,7 +9,7 @@ class TeacherDAO
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openConnection();
-        $sql = "SELECT teachers.name FROM teachers";
+        $sql = "SELECT teachers.teacher_name FROM teachers";
         $result = $conn->query($sql);
         $conn->close();
         return $result;
@@ -31,7 +31,7 @@ class TeacherDAO
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
-        $sql = "SELECT * FROM `teachers` WHERE `id` = :id";
+        $sql = "SELECT * FROM `teachers` WHERE `teacher_id` = :id";
         $q = $conn->prepare($sql);
         $q->execute(array(':id' => "$id"));
         $done = $q->fetch();  //returns an array $done[0]=id and $done[1]=name
@@ -43,22 +43,26 @@ class TeacherDAO
         $dbCon = new DBConnection();
         $conn = $dbCon->openConnection();
         $nameOfT = $teacher->getName();
+        $address = $teacher->getAddress();
+        $joined = $teacher->getJoindate();
+        $telephone = $teacher->getTelephone();
         echo $nameOfT;
-        $sql = "INSERT INTO `teachers` (`id`, `name`, `created_at`, `updated_at`) VALUES (NULL, '{$nameOfT}', NULL, NULL)";
+        $sql = "INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
+                VALUES ('{$nameOfT}', '{$address}','{$telephone}','{$joined}')";
         $conn->query($sql);
         $conn->close();
     }
 
-    public function updateTeacher($mobile, $address, $id)
+    public function updateTeacher($telephone, $address, $id)
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
-        $sql = "UPDATE `teachers` SET `mobile` = :mobile,
-                                      `address` = :address
-                                      WHERE `id` = :id";
+        $sql = "UPDATE `teachers` SET `teacher_telephone` = :telephone,
+                                      `teacher_address` = :address
+                                      WHERE `teacher_id` = :id";
         $statement = $conn->prepare($sql);
 //        $statement->execute(array(":mobile"=> "$mobile",":address"=> "$address",":telephone"=>"$telephone"));
-        $statement->bindValue(":mobile", $mobile);
+        $statement->bindValue(":telephone", $telephone);
         $statement->bindValue(":address", $address);
         $statement->bindValue(":id", $id);
         $statement->execute();
@@ -69,22 +73,49 @@ class TeacherDAO
         $today = date("y-m-d");
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
-        $sql = "INSERT INTO `teachers` (`id`, `date`, `arrive`, `depart`) VALUES (:id,:today,:arrive,:depart)";
+        $sql = "INSERT INTO `work` (`teacher_id`, `work_date`, `arrive_time`, `leave_time`) VALUES (:id,:today,:arrive,:depart)";
         $statement = $conn->prepare($sql);
         $statement->bindValue(":id", $id);
         $statement->bindValue(":today", $today);
         $statement->bindValue(":arrive", $arrive);
         $statement->bindValue(":depart", $depart);
         $statement->execute();
-
     }
 
+    public function setArriveTime($id, $arrive)
+    {
+        $today = date("y-m-d");
+        echo $today;
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        echo "arrive";
+        $sql = "INSERT INTO `work` (`teacher_id`,`work_date`,`arrive_time`) VALUES (:id,:today,:arrive);";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":today", $today);
+        $statement->bindValue(":arrive", $arrive);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+    }
+
+    public function updateLeaveTime($id, $depart)
+    {
+        $today = date("y-m-d");
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $sql = "UPDATE `work` SET `leave_time` = :depart
+                                  WHERE `teacher_id` = :id AND `work_date` = :today";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":today", $today);
+        $statement->bindValue(":depart", $depart);
+        $statement->bindValue(":id", $id);
+        $statement->execute();
+    }
     public function getAttendence($id)
     {
         $today = date("y-m-d");
         $dbcon = new DBConnection();
         $conn = $dbcon->openPDO();
-        $sql = "SELECT * FROM `teachers` WHERE `date`=:today AND `id`=:id";
+        $sql = "SELECT * FROM `work` WHERE `work_date`=:today AND `teacher_id`=:id";
         $statement = $conn->prepare($sql);
         $statement->bindValue(":id", $id);
         $statement->bindValue(":today", $today);

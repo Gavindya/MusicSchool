@@ -13,42 +13,48 @@ class AttendenceController extends Controller
         $teacherController = new TeacherController();
         $teachers = $teacherController->getTeachersWithoutPagination();
         $teacherRecord = array(null, null, null, null);
-        return view('TeacherAttendence', ['teachers' => $teachers, 'teacherRecord' => $teacherRecord]);
+        $teacher = array(null, null);
+        return view('TeacherAttendence', ['teacher' => $teacher, 'teachers' => $teachers, 'teacherRecord' => $teacherRecord]);
 
     }
 
     public function markAttendence(Request $request)
     {
-
-        $dbTeacher = new TeacherDAO();
         $id = $request->id;
-        $arrive = $request->arrive;
-        $depart = $request->depart;
-        $dbTeacher->recordAttendence($id, $arrive, $depart);
+        $dbTeacher = new TeacherDAO();
+        $teacherRecord = $this->getAttendenceOfTeacher($id);
+        if ($teacherRecord == null) {
+            echo("in arrival set");
+            $arrive = $request->arrive;
+            //THIS WORKS BAAAAD!
+            if ($arrive != "00:00:00") {
+                $dbTeacher->setArriveTime($id, $arrive);
+            }
+        } else {
+            echo("depart set");
+            $depart = $request->depart;
+            $dbTeacher->updateLeaveTime($id, $depart);
+        }
 
-        echo "inside UPDATE";
         return redirect()->route("TeacherAttendence");
-
-
     }
 
     public function getTeacherAttendenceInformation($id)
     {
-
-        $dbCon = new TeacherDAO();
-//        $result = $dbCon->getAttendence($id);
-        $teacherRecord = array();
-        array_push($teacherRecord, $id);
-//        array_push($teacherRecord, $result[1]);
-//        array_push($teacherRecord, $result[2]);
-//        array_push($teacherRecord, $result[3]);
-        array_push($teacherRecord, date("y-m-d"));
-        array_push($teacherRecord, "4:00");
-        array_push($teacherRecord, "");
+        $teacherRecord = $this->getAttendenceOfTeacher($id);
 
         $teacherController = new TeacherController();
         $teachers = $teacherController->getTeachersWithoutPagination();
 
-        return view('TeacherAttendence', ['teachers' => $teachers, 'teacherRecord' => $teacherRecord]);
+        $teacher = $teacherController->getATeacher($id); //$teacher[0]=id $teacher[1]=name
+
+        return view('TeacherAttendence', ['teacher' => $teacher, 'teachers' => $teachers, 'teacherRecord' => $teacherRecord]);
+    }
+
+    public function getAttendenceOfTeacher($id)
+    {
+        $dbCon = new TeacherDAO();
+        $teacherRecord = $dbCon->getAttendence($id); // $teacherRecord[0]=id $teacherRecord[1]=date $teacherRecord[2]=arrive_time $teacherRecord[3]=depart_time
+        return $teacherRecord;
     }
 }
