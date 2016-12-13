@@ -14,7 +14,6 @@
             text-align: center;
             vertical-align: middle;
         }
-
         .pay {
             border: 0;
             outline: 0;
@@ -28,7 +27,6 @@
             var monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
             ];
-
             var d = new Date();
             document.getElementById("month").innerHTML = monthNames[d.getMonth()];
             $('#selectAll').click(function (e) {

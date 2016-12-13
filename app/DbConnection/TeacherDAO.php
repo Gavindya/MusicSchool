@@ -48,7 +48,7 @@ class TeacherDAO
         $telephone = $teacher->getTelephone();
         echo $nameOfT;
         $sql = "INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
-                VALUES ('{$nameOfT}', '{$address}','{$telephone}','{$joined}')";
+                VALUES ('{$nameOfT}','{$address}','{$telephone}','{$joined}')";
         $conn->query($sql);
         $conn->close();
     }
