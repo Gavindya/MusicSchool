@@ -13,6 +13,19 @@
 
 
 Route::group(['middleware' => ['web']], function () {
+
+    Route::post('/user/add/store', [
+        'uses' => 'UserController@store'
+    ]);
+
+
+    Route::get('/login', [
+        'uses' => 'LogInController@login'
+    ]);
+
+    Route::get('/user/add', [
+        'uses' => 'UserController@addUser'
+    ]);
     Route::get('/', [
         'uses' => 'HomeController@index'
     ]);
@@ -48,6 +61,10 @@ Route::group(['middleware' => ['web']], function () {
     ]);
     Route::get('/student/progress/{id}', [
         'uses' => 'StudentController@viewProgress'
+    ]);
+
+    Route::patch('/login/user', [
+        'uses' => 'LogInController@loginUser'
     ]);
 
 });

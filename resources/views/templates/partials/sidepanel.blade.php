@@ -31,6 +31,9 @@
                 <a href="/student/management">Manage Students</a>
             </li>
             <li>
+                <a href="/user/add">Add User</a>
+            </li>
+            <li>
                 <a href="#">About</a>
             </li>
             <li>
