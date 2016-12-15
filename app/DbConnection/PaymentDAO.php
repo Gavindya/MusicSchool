@@ -6,16 +6,26 @@ class PaymentDAO
     public function getAllPayments()
     {
         $dbCon = new DBConnection();
-        $conn = $dbCon->openConnection();
-        $sql = "SELECT * FROM payrole NATURAL JOIN teachers";
-        $result = $conn->query($sql);
-        $conn->close();
-        return $result;
+        $conn = $dbCon->openPDO();
+        $sql = "SELECT * FROM payrole NATURAL JOIN teachers WHERE payrole.paid_date IS NULL";
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 
     public function getPaymentsOfThisMonth()
     {
-
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $month = date("m");
+        $time = strtotime(date("y-m-d"));
+        $year = date("Y", $time);
+        $resultPeriod = $year . '-' . $month . '%';
+        $sql = "SELECT * FROM payrole NATURAL JOIN teachers WHERE generated_date LIKE :monthOfPay AND payrole.paid_date IS NULL";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":monthOfPay", $resultPeriod);
+        $statement->execute();
+        return $statement->fetchAll();
     }
 
     public function getPayementsOfATeacher($id)
@@ -29,7 +39,7 @@ class PaymentDAO
         return $done;
     }
 
-    public function pay($idList)
+    public function pay($paymentsIdList)
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
@@ -39,22 +49,16 @@ class PaymentDAO
         $year = date("Y", $time);
         $resultPeriod = $year . '-' . $month . '%';
         $today = $year . '-' . $MonthDay;
+        echo $today;
         echo $resultPeriod;
-//        $sql = "UPDATE `payrole` SET `paid_date` = :today WHERE `teacher_id` = :id AND `generated_date` LIKE :monthOfPay";
-//            $statement = $conn->prepare($sql);
-//            $statement->bindValue(":id", 1);
-//            $statement->bindValue(":today ", $today);
-//            $statement->bindValue(":monthOfPay", $resultPeriod);
-//            $statement->execute();
 
-//        foreach ($idList as $id){
-//            $sql = "UPDATE `payrole` SET `paid_date` = :today WHERE `teacher_id` = :id AND `generated_date` LIKE :monthOfPay";
-//            $statement = $conn->prepare($sql);
-//            $statement->bindValue(":id", $id);
-//            $statement->bindValue(":today ", $today);
-//            $statement->bindValue(":monthOfPay", $resultPeriod);
-//            $statement->execute();
-//        }
+        for ($i = 0; $i < sizeof($paymentsIdList); $i++) {
+            $sql = "UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id";
+            $statement = $conn->prepare($sql);
+            $statement->bindValue(":id", $paymentsIdList[$i]);
+            $statement->bindValue(":today", $today);
+            $statement->execute();
+        }
     }
 
 }

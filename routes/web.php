@@ -53,9 +53,14 @@ Route::patch('/markAttenedence', [
 ]);
 
 Route::get('/Payrole', [
-    'uses' => 'SalaryController@getPayments',
+    'uses' => 'SalaryController@getAllPayments',
     'as' => 'salaryController'
 ]);
+
+Route::get('/Payrole/ThisMonth', [
+    'uses' => 'SalaryController@getPaymentsOfThisMonth',
+]);
+
 Route::patch('/payTeachers', [
     'uses' => 'SalaryController@payTeachers',
 ]);

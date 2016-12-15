@@ -7,27 +7,27 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SalaryController extends Controller
 {
-    public function getPayments()
+    public function getPaymentsOfThisMonth()
     {
         $dbCon = new PaymentDAO();
-        $result = $dbCon->getAllPayments();
-        $payments = array();
-        while ($row = $result->fetch_assoc()) {
-            array_push($payments, $row);
-        }
+        $payments = $dbCon->getPaymentsOfThisMonth();
+        return view('payRole', ['payments' => $payments]);
+    }
+
+    public function getAllPayments()
+    {
+        $dbCon = new PaymentDAO();
+        $payments = $dbCon->getAllPayments();
         return view('payRole', ['payments' => $payments]);
     }
 
     public function payTeachers(Request $request)
     {
         if (isset($request->all()['selected'])) {
-            $idList = $request->all()['selected'];
-//            foreach ($idList as $id){
-//                echo $id;
-//            }
+            $paymentsIdList = $request->all()['selected'];
             $paymentDao = new PaymentDAO();
-            $paymentDao->pay($idList);
-//            $this->getPayments();
+            $paymentDao->pay($paymentsIdList);
+            return redirect()->back();
         } else {
             echo "Not selected any";
         }
