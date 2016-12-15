@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 class TeacherController extends Controller
 {
     public function getTeachersNames()
-
     {
         $dbCon = new TeacherDAO();
         $result = $dbCon->getName();
@@ -22,15 +21,12 @@ class TeacherController extends Controller
         }
         return view('addTeacher')->with('teachers', $teachers);
     }
-
     public function getATeacher($id)
     {
         $dbCon = new TeacherDAO();
         $result = $dbCon->getATeacher($id);
         return $result;  //can be accessed as an array $result[0] = id etc
     }
-
-
     public function addTeacher(Request $request)
     {
         $dbTeacher = new TeacherDAO();
@@ -50,7 +46,6 @@ class TeacherController extends Controller
 //        echo $teacher->getName();
 //        echo "sent to Teacher DAO";
     }
-
     public function getTeachersWithoutPagination()
     {
         $dbCon = new TeacherDAO();
@@ -61,7 +56,6 @@ class TeacherController extends Controller
         }
         return $teachers;
     }
-
     public function getTeachersWithPagination()
     {
         $dbCon = new TeacherDAO();
@@ -70,6 +64,7 @@ class TeacherController extends Controller
         while ($row = $result->fetch_assoc()) {
             array_push($teachers, $row);
         }
+
         $perPage = 4;
         $currentPage = Input::get('page') - 1;
         $pagedData = array_slice($teachers, $currentPage * $perPage, $perPage);
@@ -91,7 +86,6 @@ class TeacherController extends Controller
 
         return view('TeacherManagement', ['teachers' => $teachers, 'instruments' => $instruments]);
     }
-
     public function getTeacherInformation($id)
     {
         $dbCon = new TeacherDAO();
@@ -107,18 +101,17 @@ class TeacherController extends Controller
 
         $payments = new SalaryController();
         $paymentsHistory = $payments->getPaymentsOfTeacher($id);
-        array_push($teachers, $paymentsHistory);
-
+//        for($j =0; $j < sizeof($paymentsHistory) ; $j++){
+//            array_push($teachers, $paymentsHistory[$j]);
+//        }
+//        array_push($teachers, $paymentsHistory);
         $clses = new ClsController();
         $clssAssigned = $clses->getAssignedClasDetails($id);
-        array_push($teachers, $clssAssigned);
-
+//        array_push($teachers, $clssAssigned);
 //        return view('TeacherInformation', ['teacherId' => ($id),'teacherName' => ($result[1])]);
-        return view('TeacherInformation', ['teacher' => ($teachers)]);
 
+        return view('TeacherInformation', ['teacher' => ($teachers), 'payments' => ($paymentsHistory), 'classes' => ($clssAssigned)]);
     }
-
-
     public function updateTeacher(Request $request)
     {
         $dbCon = new TeacherDAO();
@@ -129,8 +122,5 @@ class TeacherController extends Controller
         $dbCon->updateTeacher($telephone, $address, $id);
         echo "inside UPDATE";
         return redirect()->route('teacherInfo', ['id' => $id]);
-
     }
-
-
 }

@@ -9,22 +9,28 @@ class TeacherDAO
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openConnection();
+//        $conn = $dbCon->openPDO();
         $sql = "SELECT teachers.teacher_name FROM teachers";
         $result = $conn->query($sql);
         $conn->close();
         return $result;
-
+//        $statement = $conn->prepare($sql);
+//        $statement->execute();
+//        return $statement->fetch();
     }
 
     public function getTeachers()
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openConnection();
+//        $conn = $dbCon->openPDO();
         $sql = "SELECT * FROM teachers";
         $result = $conn->query($sql);
         $conn->close();
         return $result;
-
+//        $statement = $conn->prepare($sql);
+//        $statement->execute();
+//        return $statement->fetch();
     }
 
     public function getATeacher($id)
@@ -41,16 +47,25 @@ class TeacherDAO
     public function addNewTeacher(teacher $teacher)
     {
         $dbCon = new DBConnection();
-        $conn = $dbCon->openConnection();
+//        $conn = $dbCon->openConnection();
+        $conn = $dbCon->openPDO();
         $nameOfT = $teacher->getName();
         $address = $teacher->getAddress();
         $joined = $teacher->getJoindate();
         $telephone = $teacher->getTelephone();
-        echo $nameOfT;
+//        echo $nameOfT;
+//        $sql = "INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
+//                VALUES ('{$nameOfT}','{$address}','{$telephone}','{$joined}')";
+//        $conn->query($sql);
+//        $conn->close();
         $sql = "INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
-                VALUES ('{$nameOfT}','{$address}','{$telephone}','{$joined}')";
-        $conn->query($sql);
-        $conn->close();
+                VALUES (:nameOfT,:address,:telephone,:joined)";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":nameOfT", $nameOfT);
+        $statement->bindValue(":address", $address);
+        $statement->bindValue(":telephone", $telephone);
+        $statement->bindValue(":joined", $joined);
+        $statement->execute();
     }
 
     public function updateTeacher($telephone, $address, $id)
@@ -122,6 +137,5 @@ class TeacherDAO
         $statement->execute();
         $result = $statement->fetch();  //returns an array $result[0]=id and $result[1]=date etc
         return $result;
-
     }
 }

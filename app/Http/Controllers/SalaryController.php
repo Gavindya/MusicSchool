@@ -2,20 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\DbConnection\PaymentDAO;
+use Symfony\Component\HttpFoundation\Request;
+
 class SalaryController extends Controller
 {
     public function getPayments()
     {
-        return view('payRole');
+        $dbCon = new PaymentDAO();
+        $result = $dbCon->getAllPayments();
+        $payments = array();
+        while ($row = $result->fetch_assoc()) {
+            array_push($payments, $row);
+        }
+        return view('payRole', ['payments' => $payments]);
+    }
+
+    public function payTeachers(Request $request)
+    {
+        if (isset($request->all()['selected'])) {
+            $idList = $request->all()['selected'];
+//            foreach ($idList as $id){
+//                echo $id;
+//            }
+            $paymentDao = new PaymentDAO();
+            $paymentDao->pay($idList);
+//            $this->getPayments();
+        } else {
+            echo "Not selected any";
+        }
     }
 
     public function getPaymentsOfTeacher($id)
     {
-        $payments = array();
-        array_push($payments, 1);
-        array_push($payments, $id);
-        array_push($payments, 40000);
-        array_push($payments, "12-12-2016");
-        return $payments;
+        $dbCon = new PaymentDAO();
+        $result = $dbCon->getPayementsOfATeacher($id);
+        return $result;
     }
 }

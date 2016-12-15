@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
             $(".clickable-row").click(function () {
@@ -17,7 +16,6 @@
             });
         });
     </script>
-
 </head>
 <body>
 <div class="container">

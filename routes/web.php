@@ -56,3 +56,6 @@ Route::get('/Payrole', [
     'uses' => 'SalaryController@getPayments',
     'as' => 'salaryController'
 ]);
+Route::patch('/payTeachers', [
+    'uses' => 'SalaryController@payTeachers',
+]);

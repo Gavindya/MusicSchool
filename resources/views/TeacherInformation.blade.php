@@ -125,13 +125,13 @@
             </tr>
             </thead>
             <tbody>
-            @for($i =0; $i < 2 ; $i++)
+            @for($i =0; $i < sizeof($classes) ; $i++)
                 <tr class="clickable-row">
-                    <td>{{$teacher[6][2]}}</td>
-                    <td>{{$teacher[6][0]}}</td>
-                    <td>{{$teacher[6][4]}}</td>
-                    <td>{{$teacher[6][5]}}</td>
-                    <td>{{$teacher[6][3]}}</td>
+                    <td>{{$classes[2]}}</td>
+                    <td>{{$classes[0]}}</td>
+                    <td>{{$classes[4]}}</td>
+                    <td>{{$classes[5]}}</td>
+                    <td>{{$classes[3]}}</td>
                 </tr>
             @endfor
             {{--{{$teachers->links()}}--}}
@@ -151,18 +151,19 @@
         <table id="paymentsTable" class="table table-hover table-responsive" style="display:none;">
             <thead>
             <tr>
-                <th width="20%">Payment Date</th>
-                <th width="20%">Amount</th>
-                <th width="30%">Worked Hours</th>
-                <th width="30%">Worked Dates</th>
+                <th>Payment Date</th>
+                <th>Amount</th>
+                <th>Generated Date</th>
+                {{--<th width="30%">Worked Hours</th>--}}
+                {{--<th width="30%">Worked Dates</th>--}}
             </tr>
             </thead>
             <tbody>
-            @for($i =0; $i < 2 ; $i++)
+            @for($j =0; $j < sizeof($payments) ; $j++)
                 <tr class="clickable-row">
-                    <td>{{$teacher[5][3]}}</td>
-                    <td>{{$teacher[5][2]}}</td>
-                    <td>{{$teacher[5][0]}}</td>
+                    <td>{{$payments[$j]['paid_date']}}</td>
+                    <td>{{$payments[$j]['amount']}}</td>
+                    <td>{{$payments[$j]['generated_date']}}</td>
                 </tr>
             @endfor
             {{--{{$teachers->links()}}--}}
