@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DbConnection\PaymentDAO;
 use App\DbConnection\TeacherDAO;
+use App\GenerateSalary;
 use Symfony\Component\HttpFoundation\Request;
 
 class SalaryController extends Controller
@@ -51,9 +52,15 @@ class SalaryController extends Controller
         return $result;
     }
 
-    public function generateSlary()
+    public function generateSalary()
     {
-        $tDAO = new TeacherDAO();
-        $resut = $tDAO->getWorkHours();
+        $teacherDAO = new TeacherDAO();
+        $workHours = $teacherDAO->getWorkHours();
+
+        $genSalary = new GenerateSalary();
+        $paymentsOfMonth = $genSalary->generateMonthlySalary($workHours);
+
+        $paymentDAO = new PaymentDAO();
+        $paymentDAO->recordPayments($paymentsOfMonth);
     }
 }

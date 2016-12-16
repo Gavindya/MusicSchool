@@ -141,6 +141,19 @@ class TeacherDAO
 
     public function getWorkHours()
     {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
 
+        $month = date("m");
+        $time = strtotime(date("y-m-d"));
+        $year = date("Y", $time);
+        $resultPeriod = $year . '-' . $month . '%';
+
+        $sql = "SELECT teacher_id,TotWorkTime_Teacher(:resultPeriod, teacher_id) AS tot FROM teachers WHERE TotWorkTime_Teacher(:resultPeriod, teacher_id) IS NOT NULL";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":resultPeriod", $resultPeriod);
+        $statement->execute();
+        $result = $statement->fetchAll();  //returns an array $result[0]=id and $result[1]=date etc
+        return $result;
     }
 }

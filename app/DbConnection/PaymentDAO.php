@@ -74,4 +74,21 @@ class PaymentDAO
         return $total;
     }
 
+    public function recordPayments($paymentsGenerated)
+    {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $MonthDay = date("m-d");
+        $time = strtotime(date("y-m-d"));
+        $year = date("Y", $time);
+        $today = $year . '-' . $MonthDay;
+        for ($i = 0; $i < sizeof($paymentsGenerated); $i++) {
+            $sql = "INSERT INTO `payrole` (teacher_id,amount,generated_date) VALUES (:teacher_id,:amount,:genDate)";
+            $statement = $conn->prepare($sql);
+            $statement->bindValue(":teacher_id", $paymentsGenerated[$i]['teacher_id']);
+            $statement->bindValue(":amount", $paymentsGenerated[$i]['tot']);
+            $statement->bindValue(":genDate", $today);
+            $statement->execute();
+        }
+    }
 }
