@@ -11,21 +11,7 @@
 |
 */
 
-Route::get('/', [
-    'uses' => 'HomeController@index'
-]);
-Route::get('/students', [
-    'uses'=> 'StudentController@getName'
-]);
-
-Route::get('/student/new', [
-    'uses' => 'StudentController@newStudent'
-]);
-
-Route::patch('/student/enroll', [
-    'uses' => 'StudentController@storeStudent'
-]);
-
-Route::get('/view/students', [
-    'uses' => 'StudentController@getStudents'
-]);
+Route::get('/', 'CourseController@showCourseManagement');
+Route::get('/courses/manage', 'CourseController@showCourseManagement');
+Route::get('/courses/{id}/details', 'CourseController@showCourseDetails');
+Route::get('/student/attendance', 'AttendanceController@showAttendanceMarking');
