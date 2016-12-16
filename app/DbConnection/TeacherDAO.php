@@ -138,4 +138,9 @@ class TeacherDAO
         $result = $statement->fetch();  //returns an array $result[0]=id and $result[1]=date etc
         return $result;
     }
+
+    public function getWorkHours()
+    {
+
+    }
 }

@@ -44,14 +44,9 @@ class PaymentDAO
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
         $MonthDay = date("m-d");
-        $month = date("m");
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
-        $resultPeriod = $year . '-' . $month . '%';
         $today = $year . '-' . $MonthDay;
-        echo $today;
-        echo $resultPeriod;
-
         for ($i = 0; $i < sizeof($paymentsIdList); $i++) {
             $sql = "UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id";
             $statement = $conn->prepare($sql);
@@ -59,6 +54,24 @@ class PaymentDAO
             $statement->bindValue(":today", $today);
             $statement->execute();
         }
+        $total = $this->totalPaid($conn);
+        return $total;
+    }
+
+    public function totalPaid($conn)
+    {
+        $month = date("m");
+        $time = strtotime(date("y-m-d"));
+        $year = date("Y", $time);
+        $resultPeriod = $year . '-' . $month . '%';
+        $sql = "SELECT sum(amount) FROM `payrole` WHERE `paid_date` LIKE :today";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":today", $resultPeriod);
+        $statement->execute();
+        $done = $statement->fetch();
+        $doubleValue = (double)$done[0];
+        $total = $doubleValue;
+        return $total;
     }
 
 }

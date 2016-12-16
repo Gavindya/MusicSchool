@@ -4,9 +4,9 @@ namespace App;
 
 class GenerateSalary
 {
-    public function __construct()
+    public function generateMonthlySalary()
     {
-        print "In BaseClass constructor\n";
+        
     }
 
 }
