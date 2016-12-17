@@ -11,6 +11,27 @@
 |
 */
 
+
+Route::group(['middleware' => ['web']], function () {
+
+    Route::post('/user/add/store', [
+        'uses' => 'UserController@store'
+    ]);
+
+
+    Route::get('/login', [
+        'uses' => 'LogInController@login'
+    ]);
+
+    Route::get('/user/add', [
+        'uses' => 'UserController@addUser'
+    ]);
+    Route::get('/', [
+        'uses' => 'HomeController@index'
+    ]);
+    Route::get('/students', [
+        'uses' => 'StudentController@getName'
+    ]);
 Route::get('/', [
     'uses' => 'HomeController@index'
 ]);
@@ -96,14 +117,39 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/student/new', [
-    'uses' => 'StudentController@newStudent'
-]);
+    Route::get('/student/new', [
+        'uses' => 'StudentController@newStudent'
+    ]);
 
-Route::patch('/student/enroll', [
-    'uses' => 'StudentController@storeStudent'
-]);
+    Route::post('/student/enroll', [
+        'uses' => 'StudentController@storeStudent'
+    ]);
 
-Route::get('/view/students', [
-    'uses' => 'StudentController@getStudents'
-]);
+    Route::get('/view/students', [
+        'uses' => 'StudentController@getStudents'
+    ]);
+    Route::get('/student/new_class', [
+        'uses' => 'StudentController@addNewClass'
+    ]);
+    Route::post('/student/subscribe', [
+        'uses' => 'StudentController@addClass'
+    ]);
+    Route::get('/student/management', [
+        'uses' => 'StudentController@studentManagement'
+    ]);
+    Route::get('/student/view/payment/{id}', [
+        'uses' => 'StudentController@viewPayment'
+    ]);
+    Route::post('/student/{id}/update', [
+        'uses' => 'StudentController@updateStudent'
+    ]);
+    Route::get('/student/progress/{id}', [
+        'uses' => 'StudentController@viewProgress'
+    ]);
+
+    Route::patch('/login/user', [
+        'uses' => 'LogInController@loginUser'
+    ]);
+
+});
+
