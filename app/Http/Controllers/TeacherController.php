@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\DbConnection\InstrumentDAO;
-use App\DbConnection\TeacherDAO;
+use App\DAO\InstrumentDAO;
+use App\DAO\TeacherDAO;
 use App\teacher;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
@@ -11,15 +11,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TeacherController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function getTeachersNames()
     {
         $dbCon = new TeacherDAO();
-        $result = $dbCon->getName();
-        $teachers = array();
-        while ($row = $result->fetch_assoc()) {
-            array_push($teachers, $row['name']);
-        }
-        return view('addTeacher')->with('teachers', $teachers);
+        $teachers =$dbCon->getNames();
+        return $teachers;
     }
     public function getATeacher($id)
     {
@@ -43,8 +49,7 @@ class TeacherController extends Controller
         $teacher->setJoindate(date("y-m-d"));
         $dbTeacher->addNewTeacher($teacher);
         return redirect()->route("TeacherManagement");
-//        echo $teacher->getName();
-//        echo "sent to Teacher DAO";
+
     }
     public function getTeachersWithoutPagination()
     {
@@ -78,21 +83,15 @@ class TeacherController extends Controller
         $teachers->setPath('TeacherManagement');
 
         $dbInstrument = new InstrumentDAO();
-        $instrumentsResults = $dbInstrument->getInstruments();
-        $instruments = array();
-        while ($row = $instrumentsResults->fetch_assoc()) {
-            array_push($instruments, $row);
-        }
+        $instrumentsResults = $dbInstrument->getAllInstruments();
 
-        return view('TeacherManagement', ['teachers' => $teachers, 'instruments' => $instruments]);
+        return view('TeacherManagement', ['teachers' => $teachers, 'instruments' => json_decode(json_encode($instrumentsResults), TRUE)]);
     }
     public function getTeacherInformation($id)
     {
         $dbCon = new TeacherDAO();
         $result = $dbCon->getATeacher($id);
         $teachers = array();
-//        echo $result[0];  /*id*/
-//        echo $result[1];  /*name*/
         array_push($teachers, $id);
         array_push($teachers, $result[1]);
         array_push($teachers, $result[2]);
@@ -101,14 +100,9 @@ class TeacherController extends Controller
 
         $payments = new SalaryController();
         $paymentsHistory = $payments->getPaymentsOfTeacher($id);
-//        for($j =0; $j < sizeof($paymentsHistory) ; $j++){
-//            array_push($teachers, $paymentsHistory[$j]);
-//        }
-//        array_push($teachers, $paymentsHistory);
+
         $clses = new ClsController();
         $clssAssigned = $clses->getAssignedClasDetails($id);
-//        array_push($teachers, $clssAssigned);
-//        return view('TeacherInformation', ['teacherId' => ($id),'teacherName' => ($result[1])]);
 
         return view('TeacherInformation', ['teacher' => ($teachers), 'payments' => ($paymentsHistory), 'classes' => ($clssAssigned)]);
     }

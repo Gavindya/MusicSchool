@@ -1,5 +1,5 @@
 <?php
-namespace App\DbConnection;
+namespace App\DAO;
 
 use mysqli;
 use PDO;
@@ -27,7 +27,7 @@ class DBConnection
     }
     public function getName(){
         $conn = $this->openConnection();
-        $sql = "SELECT student_fullname FROM students";
+        $sql = "SELECT student_name FROM students";
         $result = $conn->query($sql);
         $conn->close();
         return $result;

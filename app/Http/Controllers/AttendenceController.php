@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\DbConnection\TeacherDAO;
+use App\DAO\TeacherDAO;
 use Illuminate\Http\Request;
 
 class AttendenceController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function getTeachersForAttendence()
     {
 

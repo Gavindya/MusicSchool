@@ -13,7 +13,7 @@ use DB;
 
 class ScoreDAO
 {
-    public function getScores(int $assignment_id)
+    public function getScores($assignment_id)
     {
         return DB::select(
             'SELECT * FROM scores WHERE assignment_id = :assignment_id', [
@@ -29,7 +29,7 @@ class ScoreDAO
         ]);
     }
 
-    public function getScoreForStudent(int $assignment_id, int $enrolment_id)
+    public function getScoreForStudent($assignment_id, $enrolment_id)
     {
         return DB::selectOne(
             'SELECT * FROM scores WHERE assignment_id = :assignment_id AND enrolment_id = :enrolment_id', [

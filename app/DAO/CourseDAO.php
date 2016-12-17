@@ -20,7 +20,7 @@ class CourseDAO
         return DB::select('SELECT * FROM course_details');
     }
 
-    public function getCourseById(int $id)
+    public function getCourseById($id)
     {
         return DB::selectOne('SELECT * FROM course_details WHERE course_id = :id', ['id' => $id]);
     }

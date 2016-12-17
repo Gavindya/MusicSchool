@@ -65,14 +65,22 @@
 <body>
 <div class="row">
     <div class="container">
-        <h2>Date: <span id="date"></span></h2>
-        <h3>Time: <span id="time"></span></h3>
-        <hr>
-        <h2>Staff</h2>
-        <div class="col-lg-5 col-sm-5 col-xs-5">
+        <div class="col-lg-5 col-sm-5 col-xs-5 pull-left">
+            <br>
             <span class="glyphicon glyphicon-search"></span>
             <input type="text" id="search" placeholder="Enter Name Or ID">
-            <hr>
+        </div>
+        <div class="col-lg-5 col-sm-5 col-xs-5">
+            <h2 class="pull-left">Date: <span id="date"></span></h2>
+            <br>
+            <h3 class="pull-right">Time: <span id="time"></span></h3>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="container">
+        <div class="col-lg-5 col-sm-5 col-xs-5">
             <table id="teachersTable" class="table table-bordered table-hover table-responsive tableSection">
                 <thead>
                 <tr>

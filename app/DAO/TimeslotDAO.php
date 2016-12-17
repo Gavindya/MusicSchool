@@ -18,7 +18,7 @@ class TimeslotDAO
         return DB::select('SELECT * FROM timeslots');
     }
 
-    public function getTimeslotById(int $id)
+    public function getTimeslotById($id)
     {
         return DB::selectOne('SELECT * FROM timeslots WHERE timeslot_id = :timeslot_id', [
             'timeslot_id' => $id

@@ -19,7 +19,7 @@ class InstrumentDAO
         return DB::select('SELECT * FROM instruments');
     }
 
-    public function getInstrumentById(int $id)
+    public function getInstrumentById($id)
     {
         return DB::selectOne('SELECT * FROM instruments WHERE instrument_id = :instrument_id', [
             'instrument_id' => $id

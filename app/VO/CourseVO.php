@@ -35,7 +35,7 @@ class CourseVO extends VOBase
      * @param int $teacher_id
      * @internal param $course_id
      */
-    public function __construct(string $course_name, int $instrument_id, int $credits, string $weekday, int $timeslot_id, int $charges, int $teacher_id)
+    public function __construct($course_name, $instrument_id, $credits, $weekday, $timeslot_id, $charges, $teacher_id)
     {
         parent::__construct();
         $this->course_name = $course_name;

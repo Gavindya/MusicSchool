@@ -8,9 +8,11 @@
 
 namespace App\DAO;
 
+use PDO;
+
 class PaymentDAO
 {
-    public function getAllPayments()
+    public function getAllUnpaidPayments()
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
@@ -19,8 +21,18 @@ class PaymentDAO
         $statement->execute();
         return $statement->fetchAll();
     }
+    
+    public function getAllPayments()
+    {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $sql = "SELECT * FROM payrole NATURAL JOIN teachers";
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 
-    public function getPaymentsOfThisMonth()
+    public function getUnpaidPaymentsOfThisMonth()
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
@@ -29,6 +41,20 @@ class PaymentDAO
         $year = date("Y", $time);
         $resultPeriod = $year . '-' . $month . '%';
         $sql = "SELECT * FROM payrole NATURAL JOIN teachers WHERE generated_date LIKE :monthOfPay AND payrole.paid_date IS NULL";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(":monthOfPay", $resultPeriod);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+    public function getPaymentsOfThisMonth()
+    {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
+        $month = date("m");
+        $time = strtotime(date("y-m-d"));
+        $year = date("Y", $time);
+        $resultPeriod = $year . '-' . $month . '%';
+        $sql = "SELECT * FROM payrole NATURAL JOIN teachers WHERE generated_date LIKE :monthOfPay";
         $statement = $conn->prepare($sql);
         $statement->bindValue(":monthOfPay", $resultPeriod);
         $statement->execute();
@@ -61,12 +87,12 @@ class PaymentDAO
             $statement->bindValue(":today", $today);
             $statement->execute();
         }
-        $total = $this->totalPaid($conn);
-        return $total;
     }
 
-    public function totalPaid($conn)
+    public function totalPaid()
     {
+        $dbCon = new DBConnection();
+        $conn = $dbCon->openPDO();
         $month = date("m");
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
@@ -81,21 +107,40 @@ class PaymentDAO
         return $total;
     }
 
-    public function recordPayments($paymentsGenerated)
+    public function generatePayments($paymentsGenerated)
     {
         $dbCon = new DBConnection();
         $conn = $dbCon->openPDO();
         $MonthDay = date("m-d");
+        $month = date("m");
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
         $today = $year . '-' . $MonthDay;
+        $resultPeriod = $year . '-' . $month . '%';
+
+        $res = array();
+
+
         for ($i = 0; $i < sizeof($paymentsGenerated); $i++) {
-            $sql = "INSERT INTO `payrole` (teacher_id,amount,generated_date) VALUES (:teacher_id,:amount,:genDate)";
+            $sql = "SELECT * FROM `payrole` WHERE `teacher_id` = :teacher_id AND generated_date LIKE :timePeriod";
             $statement = $conn->prepare($sql);
             $statement->bindValue(":teacher_id", $paymentsGenerated[$i]['teacher_id']);
-            $statement->bindValue(":amount", $paymentsGenerated[$i]['tot']);
-            $statement->bindValue(":genDate", $today);
+            $statement->bindValue(":timePeriod", $resultPeriod);
             $statement->execute();
+            $done = $statement->fetch();
+            if($done['teacher_id']!=null){
+                array_push($res,$done['teacher_id']);
+            }
+        }
+        foreach ($paymentsGenerated as $p){
+            if(!in_array($p['teacher_id'],$res)){
+                $sql = "INSERT INTO `payrole` (teacher_id,amount,generated_date) VALUES (:teacher_id,:amount,:genDate)";
+                $statement = $conn->prepare($sql);
+                $statement->bindValue(":teacher_id", $p['teacher_id']);
+                $statement->bindValue(":amount", $p['tot']);
+                $statement->bindValue(":genDate", $today);
+                $statement->execute();
+            }
         }
     }
 }
