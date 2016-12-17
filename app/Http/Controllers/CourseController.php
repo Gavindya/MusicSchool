@@ -8,6 +8,7 @@ use App\DAO\TeacherDAO;
 use App\DAO\TimeslotDAO;
 use App\Domain\Course;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CourseController extends Controller
 {
@@ -21,7 +22,7 @@ class CourseController extends Controller
         $this->middleware('auth');
     }
 
-    public function showCourseManagement()
+    public function showCourseManagement() : View
     {
         $courseDAO = new CourseDAO();
         $instrumentDAO = new InstrumentDAO();
@@ -41,14 +42,14 @@ class CourseController extends Controller
         ]);
     }
 
-    public function showCourseDetails($id)
+    public function showCourseDetails($id) : View
     {
         $courseDAO = new CourseDAO();
         $instrumentDAO = new InstrumentDAO();
         $timeslotDAO = new TimeslotDAO();
         $teacherDAO = new TeacherDAO();
 
-        $course = $courseDAO->getCourseById($id);
+        $course = $courseDAO->getCourseByCourseId($id);
         $instrument = $instrumentDAO->getInstrumentById($course->instrument_id);
         $timeslot = $timeslotDAO->getTimeslotById($course->timeslot_id);
         $teacher = $teacherDAO->getTeacherById($course->teacher_id);

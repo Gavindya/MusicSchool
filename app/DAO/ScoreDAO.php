@@ -38,4 +38,12 @@ class ScoreDAO
             'enrolment_id' => $enrolment_id
         ]);
     }
+
+    public function getStudentProgress($enrolment_id): stdClass
+    {
+        return DB::selectOne(
+            'SELECT * FROM scores WHERE enrolment_id = :enrolment_id', [
+            'enrolment_id' => $enrolment_id
+        ]);
+    }
 }

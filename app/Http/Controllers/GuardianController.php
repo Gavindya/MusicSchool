@@ -26,7 +26,6 @@ class GuardianController extends Controller
     {
         $guardianConnector = new GuardianDAO();
         $object = $request->all();
-        $result = $guardianConnector->addGuardian($object);
-        return $result;
+        return $guardianConnector->addGuardian($object);
     }
 }

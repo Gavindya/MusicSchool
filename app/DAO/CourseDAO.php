@@ -21,9 +21,14 @@ class CourseDAO
         return DB::select('SELECT * FROM course_details');
     }
 
-    public function getCourseById($id): stdClass
+    public function getCourseByCourseId($id): stdClass
     {
         return DB::selectOne('SELECT * FROM course_details WHERE course_id = :id', ['id' => $id]);
+    }
+
+    public function getCoursesOfTeacher($teacher_id): array
+    {
+        return DB::select('SELECT * FROM course_details WHERE teacher_id = :id', ['id' => $teacher_id]);
     }
 
     public function addNewCourse(Course $course): bool

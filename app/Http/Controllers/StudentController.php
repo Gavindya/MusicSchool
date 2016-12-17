@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\DAO\ConnectionManager;
-use App\DAO\CourseDAO;
+use App\DAO\EnrolmentDAO;
+use App\DAO\FeeDAO;
 use App\DAO\GuardianDAO;
 use App\DAO\ScoreDAO;
 use App\DAO\StudentDAO;
+use App\Domain\Enrolment;
+use App\Domain\Guardian;
+use App\Domain\Student;
 use Illuminate\Http\Request;
+use Session;
 
 class StudentController extends Controller
 {
@@ -23,8 +27,8 @@ class StudentController extends Controller
 
     public function getAllStudentNames()
     {
-        $studentConnector = new StudentDAO();
-        list($students) = $studentConnector->getAllStudentNames();
+        $studentDAO = new StudentDAO();
+        $students = $studentDAO->getAllStudentNames();
         return view('welcome')->with('students', $students);
     }
 
@@ -49,117 +53,82 @@ class StudentController extends Controller
             'guardian_name' => 'required|min:2|max:45'
         ]);
 
-        $conn = ConnectionManager::getConnection();
+        $object = $request->all();
 
-        $guardianConnector = new GuardianDAO();
-        $result = $guardianConnector->addGuardian($conn, $request);
+        $guardianDAO = new GuardianDAO();
+        $guardian = new Guardian($object['guardian_name'], $object['guardian_telephone']);
+        $guardianDAO->addGuardian($guardian);
 
-        $studentConnector = new StudentDAO();
+        $studentDAO = new StudentDAO();
+        $student = new Student($object['student_name'], $object['student_address'], $object['student_telephone']);
+        $studentDAO->addStudent($student);
 
-        $result2 = $studentConnector->addStudent($result, $request);
-
-        session()->flash('msg', 'Admission is successful.');
+        Session::flash('msg', 'Admission is successful.');
         return redirect()->back();
-        //return Redirect::back()->with('msg', 'The Message');
     }
 
 
     public function getStudents()
     {
-        $conn = ConnectionManager::getConnection();
-        $studentConnector = new StudentDAO();
-
-        list($conn, $students) = $studentConnector->getAllStudents($conn);
-        $conn->close();
-
+        $studentDAO = new StudentDAO();
+        $students = $studentDAO->getAllStudents();
         return view('Student.viewStudentDetails')->with('students', $students);
-        //return view('welcome');
-
     }
 
     public function addNewClass()
     {
-        $conn = ConnectionManager::getConnection();
         $studentConnector = new StudentDAO();
-        list($conn, $students) = $studentConnector->getAllStudents($conn);
-        $conn->close();
-
+        $students = $studentConnector->getAllStudents();
         return view('Student.newClass', compact('students'));
     }
 
     public function addClass(Request $request)
-
     {
-
         $this->validate($request, [
             'student_id' => 'required',
             'class_id' => 'required'
         ]);
-        $conn = ConnectionManager::getConnection();
-        $classConnector = new CourseDAO();
-        list($conn, $result) = $classConnector->getClassDetails($conn, $request->class_id);
-        $enrollConnector = new EnrolmentsTableConnector();
+        $object = $request->all();
 
-        $conn = $enrollConnector->enroll($conn, $request, $result);
-        $conn->close();
-        session()->flash('msg', 'Enrollment is successful.');
+        $enrolmentDAO = new EnrolmentDAO();
+        $enrolment = new Enrolment($object['student_id'], $object['course_id']);
+        $enrolmentDAO->addEnrolment($enrolment);
+
+        Session::flash('msg', 'Enrollment is successful.');
         return redirect()->back();
-
     }
 
     public function studentManagement()
     {
-
-        //$studentConnector=new StudentTableConnector();
-        //$namelist=$studentConnector->getName();
-        $conn = ConnectionManager::getConnection();
-        $studentConnector = new StudentDAO();
-
-        list($conn, $students) = $studentConnector->getAllStudents($conn);
-        $conn->close();
-
+        //$studentDAO=new StudentTableConnector();
+        //$namelist=$studentDAO->getName();
+        $studentDAO = new StudentDAO();
+        $students = $studentDAO->getAllStudents();
         return view('Student.studentManagement', compact('students'));
     }
 
-    public function viewPayment($id)
+    public function viewFees($enrolment_id)
     {
-        // return $id;
-        $conn = ConnectionManager::getConnection();
-
-        $studentConnector = new StudentDAO();
-
-        list($conn, $students) = $studentConnector->getAllStudents($conn);
-        $studentPaymentConnector = new StudentPaymentsConnector();
-        list($conn, $studentpayments) = $studentPaymentConnector->getStudentPayments($conn, $id);
-        $conn->close();
-
-        // return view('Student.singleStudentManagement')->with('students', $students,'id',$id);
-        return view('Student.singleStudentManagement', compact('students', 'id', 'studentpayments'));
+        $studentDAO = new StudentDAO();
+        $students = $studentDAO->getAllStudents();
+        $feeDAO = new FeeDAO();
+        $fees = $feeDAO->getFees($enrolment_id);
+        return view('Student.singleStudentManagement', compact('students', 'enrolment_id', 'studentpayments', $fees));
     }
 
-    public function updateStudent(Request $request, $id)
+    public function updateStudent(Request $request)
     {
-        $conn = ConnectionManager::getConnection();
-        $studentConnector = new StudentDAO();
-
-
-        $conn = $studentConnector->updateStudent($conn, $request);
-        $conn->close();
-
-
-        return view('Student.singleStudentManagement')->with('students', $students);
+        $studentDAO = new StudentDAO();
+        $object = $request->all();
+        $student = new Student($object['student_name'], $object['student_address'], $object['student_telephone']);
+        $studentDAO->updateStudent($student);
+        return view('Student.singleStudentManagement')->with('students', $student);
     }
 
-    public function viewProgress(Request $request, $id)
+    public function viewProgress($enrolment_id)
     {
-
-        $conn = ConnectionManager::getConnection();
-        $studentConnector = new ScoreDAO();
-
-        list($conn, $studentprogress) = $studentConnector->getStudentProgress($conn, $id);
-        $conn->close();
-
-
-        return view('Student.viewProgress')->with('studentprogress', $studentprogress);
+        $scoreDAO = new ScoreDAO();
+        $studentProgress = $scoreDAO->getStudentProgress($enrolment_id);
+        return view('Student.viewProgress')->with('studentprogress', $studentProgress);
     }
 }

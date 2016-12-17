@@ -20,10 +20,11 @@ class UserDAO
         return $conn->getPdo()->exec($sql);
     }
 
-    public function checkUser($index): array
+    public function checkUser($email, $password): array
     {
         $conn = ConnectionManager::getConnection();
-        $sql = "SELECT `password` FROM `users` WHERE `id`={$index}";
-        return $conn->getPdo()->query($sql)->fetchAll();
+        $sql = "SELECT `password` FROM `users` WHERE email = :email AND password = :password";
+        $statement = $conn->statement($sql, ['email' => $email, 'password' => $password]);
+        return $conn->getPdo()->query($statement)->fetchAll();
     }
 }

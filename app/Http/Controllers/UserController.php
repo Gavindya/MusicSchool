@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DAO\ConnectionManager;
-use App\DbConnection\DBConnection;
-use App\DbModels\UsersTableConnector;
+use App\User;
 use App\UserDAO;
 use Illuminate\Http\Request;
+use Session;
 
 class UserController extends Controller
 {
@@ -26,7 +25,7 @@ class UserController extends Controller
         return view('Users.add_user');
     }
 
-    public function store(Request $request)
+    public function insertUser(Request $request)
     {
         $this->validate($request, [
             'first_name', 'last_name' => 'required|min:2|max:45',
@@ -34,14 +33,12 @@ class UserController extends Controller
             'email' => 'required|unique:users,email'
         ]);
 
-        $conn = ConnectionManager::getConnection();
+        $userDAO = new UserDAO();
+        $object = $request->all();
+        $user = new User($object);
+        $userDAO->addUser($user);
 
-        $userConnector = new UserDAO();
-
-        $result2 = $userConnector->addUser($conn, $request);
-
-        session()->flash('msg', 'User Entry is successful.');
+        Session::flash('msg', 'User Entry is successful.');
         return redirect()->back();
-
     }
 }

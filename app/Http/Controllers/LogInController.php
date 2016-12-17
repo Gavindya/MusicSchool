@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\DAO\ConnectionManager;
 use App\UserDAO;
 use Illuminate\Http\Request;
+use Session;
 
 class LogInController extends Controller
 {
@@ -25,22 +25,16 @@ class LogInController extends Controller
 
     public function loginUser(Request $request)
     {
-
-        $conn = ConnectionManager::getConnection();
-        // return $request->password;
-        $userConnector = new UserDAO();
-        list($conn, $result) = $userConnector->checkUser($conn, $request);
+        $userDAO = new UserDAO();
+        $object = $request->all();
+        $result = $userDAO->checkUser($object['email'], $object['password']);
 
         if ($request->password == $result[0]["password"]) {
-            session()->flash('msg', 'Log In is successful.');
+            Session::flash('msg', 'Log In is successful.');
             return view('Student.new_student');
         } else {
-            session()->flash('msg', 'Index or password is incorrect');
+            Session::flash('msg', 'Index or password is incorrect');
             return redirect()->back();
         }
-
-        // return  $result;
-
-
     }
 }

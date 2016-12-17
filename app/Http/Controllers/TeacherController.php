@@ -58,11 +58,7 @@ class TeacherController extends Controller
     public function getTeachersWithoutPagination()
     {
         $dbCon = new TeacherDAO();
-        $result = $dbCon->getTeachers();
-        $teachers = array();
-        while ($row = $result->fetch_assoc()) {
-            array_push($teachers, $row);
-        }
+        $teachers = $dbCon->getTeachers();
         return $teachers;
     }
 
@@ -80,12 +76,7 @@ class TeacherController extends Controller
     public function getTeachersWithPagination()
     {
         $dbCon = new TeacherDAO();
-        $result = $dbCon->getTeachers();
-        $teachers = array();
-        while ($row = $result->fetch()) {
-            array_push($teachers, $row);
-        }
-
+        $teachers = $dbCon->getTeachers();
         $perPage = 4;
         $currentPage = Input::get('page') - 1;
         $pagedData = array_slice($teachers, $currentPage * $perPage, $perPage);
@@ -93,24 +84,24 @@ class TeacherController extends Controller
         return $teachers;
     }
 
-    public function getTeacherInformation($id)
+    public function getTeacherInformation($teacher_id)
     {
         $dbCon = new TeacherDAO();
-        $result = $dbCon->getATeacher($id);
+        $result = $dbCon->getATeacher($teacher_id);
         $teachers = array();
-        array_push($teachers, $id);
+        array_push($teachers, $teacher_id);
         array_push($teachers, $result[1]);
         array_push($teachers, $result[2]);
         array_push($teachers, $result[3]);
         array_push($teachers, $result[4]);
 
         $payments = new SalaryController();
-        $paymentsHistory = $payments->getPaymentsOfTeacher($id);
+        $paymentsHistory = $payments->getPaymentsOfTeacher($teacher_id);
 
-        $clses = new CourseDAO();
-        $clssAssigned = $clses->getAssignedClasDetails($id);
+        $courseDAO = new CourseDAO();
+        $courses = $courseDAO->getCoursesOfTeacher($teacher_id);
 
-        return view('TeacherInformation', ['teacher' => ($teachers), 'payments' => ($paymentsHistory), 'classes' => ($clssAssigned)]);
+        return view('TeacherInformation', ['teacher' => ($teachers), 'payments' => ($paymentsHistory), 'classes' => ($courses)]);
     }
 
     public function updateTeacher(Request $request)

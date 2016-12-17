@@ -15,4 +15,18 @@ class Enrolment extends BaseModel
     public $student_id;
     public $course_id;
     public $is_active;
+
+    /**
+     * Enrolment constructor.
+     * @param $student_id
+     * @param $course_id
+     */
+    public function __construct($student_id, $course_id)
+    {
+        parent::__construct();
+        $this->student_id = $student_id;
+        $this->course_id = $course_id;
+    }
+
+
 }
