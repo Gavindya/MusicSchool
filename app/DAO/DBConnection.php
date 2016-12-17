@@ -2,7 +2,6 @@
 namespace App\DbConnection;
 
 use mysqli;
-use Symfony\Component\HttpFoundation\Request;
 
 class DBConnection
 {
@@ -20,10 +19,10 @@ class DBConnection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        //echo "Connected successfully";
-        $sql = "USE musicschool_";
+        echo "Connected successfully";
+        $sql = "USE MusicSchool";
         if ($conn->query($sql) === TRUE) {
-            // echo "Database connected successfully";
+            echo "Database connected successfully";
         } else {
             echo "Error connecting DB : " . $conn->error;
         }
@@ -38,23 +37,14 @@ class DBConnection
 
     }
 
-    public function storeStudent(Request $request)
+    public function openPDO()
     {
-        $conn = $this->openConnection();
-        //$sql="INSERT INTO `students` (`id`, `name`) VALUES (NULL,dileka)";
-        $sql = "SELECT students.name FROM students";
-        $result = $conn->query($sql);
-        $conn->close();
-        return $result;
-    }
+        $server = 'mysql:dbname=musicschool;host=127.0.0.1';
+        $username = "musicschool";
+        $password = "1234";
 
-    public function getStudents()
-    {
-        $conn = $this->openConnection();
-        $sql = "SELECT * FROM students";
-        $result = $conn->query($sql);
-        $conn->close();
-        return $result;
-
+        $conn = new PDO($server, $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
     }
 }
