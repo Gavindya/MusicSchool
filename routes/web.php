@@ -16,6 +16,7 @@
 | Course Management
 |--------------------------------------------------------------------------
 */
+
 Route::get('/courses', 'CourseController@showCourseManagement');
 Route::post('/courses', 'CourseController@addCourse');
 
@@ -44,7 +45,7 @@ Route::get('/login', [
 
 /*
 |--------------------------------------------------------------------------
-| Home
+| Home - With included authentication redirects
 |--------------------------------------------------------------------------
 */
 Auth::routes();
