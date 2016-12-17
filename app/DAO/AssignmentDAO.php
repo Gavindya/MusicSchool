@@ -8,12 +8,12 @@
 
 namespace App\DAO;
 
-use App\VO\AssignmentVO;
+use App\Domain\StudentAssignment;
 use DB;
 
 class AssignmentDAO
 {
-    public function getAssignments($course_id)
+    public function getAssignments($course_id): array
     {
         return DB::select(
             'SELECT * FROM assignments WHERE course_id = :course_id', [
@@ -21,7 +21,7 @@ class AssignmentDAO
         ]);
     }
 
-    public function addAssignment(AssignmentVO $assignment)
+    public function addAssignment(StudentAssignment $assignment): bool
     {
         return DB::insert('INSERT INTO assignments (asignment_title, marks, course_id) VALUES (:assignment_title, :marks, :course_id)', [
             'assignment_title' => $assignment->title,

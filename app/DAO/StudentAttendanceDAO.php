@@ -8,19 +8,23 @@
 
 namespace App\DAO;
 
+use App\Domain\Course;
+use DB;
+
 
 class StudentAttendanceDAO
 {
-    public function getAllAttendance($enrollmentId)
+    public function getAllAttendance(): array
     {
-        return DB::select('SELECT * FROM student_attendance');
+        return DB::select('SELECT * FROM attendance');
     }
 
-    public function getCourseById($enrollmentId){
-        return DB::select('SELECT * FROM student_attendance WHERE enrollment_id = :id AND date >= ', ['id' => $id]);
+    public function getAttendanceByEnrolment($enrolment_Id): array
+    {
+        return DB::select('SELECT * FROM attendance WHERE enrolment_id = :id', ['id' => $enrolment_Id]);
     }
 
-    public function addNewCourse(CourseVO $course)
+    public function addNewCourse(Course $course): bool
     {
         return DB::insert(
             'INSERT INTO courses (instrument_id, weekday, timeslot_id, charges, teacher_id) VALUES (:instrument_id, :weekday, :timeslot_id, :charges, :teacher_id)', [
@@ -32,7 +36,7 @@ class StudentAttendanceDAO
         ]);
     }
 
-    public function updateCourse(CourseVO $course)
+    public function updateCourse(Course $course): int
     {
         return DB::update(
             'UPDATE courses SET instrument_id = :instrument_id, weekday = :weekday, timeslot_id = :timeslot_id, charges = :charges, teacher_id = :teacher_id WHERE course_id = :course_id', [

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DAO\InstrumentDAO;
 use App\DAO\TimeslotDAO;
-use App\VO\InstrumentVO;
-use App\VO\TimeslotVO;
+use App\Domain\Instrument;
+use App\Domain\Timeslot;
 use Illuminate\Http\Request;
 
 class AdministrationController extends Controller
@@ -23,7 +23,7 @@ class AdministrationController extends Controller
     public function addTimeslot(Request $request)
     {
         $object = $request->all();
-        $timeslot = new TimeslotVO($object['start_time'], $object['end_time']);
+        $timeslot = new Timeslot($object['start_time'], $object['end_time']);
         $timeslotDAO = new TimeslotDAO();
         $timeslotDAO->addTimeslot($timeslot);
     }
@@ -31,7 +31,7 @@ class AdministrationController extends Controller
     public function addInstrument(Request $request)
     {
         $object = $request->all();
-        $instrument = new InstrumentVO($object['instrument_name']);
+        $instrument = new Instrument($object['instrument_name']);
         $instrumentDAO = new InstrumentDAO();
         $instrumentDAO->addInstrument($instrument);
     }

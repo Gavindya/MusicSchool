@@ -8,12 +8,11 @@
 
 namespace app\DAO;
 
-use App\VO\AttendanceVO;
 use DB;
 
 class AttendanceDAO
 {
-    public function getAttendance($course_id)
+    public function getAttendance($course_id): array
     {
         return DB::select(
             'SELECT * FROM attendance WHERE enrolment_id IN (SELECT enrolment_id FROM enrolments WHERE course_id = :course_id)', [
@@ -21,7 +20,7 @@ class AttendanceDAO
         ]);
     }
 
-    public function addAttendance($enrolment_id)
+    public function addAttendance($enrolment_id): bool
     {
         DB::insert(
             'INSERT INTO attendance (enrolment_id, date) VALUES (:enrolment_id, CURRENT_DATE)', [

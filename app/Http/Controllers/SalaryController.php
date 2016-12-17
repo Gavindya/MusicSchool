@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\DAO\PaymentDAO;
 use App\DAO\TeacherDAO;
-use App\GenerateSalary;
-use Illuminate\Support\Facades\Session;
-use Symfony\Component\HttpFoundation\Request;
+use App\Domain\Teacher;
+use Request;
+use Session;
 
 class SalaryController extends Controller
 {
@@ -22,7 +22,7 @@ class SalaryController extends Controller
 
     public function getPaymentsOfThisMonth()
     {
-        if(date("d")==="28"){
+        if (date("d") === "28") {
             $msg = $this->generateSalary();
             Session::flash('msg', $msg);
         }
@@ -32,9 +32,22 @@ class SalaryController extends Controller
         return view('payRole', ['payments' => $payments, 'tot' => $tot, 'paymentWinType' => "ThisMonth"]);
     }
 
+    public function generateSalary()
+    {
+        $teacherDAO = new TeacherDAO();
+        $workHours = $teacherDAO->getWorkHours();
+
+        $paymentsOfMonth = Teacher::generateMonthlySalary($workHours);
+
+        $paymentDAO = new PaymentDAO();
+        $paymentDAO->generatePayments($paymentsOfMonth);
+
+        return "Salary Generated For this Month";
+    }
+
     public function getAllPayments()
     {
-        if(date("d")==="28") {
+        if (date("d") === "28") {
             $msg = $this->generateSalary();
             Session::flash('msg', $msg);
         }
@@ -46,37 +59,37 @@ class SalaryController extends Controller
 
     public function getSummary()
     {
-        if(date("d")==="28") {
+        if (date("d") === "28") {
             $msg = $this->generateSalary();
             Session::flash('msg', $msg);
         }
         $dbCon = new PaymentDAO();
         $payments = $dbCon->getAllPayments();
         $tot = $dbCon->totalPaid();
-        return view('SummaryOfPayments', ['payments' => $payments,'tot' => $tot]);
+        return view('SummaryOfPayments', ['payments' => $payments, 'tot' => $tot]);
     }
+
     public function getSummaryThisMonth()
     {
-        if(date("d")==="28") {
+        if (date("d") === "28") {
             $msg = $this->generateSalary();
             Session::flash('msg', $msg);
         }
         $dbCon = new PaymentDAO();
-        $payments = $dbCon->getPaymentsOfThisMonth();
+        $payments = $dbCon->getAllPaymentsOfThisMonth();
         $tot = $dbCon->totalPaid();
-        return view('SummaryOfPayments', ['payments' => $payments,'tot' => $tot]);
+        return view('SummaryOfPayments', ['payments' => $payments, 'tot' => $tot]);
     }
-    
+
     public function payTeachers(Request $request)
     {
         if (isset($request->all()['selected'])) {
             $paymentsIdList = $request->all()['selected'];
             $paymentDao = new PaymentDAO();
-            $paymentDao->pay($paymentsIdList);        
+            $paymentDao->setPaymentAsPaid($paymentsIdList);
             Session::flash('paid', "Successfully Paid Teachers");
             return redirect()->back();
-        }
-        else {
+        } else {
             Session::flash('error', "Teachers Not Selected");
             return redirect()->back();
         }
@@ -85,23 +98,9 @@ class SalaryController extends Controller
     public function getPaymentsOfTeacher($id)
     {
         $dbCon = new PaymentDAO();
-        $result = $dbCon->getPayementsOfATeacher($id);
+        $result = $dbCon->getPaymentsOfATeacher($id);
         return $result;
     }
 
-    public function generateSalary()
-    {
-        $teacherDAO = new TeacherDAO();
-        $workHours = $teacherDAO->getWorkHours();
 
-        $genSalary = new GenerateSalary();
-        $paymentsOfMonth = $genSalary->generateMonthlySalary($workHours);
-
-        $paymentDAO = new PaymentDAO();
-        $paymentDAO->generatePayments($paymentsOfMonth);
-
-        return "Salary Generated For this Month";
-    }
-
-    
 }

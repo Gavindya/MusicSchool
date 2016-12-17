@@ -8,25 +8,26 @@
 
 namespace App\DAO;
 
-use App\VO\InstrumentVO;
+use App\Domain\Instrument;
 use DB;
+use stdClass;
 
 
 class InstrumentDAO
 {
-    public function getAllInstruments()
+    public function getAllInstruments(): array
     {
         return DB::select('SELECT * FROM instruments');
     }
 
-    public function getInstrumentById($id)
+    public function getInstrumentById($id): stdClass
     {
         return DB::selectOne('SELECT * FROM instruments WHERE instrument_id = :instrument_id', [
             'instrument_id' => $id
         ]);
     }
 
-    public function addInstrument(InstrumentVO $instrument)
+    public function addInstrument(Instrument $instrument): bool
     {
         return DB::insert('INSERT INTO instruments (instrument_name) VALUES (:instrument_name)', [
             'instrument_name' => $instrument->instrument_name

@@ -8,19 +8,20 @@
 
 namespace App\DAO;
 
-use App\VO\ScoreVO;
+use App\Domain\Score;
 use DB;
+use stdClass;
 
 class ScoreDAO
 {
-    public function getScores($assignment_id)
+    public function getScores($assignment_id): array
     {
         return DB::select(
             'SELECT * FROM scores WHERE assignment_id = :assignment_id', [
             'assignment_id' => $assignment_id]);
     }
 
-    public function addScore(ScoreVO $score)
+    public function addScore(Score $score): bool
     {
         return DB::insert('INSERT INTO scores (assignment_id, score, enrolment_id) VALUES (:assignment_id, :score, :enrolment_id)', [
             'assignment_id' => $score->assignment_id,
@@ -29,7 +30,7 @@ class ScoreDAO
         ]);
     }
 
-    public function getScoreForStudent($assignment_id, $enrolment_id)
+    public function getScoreForStudent($assignment_id, $enrolment_id): stdClass
     {
         return DB::selectOne(
             'SELECT * FROM scores WHERE assignment_id = :assignment_id AND enrolment_id = :enrolment_id', [

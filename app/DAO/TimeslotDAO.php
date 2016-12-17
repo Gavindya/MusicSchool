@@ -8,7 +8,7 @@
 
 namespace App\DAO;
 
-use App\VO\TimeslotVO;
+use App\Domain\Timeslot;
 use DB;
 
 class TimeslotDAO
@@ -25,7 +25,7 @@ class TimeslotDAO
         ]);
     }
 
-    public function addTimeslot(TimeslotVO $timeslot)
+    public function addTimeslot(Timeslot $timeslot)
     {
         return DB::insert('INSERT INTO timeslots (start_time, end_time) VALUES (:start_time, :end_time)', [
             'start_time' => $timeslot->start_time,

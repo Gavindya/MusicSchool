@@ -6,7 +6,7 @@ use App\DAO\CourseDAO;
 use App\DAO\InstrumentDAO;
 use App\DAO\TeacherDAO;
 use App\DAO\TimeslotDAO;
-use App\VO\CourseVO;
+use App\Domain\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -74,7 +74,7 @@ class CourseController extends Controller
         $object = $request->all();
         $courseDAO = new CourseDAO();
 
-        $courseDAO->addNewCourse(new CourseVO(
+        $courseDAO->addNewCourse(new Course(
             $object['course_name'],
             $object['instrument_id'],
             $object['credits'],
@@ -90,7 +90,7 @@ class CourseController extends Controller
     {
         $object = $request->all();
         $courseDAO = new CourseDAO();
-        $course = new CourseVO(
+        $course = new Course(
             $object['course_name'],
             $object['instrument_id'],
             $object['credits'],

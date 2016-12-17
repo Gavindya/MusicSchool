@@ -35,13 +35,13 @@ CREATE TABLE IF NOT EXISTS `students` (
   ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `parents`
+-- Table `guardians`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `parents` (
-  `parent_id`        INT         NOT NULL AUTO_INCREMENT,
-  `parent_name`      VARCHAR(45) NOT NULL,
-  `parent_telephone` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`parent_id`)
+CREATE TABLE IF NOT EXISTS `guardians` (
+  `guardian_id`        INT         NOT NULL AUTO_INCREMENT,
+  `guardian_name`      VARCHAR(45) NOT NULL,
+  `guardian_telephone` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`guardian_id`)
 )
   ENGINE = InnoDB;
 
@@ -191,18 +191,18 @@ CREATE TABLE IF NOT EXISTS `payrole` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `families` (
   `student_id`   INT         NOT NULL,
-  `parent_id`    INT         NOT NULL,
+  `guardian_id`    INT         NOT NULL,
   `relationship` VARCHAR(15) NOT NULL,
-  INDEX `idx_parent_id` (`parent_id` ASC),
-  PRIMARY KEY (`student_id`, `parent_id`),
+  INDEX `idx_guardian_id` (`guardian_id` ASC),
+  PRIMARY KEY (`student_id`, `guardian_id`),
   CONSTRAINT `fk_family_student`
   FOREIGN KEY (`student_id`)
   REFERENCES `students` (`student_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_family_parent`
-  FOREIGN KEY (`parent_id`)
-  REFERENCES `parents` (`parent_id`)
+  CONSTRAINT `fk_family_guardian`
+  FOREIGN KEY (`guardian_id`)
+  REFERENCES `guardians` (`guardian_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 )
@@ -363,7 +363,7 @@ CREATE USER 'musicschool.teacher'
   IDENTIFIED BY '1234';
 
 GRANT SELECT ON TABLE `musicschool`.`students` TO 'musicschool.teacher';
-GRANT SELECT ON TABLE `musicschool`.`parents` TO 'musicschool.teacher';
+GRANT SELECT ON TABLE `musicschool`.`guardians` TO 'musicschool.teacher';
 GRANT SELECT, INSERT, UPDATE ON TABLE `musicschool`.`attendance` TO 'musicschool.teacher';
 GRANT SELECT ON TABLE `musicschool`.`enrolments` TO 'musicschool.teacher';
 GRANT SELECT, UPDATE ON TABLE `musicschool`.`courses` TO 'musicschool.teacher';
@@ -381,7 +381,7 @@ CREATE USER 'musicschool.staff'
   IDENTIFIED BY '1234';
 
 GRANT UPDATE, INSERT, SELECT, DELETE ON TABLE `musicschool`.`students` TO 'musicschool.staff';
-GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE `musicschool`.`parents` TO 'musicschool.staff';
+GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE `musicschool`.`guardians` TO 'musicschool.staff';
 GRANT SELECT ON TABLE `musicschool`.`attendance` TO 'musicschool.staff';
 GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE `musicschool`.`enrolments` TO 'musicschool.staff';
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE `musicschool`.`courses` TO 'musicschool.staff';
@@ -400,7 +400,7 @@ CREATE USER 'musicschool.student'
   IDENTIFIED BY '1234';
 
 GRANT SELECT, UPDATE ON TABLE `musicschool`.`students` TO 'musicschool.student';
-GRANT SELECT, UPDATE ON TABLE `musicschool`.`parents` TO 'musicschool.student';
+GRANT SELECT, UPDATE ON TABLE `musicschool`.`guardians` TO 'musicschool.student';
 GRANT SELECT ON TABLE `musicschool`.`attendance` TO 'musicschool.student';
 GRANT SELECT ON TABLE `musicschool`.`enrolments` TO 'musicschool.student';
 GRANT SELECT ON TABLE `musicschool`.`courses` TO 'musicschool.student';

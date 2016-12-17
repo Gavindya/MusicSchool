@@ -1,0 +1,40 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: yasith
+ * Date: 12/15/16
+ * Time: 5:05 AM
+ */
+
+namespace App\DAO;
+
+
+use App\Domain\Guardian;
+
+class GuardianDAO
+{
+    public function getGuardianNames(): array
+    {
+        $conn = ConnectionManager::getConnection();
+        $sql = "SELECT guardian_name FROM guardians";
+        return $conn->getPdo()->query($sql)->fetchAll();
+    }
+
+    public function addGuardian(Guardian $guardian): bool
+    {
+        $conn = ConnectionManager::getConnection();
+        $sql = "INSERT INTO guardians (guardian_name, guardian_telephone) VALUES (:guardian_name, :guardian_telephone)";
+        $statement = $conn->statement($sql, [
+            'guardian_name' => $guardian->guardian_name,
+            'guardian_telephone' => $guardian->guardian_telephone
+        ]);
+        return $conn->getPdo()->exec($statement);
+    }
+
+    public function getGuardians(): array
+    {
+        $conn = ConnectionManager::getConnection();
+        $sql = "SELECT * FROM guardians";
+        return $conn->getPdo()->query($sql)->fetchAll();
+    }
+}
