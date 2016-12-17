@@ -17,7 +17,7 @@ class TeacherAttendanceController extends Controller
         $this->middleware('auth');
     }
 
-    public function getTeachersForAttendance()
+    public function showTeacherAttendanceView()
     {
 
         $teacherController = new TeacherController();
@@ -49,14 +49,14 @@ class TeacherAttendanceController extends Controller
         return redirect()->route("TeacherAttendence");
     }
 
-    public function getTeacherAttendance($id)
+    private function getTeacherAttendance($id)
     {
         $dbCon = new TeacherDAO();
         $teacherRecord = $dbCon->getAttendance($id); // $teacherRecord[0]=id $teacherRecord[1]=date $teacherRecord[2]=arrive_time $teacherRecord[3]=depart_time
         return $teacherRecord;
     }
 
-    public function getTeacherAttendanceInformation($id)
+    public function showTeacherAttendanceInformationView($id)
     {
         $teacherRecord = $this->getTeacherAttendance($id);
 

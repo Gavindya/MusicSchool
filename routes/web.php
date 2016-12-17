@@ -28,21 +28,19 @@ Route::post('/courses/{id}', 'CourseController@editCourse');
 | User / Login (Not needed really, because laravel provides this)
 |--------------------------------------------------------------------------
 */
-Route::post('/user/add/store', [
-    'uses' => 'UserController@store'
+Route::get('/user/add', [
+    'uses' => 'UserController@showAddUserView'
+]);
+Route::get('/login', [
+    'uses' => 'LogInController@showLoginView'
 ]);
 
-Route::get('/user/add', [
+Route::post('/user/add/store', [
     'uses' => 'UserController@addUser'
 ]);
 Route::patch('/login/user', [
     'uses' => 'LogInController@loginUser'
 ]);
-
-Route::get('/login', [
-    'uses' => 'LogInController@login'
-]);
-
 /*
 |--------------------------------------------------------------------------
 | Home - With included authentication redirects
@@ -57,37 +55,40 @@ Route::get('/home', 'HomeController@index');
 | Student Management
 |--------------------------------------------------------------------------
 */
+
+// GET
 Route::get('/students', [
-    'uses' => 'StudentController@getName'
+    'uses' => 'StudentController@showStudentsView'
 ]);
 Route::get('/student/new', [
-    'uses' => 'StudentController@newStudent'
-]);
-Route::post('/student/enroll', [
-    'uses' => 'StudentController@storeStudent'
+    'uses' => 'StudentController@showNewStudentView'
 ]);
 Route::get('/view/students', [
-    'uses' => 'StudentController@getStudents'
+    'uses' => 'StudentController@showStudentDetailsView'
 ]);
 Route::get('/student/new_class', [
-    'uses' => 'StudentController@addNewClass'
-]);
-Route::post('/student/subscribe', [
-    'uses' => 'StudentController@addClass'
+    'uses' => 'StudentController@showNewEnrolmentView'
 ]);
 Route::get('/student/management', [
-    'uses' => 'StudentController@studentManagement'
+    'uses' => 'StudentController@showStudentManagementView'
 ]);
 Route::get('/student/view/payment/{id}', [
-    'uses' => 'StudentController@viewPayment'
+    'uses' => 'StudentController@showStudentFeesView'
 ]);
 Route::post('/student/{id}/update', [
-    'uses' => 'StudentController@updateStudent'
+    'uses' => 'StudentController@showStudentUpdateView'
 ]);
 Route::get('/student/progress/{id}', [
-    'uses' => 'StudentController@viewProgress'
+    'uses' => 'StudentController@showStudentProgressView'
 ]);
 
+// POST
+Route::post('/student/enroll', [
+    'uses' => 'StudentController@enrolStudent'
+]);
+Route::post('/student/subscribe', [
+    'uses' => 'StudentController@addNewEnrolment'
+]);
 /*
 |--------------------------------------------------------------------------
 | Teacher Management
@@ -119,15 +120,15 @@ Route::get('/TeacherInformation/ID/{id}', [
 |--------------------------------------------------------------------------
 */
 Route::get('/TeacherAttendence', [
-    'uses' => 'AttendenceController@getTeachersForAttendence',
+    'uses' => 'TeacherAttendenceController@showTeacherAttendanceView',
     'as' => 'TeacherAttendence'
 ]);
 Route::get('/TeacherAttendence/{id}', [
-    'uses' => 'AttendenceController@getTeacherAttendenceInformation',
+    'uses' => 'TeacherAttendenceController@showTeacherAttendanceInformationView',
     'as' => 'attendence'
 ]);
 Route::patch('/markAttenedence', [
-    'uses' => 'AttendenceController@markAttendence',
+    'uses' => 'TeacherAttendenceController@addTeacherAttendance',
 ]);
 
 /*

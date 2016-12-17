@@ -20,12 +20,12 @@ class UserController extends Controller
     }
 
 
-    public function addUser()
+    public function showAddUserView()
     {
         return view('Users.add_user');
     }
 
-    public function insertUser(Request $request)
+    public function addUser(Request $request)
     {
         $this->validate($request, [
             'first_name', 'last_name' => 'required|min:2|max:45',

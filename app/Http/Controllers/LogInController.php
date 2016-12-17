@@ -18,7 +18,7 @@ class LogInController extends Controller
         $this->middleware('auth');
     }
 
-    public function login()
+    public function showLoginView()
     {
         return view('LogIn.login');
     }

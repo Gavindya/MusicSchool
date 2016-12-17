@@ -25,7 +25,7 @@ class StudentController extends Controller
         $this->middleware('auth');
     }
 
-    public function getAllStudentNames()
+    public function showStudentsView()
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudentNames();
@@ -33,7 +33,7 @@ class StudentController extends Controller
     }
 
 
-    public function newStudent()
+    public function showNewStudentView()
     {
         return view('Student.new_student');
     }
@@ -42,7 +42,7 @@ class StudentController extends Controller
      * @param Request $request
      * @return string
      */
-    public function storeStudent(Request $request)
+    public function enrolStudent(Request $request)
 
     {
         $this->validate($request, [
@@ -68,21 +68,21 @@ class StudentController extends Controller
     }
 
 
-    public function getStudents()
+    public function showStudentDetailsView()
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudents();
         return view('Student.viewStudentDetails')->with('students', $students);
     }
 
-    public function addNewClass()
+    public function showNewEnrolmentView()
     {
-        $studentConnector = new StudentDAO();
-        $students = $studentConnector->getAllStudents();
+        $studentDAO = new StudentDAO();
+        $students = $studentDAO->getAllStudents();
         return view('Student.newClass', compact('students'));
     }
 
-    public function addClass(Request $request)
+    public function addNewEnrolment(Request $request)
     {
         $this->validate($request, [
             'student_id' => 'required',
@@ -98,7 +98,7 @@ class StudentController extends Controller
         return redirect()->back();
     }
 
-    public function studentManagement()
+    public function showStudentManagementView()
     {
         //$studentDAO=new StudentTableConnector();
         //$namelist=$studentDAO->getName();
@@ -107,7 +107,7 @@ class StudentController extends Controller
         return view('Student.studentManagement', compact('students'));
     }
 
-    public function viewFees($enrolment_id)
+    public function showStudentFeesView($enrolment_id)
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudents();
@@ -116,7 +116,7 @@ class StudentController extends Controller
         return view('Student.singleStudentManagement', compact('students', 'enrolment_id', 'studentpayments', $fees));
     }
 
-    public function updateStudent(Request $request)
+    public function showStudentUpdateView(Request $request)
     {
         $studentDAO = new StudentDAO();
         $object = $request->all();
@@ -125,7 +125,7 @@ class StudentController extends Controller
         return view('Student.singleStudentManagement')->with('students', $student);
     }
 
-    public function viewProgress($enrolment_id)
+    public function showStudentProgressView($enrolment_id)
     {
         $scoreDAO = new ScoreDAO();
         $studentProgress = $scoreDAO->getStudentProgress($enrolment_id);
