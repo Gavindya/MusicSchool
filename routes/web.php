@@ -15,7 +15,8 @@ Route::get('/', [
     'uses' => 'HomeController@index'
 ]);
 Route::get('/students', [
-    'uses'=> 'StudentController@getName'
+    'uses' => 'StudentController@getName'
+]);
 //Route::get('/Generate', [
 //    'uses' => 'SalaryController@generateSalary',
 //    'as' => 'generate'
