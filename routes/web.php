@@ -26,6 +26,8 @@ Route::post('/courses/{id}', 'CourseController@editCourse');
 /*
 |--------------------------------------------------------------------------
 | User / Login (Not needed really, because laravel provides this)
+| [Can implement default authentication middleware and override it with raw
+| sql queries. See the project. Authentication is already implemented]
 |--------------------------------------------------------------------------
 */
 Route::get('/user/add', [
@@ -120,15 +122,15 @@ Route::get('/TeacherInformation/ID/{id}', [
 |--------------------------------------------------------------------------
 */
 Route::get('/TeacherAttendence', [
-    'uses' => 'TeacherAttendenceController@showTeacherAttendanceView',
+    'uses' => 'TeacherAttendanceController@showTeacherAttendanceView',
     'as' => 'TeacherAttendence'
 ]);
 Route::get('/TeacherAttendence/{id}', [
-    'uses' => 'TeacherAttendenceController@showTeacherAttendanceInformationView',
+    'uses' => 'TeacherAttendanceController@showTeacherAttendanceInformationView',
     'as' => 'attendence'
 ]);
 Route::patch('/markAttenedence', [
-    'uses' => 'TeacherAttendenceController@addTeacherAttendance',
+    'uses' => 'TeacherAttendanceController@addTeacherAttendance',
 ]);
 
 /*

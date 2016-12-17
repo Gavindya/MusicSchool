@@ -29,7 +29,7 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudentNames();
-        return view('welcome')->with('students', $students);
+        return view('Student.studentManagement')->with('students', $students);
     }
 
 

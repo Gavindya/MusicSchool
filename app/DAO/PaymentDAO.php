@@ -87,7 +87,7 @@ class PaymentDAO
         return true;
     }
 
-    public function totalPaid(): double
+    public function totalPaid(): float
     {
         $conn = ConnectionManager::getConnection();
         $resultPeriod = $this->GetYearMonthString() . '%';
@@ -96,7 +96,7 @@ class PaymentDAO
         $statement = $conn->getPdo()->prepare($sql);
         $statement->bindValue("today", $resultPeriod);
 
-        return (double)$statement->fetchObject()->amount;
+        return (float)$statement->fetchObject()['amount'];
     }
 
     public function generatePayments($paymentsGenerated): bool
