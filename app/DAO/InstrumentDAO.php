@@ -12,7 +12,6 @@ use App\Domain\Instrument;
 use DB;
 use stdClass;
 
-
 class InstrumentDAO
 {
     public function getAllInstruments(): array
@@ -31,6 +30,14 @@ class InstrumentDAO
     {
         return DB::insert('INSERT INTO instruments (instrument_name) VALUES (:instrument_name)', [
             'instrument_name' => $instrument->instrument_name
+        ]);
+    }
+
+    public function updateInstrument(Instrument $instrument): int
+    {
+        return DB::update('UPDATE instruments SET instrument_name = :instrument_name WHERE instrument_id = :instrument_id', [
+            'instrument_name' => $instrument->instrument_name,
+            'instrument_id' => $instrument->instrument_id
         ]);
     }
 }

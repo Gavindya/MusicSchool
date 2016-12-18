@@ -14,4 +14,17 @@ class Timeslot extends BaseModel
     public $timeslot_id;
     public $start_time;
     public $end_time;
+
+    /**
+     * Timeslot constructor.
+     * @param $start_time
+     * @param $end_time
+     */
+    public function __construct($start_time, $end_time)
+    {
+        parent::__construct();
+        $this->start_time = $start_time;
+        $this->end_time = $end_time;
+    }
+
 }

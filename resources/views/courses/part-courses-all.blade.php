@@ -14,14 +14,14 @@
         </thead>
         <tbody>
         @foreach($courses as $course)
-            <tr onclick="window.location='/courses/{{$course['course_id']}}';">
-                <td>{{$course['course_name']}}</td>
-                <td>{{$course['credits']}}</td>
-                <td>{{$course['instrument_name']}}</td>
-                <td>{{$course['weekday']}}</td>
-                <td>{{$course['start_time'].' - '.$course['end_time']}}</td>
-                <td>{{$course['teacher_name']}}</td>
-                <td>{{$course['charges']}}</td>
+            <tr onclick="window.location='/courses/{{$course->course_id}}';">
+                <td>{{$course->course_name}}</td>
+                <td>{{$course->credits}}</td>
+                <td>{{$course->instrument_name}}</td>
+                <td>{{$course->weekday}}</td>
+                <td>{{$course->start_time.' - '.$course->end_time}}</td>
+                <td>{{$course->teacher_name}}</td>
+                <td>{{$course->charges}}</td>
             </tr>
         @endforeach
         </tbody>

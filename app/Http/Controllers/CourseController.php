@@ -7,6 +7,7 @@ use App\DAO\InstrumentDAO;
 use App\DAO\TeacherDAO;
 use App\DAO\TimeslotDAO;
 use App\Domain\Course;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -22,7 +23,7 @@ class CourseController extends Controller
         $this->middleware('auth');
     }
 
-    public function showCourseManagement() : View
+    public function showCourseManagement(): View
     {
         $courseDAO = new CourseDAO();
         $instrumentDAO = new InstrumentDAO();
@@ -35,14 +36,14 @@ class CourseController extends Controller
         $teachers = $teacherDAO->getAllTeachers();
 
         return view('courses.course-management', [
-            'courses' => json_decode(json_encode($courses), TRUE),
-            'instruments' => json_decode(json_encode($instruments), TRUE),
-            'timeslots' => json_decode(json_encode($timeslots), TRUE),
-            'teachers' => json_decode(json_encode($teachers), TRUE)
+            'courses' => $courses,
+            'instruments' => $instruments,
+            'timeslots' => $timeslots,
+            'teachers' => $teachers
         ]);
     }
 
-    public function showCourseDetails($id) : View
+    public function showCourseDetails($id): View
     {
         $courseDAO = new CourseDAO();
         $instrumentDAO = new InstrumentDAO();
@@ -59,18 +60,17 @@ class CourseController extends Controller
         $teachers = $teacherDAO->getAllTeachers();
 
         return view('courses.course-details')->with([
-            'course' => get_object_vars($course),
-            'instrument' => get_object_vars($instrument),
-            'timeslot' => json_decode(json_encode($timeslot), TRUE),
-            'teacher' => json_decode(json_encode($teacher), TRUE),
-            'instruments' => json_decode(json_encode($instruments), TRUE),
-            'timeslots' => json_decode(json_encode($timeslots), TRUE),
-            'teachers' => json_decode(json_encode($teachers), TRUE)
-
+            'course' => $course,
+            'instrument' => $instrument,
+            'timeslot' => $timeslot,
+            'teacher' => $teacher,
+            'instruments' => $instruments,
+            'timeslots' => $timeslots,
+            'teachers' => $teachers,
         ]);
     }
 
-    public function addCourse(Request $request)
+    public function addCourse(Request $request): RedirectResponse
     {
         $object = $request->all();
         $courseDAO = new CourseDAO();
@@ -83,11 +83,10 @@ class CourseController extends Controller
             $object['timeslot_id'],
             $object['charges'],
             $object['teacher_id']));
-
         return redirect()->back();
     }
 
-    public function editCourse(Request $request)
+    public function editCourse(Request $request): RedirectResponse
     {
         $object = $request->all();
         $courseDAO = new CourseDAO();
