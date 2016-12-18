@@ -20,6 +20,20 @@ class AdministrationController extends Controller
         $this->middleware('auth');
     }
 
+    public function showSchoolAdministration()
+    {
+        $timeslotDAO = new TimeslotDAO();
+        $instrumentDAO = new InstrumentDAO();
+
+        $timeslots = $timeslotDAO->getAllTimeslots();
+        $instruments = $instrumentDAO->getAllInstruments();
+
+        return view('administration.school-administration', [
+            'timeslots' => $timeslots,
+            'instruments' => $instruments
+        ]);
+    }
+
     public function addTimeslot(Request $request)
     {
         $object = $request->all();
