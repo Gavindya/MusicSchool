@@ -154,3 +154,24 @@ Route::get('/PayrollSummary', [
 Route::get('/PayrollSummary/ThisMonth', [
     'uses' => 'SalaryController@getSummaryThisMonth',
 ]);
+
+/*
+|--------------------------------------------------------------------------
+| Student Attendance
+|--------------------------------------------------------------------------
+*/
+Route::get('/Attendance/Class',[
+    'uses' => 'StudentAttendanceController@getClassAttendance'
+]);
+
+Route::post('/Attendance/Class',[
+    'uses' => 'StudentAttendanceController@showClassAttendance'
+]);
+
+Route::get('/Attendance/Student',[
+    'uses' => 'StudentAttendanceController@getStudentAttendance'
+]);
+
+Route::post('/Attendance/Student',[
+    'uses' => 'StudentAttendanceController@showStudentAttendance'
+]);

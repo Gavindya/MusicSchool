@@ -12,11 +12,49 @@ use DB;
 
 class AttendanceDAO
 {
-    public function getAttendance($course_id): array
+    public function getClassAttendance($course_id): array
     {
         return DB::select(
-            'SELECT * FROM attendance WHERE enrolment_id IN (SELECT enrolment_id FROM enrolments WHERE course_id = :course_id)', [
-            'course_id' => $course_id
+            'SELECT
+                enrolments.enrolment_id AS enrollment_id,
+                enrolments.is_active    AS status,
+                enrolments.student_id   AS student_id,
+                attendance.date         AS date,
+                student_name,
+                course_name
+            FROM
+              enrolments
+              NATURAL JOIN
+              students
+              NATURAL JOIN
+              courses
+              LEFT JOIN
+              attendance USING (enrolment_id)
+            WHERE enrolments.course_id = :courseId',[
+                'courseId' => $course_id
+        ]);
+    }
+
+    public function getStudentAttendance($student_id): array
+    {
+        return DB::select(
+            'SELECT
+                enrolments.enrolment_id AS enrollment_id,
+                enrolments.is_active    AS status,
+                enrolments.student_id   AS student_id,
+                attendance.date         AS date,
+                student_name,
+                course_name
+            FROM
+              enrolments
+              NATURAL JOIN
+              students
+              NATURAL JOIN
+              courses
+              LEFT JOIN
+              attendance USING (enrolment_id)
+            WHERE student_id = :studentId',[
+            'studentId' => $student_id
         ]);
     }
 

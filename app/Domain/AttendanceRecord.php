@@ -8,9 +8,13 @@
 
 namespace App\Domain;
 
-
 class AttendanceRecord extends BaseModel
 {
     public $enrolment_id;
     public $date;
+    public $student_status;
+    public $student_attendance;
+    public $student_id;
+    public $student_name;
+    public $course_name;
 }
