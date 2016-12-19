@@ -23,18 +23,29 @@
                 $("#classesTable").toggle();
 
             });
+            $("#re-password").keyup(checkPasswordMatch);
 
         });
 
         function edit() {
             document.getElementById("telephone").removeAttribute('readonly');
             document.getElementById("address").removeAttribute('readonly');
-            document.getElementById("username").removeAttribute('readonly');
             document.getElementById("instruments").removeAttribute('readonly');
             document.getElementById("password").removeAttribute('readonly');
             document.getElementById("re-password").removeAttribute('readonly');
             document.getElementById("update").removeAttribute('disabled');
         }
+        function checkPasswordMatch() {
+            var password = $("#password").val();
+            var confirmPassword = $("#re-password").val();
+
+            if (password != confirmPassword)
+                $("#divCheckPasswordMatch").html("Passwords do not match!");
+            else
+                $("#divCheckPasswordMatch").html("Passwords match");
+        }
+
+
     </script>
 
 </head>
@@ -44,7 +55,7 @@
     <hr style="margin: 0">
     <h2>Personal Details</h2>
     <div id="form" class="row">
-        <form method="post" action="/updateTeacher">
+        <form method="post" action="/updateTeacherHimself">
             {{method_field('PATCH')}}
             <div class="col-lg-4 col-md-4">
                 <div class="form-group">
@@ -57,37 +68,43 @@
                 </div>
                 <div class="form-group">
                     <label for="instruments">Instruments</label>
-                    <input type="text" class="form-control" id="instruments" name="instruments" readonly >
+                    <input type="text" class="form-control" id="instruments" name="instruments" value={{$instruments}} readonly >
                 </div>
             </div>
-            {{--<div class="col-lg-4 col-md-4">--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="username">Username</label>--}}
-                    {{--<input type="text" class="form-control" id="username" name="username" readonly>--}}
-                {{--</div>--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="password">Password</label>--}}
-                    {{--<input type="text" class="form-control" id="password" name="password" readonly>--}}
-                {{--</div>--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="re-password">Re-Enter Password</label>--}}
-                    {{--<input type="text" class="form-control" id="re-password" name="re-password" readonly>--}}
-                {{--</div>--}}
-            {{--</div>--}}
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label for="username">Username (must be more than 3 characters-all lowercase)</label>
+                    <input type="text" class="form-control" id="username" name="username" pattern="[a-z].{2,}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password (must be more than 3 characters)</label>
+                    <input type="password" class="form-control" id="password" pattern=".{3,}" name="password" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="re-password">Re-Enter Password</label>
+                    <input type="password" class="form-control" id="re-password" name="re_password"
+                           pattern=".{3,}" onChange="checkPasswordMatch()" readonly>
+                </div>
+                <div class="form-group" id="divCheckPasswordMatch"></div>
+
+            </div>
             <div class="col-lg-4 col-md-4">
                 <div class="form-group">
                     <label for="telephone">Telephone Number</label>
                     <input type="text" class="form-control" id="telephone" placeholder="Telephone Number"
-                           name="telephone" readonly value={{$teacher['teacher_telephone']}}>
+                           name="telephone" pattern="^\d{10}$" readonly value={{$teacher['teacher_telephone']}}>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
                     <input type="text" class="form-control" id="address" name="address" readonly
-                           value={{$teacher['teacher_address']}}>
+                           pattern=".{3,}" value={{$teacher['teacher_address']}}>
                 </div>
             </div>
             <div class="form-group container-fluid pull-left">
                 <button id="update" disabled type="submit" class="btn btn-primary">Update teacher</button>
+            </div>
+            <div class="form-group">
+                <button class="btn-primary btn" type="reset">Cancel</button>
             </div>
             {{csrf_field()}}
         </form>

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\DAO\CourseDAO;
 use App\DAO\InstrumentDAO;
 use App\DAO\TeacherDAO;
-use App\VO\TeacherVO;
+use App\Domain\Teacher;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Request;
+//use Illuminate\Support\Facades\Session;
+use Session;
 
 class TeacherController extends Controller
 {
@@ -32,17 +34,17 @@ class TeacherController extends Controller
     public function addTeacher(Request $request)
     {
         $dbTeacher = new TeacherDAO();
-        $teacher = new TeacherVO();
+        $teacher = new Teacher();
         if (isset($request->name)) {
-            $teacher->setName($request->name);
+            $teacher->setTeacherName($request->name);
         }
         if (isset($request->telephone)) {
-            $teacher->setTelephone($request->telephone);
+            $teacher->setTeacherTelephone($request->telephone);
         }
         if (isset($request->address)) {
-            $teacher->setAddress($request->address);
+            $teacher->setTeacherAddress($request->address);
         }
-        $teacher->setJoindate(date("y-m-d"));
+        $teacher->setTeacherJoindate(date("y-m-d"));
         $dbTeacher->addNewTeacher($teacher);
         return redirect()->route("TeacherManagement");
 
@@ -74,7 +76,7 @@ class TeacherController extends Controller
         $teachers->setPath('TeacherManagement');
 
         $dbInstrument = new InstrumentDAO();
-        $instrumentsResults = $dbInstrument->getAllInstruments();
+        $instrumentsResults = $dbInstrument->getInstrumentsAll();
 
 
         return view('TeacherManagement', ['teachers' => $teachers, 'instruments' => $instrumentsResults]);
@@ -87,12 +89,23 @@ class TeacherController extends Controller
         $payments = new SalaryController();
         $paymentsHistory = $payments->getPaymentsOfTeacher($id);
 
+        $instrumentsDAO = new InstrumentDAO();
+        $instruments = $instrumentsDAO->getInstrumentsForTeacher($id);
+
+        $instrumentList = "";
+
+        foreach($instruments as $ins){
+            $instrumentList=$ins['instrument_name'].",".$instrumentList;
+        }
+        echo var_dump($instrumentList);
         $clses = new CourseDAO();
         $clssAssigned = $clses->getCoursesOfTeacher($id);
 
         return view('TeacherInformation', ['teacher' => ($teachers),
             'payments' => ($paymentsHistory),
-            'classes' => ($clssAssigned)]);
+            'classes' => ($clssAssigned),
+            'instruments' => ($instrumentList)
+        ]);
     }
     public function updateTeacher(Request $request)
     {
@@ -104,5 +117,57 @@ class TeacherController extends Controller
         $dbCon->updateTeacher($telephone, $address, $id);
         echo "inside UPDATE";
         return redirect()->route('teacherInfo', ['id' => $id]);
+    }
+
+    public function updateTeacherHimself(Request $request){
+        $dbCon = new TeacherDAO();
+        $telephone = $request->telephone;
+        $address = $request->address;
+        $id = $request->id;
+        $username = $request->username;
+        $pw = $request->password;
+        $re_pw = $request->re_password;
+
+        $dbCon->updateTeacher($telephone, $address, $id);
+        $dbCon->updateUser($username,$pw);
+        echo "inside UPDATE";
+        return redirect()->route('teacher', ['id' => $id]);
+    }
+    public function resignTeacher($id)
+    {
+        $tdao = new TeacherDAO();
+        $msg = $tdao->setTeacherNotActive($id);
+        Session::flash('msg', $msg);
+        return redirect()->back();
+    }
+
+    public function getPersonalPage(){
+//        USING ID OF Teacher!
+        $id =1;
+        $credentials = null;
+        $dbCon = new TeacherDAO();
+        $teachers = $dbCon->getATeacher($id);
+
+        $payments = new SalaryController();
+        $paymentsHistory = $payments->getPaymentsOfTeacher($id);
+
+        $instrumentsDAO = new InstrumentDAO();
+        $instruments = $instrumentsDAO->getInstrumentsForTeacher($id);
+
+        $instrumentList = "";
+
+        foreach($instruments as $ins){
+            $instrumentList=$ins['instrument_name'].",".$instrumentList;
+        }
+        echo var_dump($instrumentList);
+        $clses = new CourseDAO();
+        $clssAssigned = $clses->getCoursesOfTeacher($id);
+
+        return view('Teacher', ['teacher' => ($teachers),
+            'payments' => ($paymentsHistory),
+            'classes' => ($clssAssigned),
+            'instruments' => ($instrumentList),
+            'credentials'=>($credentials)
+        ]);
     }
 }
