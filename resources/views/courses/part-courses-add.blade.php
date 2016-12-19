@@ -15,15 +15,19 @@
                 <input type="number" min="0" max="10" class="form-control" id="credits" placeholder="Credits"
                        name="credits">
             </div>
-            <div class="col-sm-4 form-group">
-                <label for="instrument-id">Instrument</label>
-                <select class="form-control" id="instrument-id" name="instrument_id">
-                    <option selected disabled>Choose here</option>
-                    @foreach($instruments as $instrument)
-                        <option value="{{$instrument->instrument_id}}">{{$instrument->instrument_name}}</option>
-                    @endforeach
-                </select>
-            </div>
+            {{--<form id="ioi" method="post" action="{{route('filter')}}">--}}
+                {{--{{csrf_field()}}--}}
+                {{--{{method_field('patch')}}--}}
+                <div class="col-sm-4 form-group">
+                    <label for="instrument-id">Instrument</label>
+                    <select class="form-control" id="instrument-id" name="instrument_id" onchange="sub()">
+                        <option selected disabled>Choose here</option>
+                        @foreach($instruments as $instrument)
+                            <option value="{{$instrument->instrument_id}}">{{$instrument->instrument_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            {{--</form>--}}
             <div class="col-sm-4 form-group">
                 <label for="weekday-input">Weekday</label>
                 <select class="form-control" id="weekday-input" name="weekday">
@@ -65,3 +69,4 @@
         </form>
     </div>
 </div>
+
