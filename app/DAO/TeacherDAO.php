@@ -4,6 +4,7 @@ namespace App\DAO;
 
 use App\Domain\Teacher;
 use DB;
+use Crypt;
 
 class TeacherDAO
 {
@@ -56,6 +57,17 @@ class TeacherDAO
         ]);
     }
 
+    public function updateUser($username,$pw){
+
+        $password = Crypt::encrypt($pw);
+        $decrypted = Crypt::decrypt($password);
+
+//        return DB::update(
+//            'UPDATE `users` SET `password` = :pw WHERE `username` = :username', [
+//            'password' => $password,
+//            'username' => $username ]);
+    }
+
     public function recordAttendence($id, $arrive, $depart)
     {
         $today = date("y-m-d");
@@ -97,6 +109,7 @@ class TeacherDAO
         $today = date("y-m-d");
         $result = DB::selectOne('SELECT * FROM `work` WHERE `work_date`=:today AND `teacher_id`=:id', ['id' => $id, 'today' => $today]);
         $result = json_decode(json_encode($result), TRUE);
+//        echo dd($result);
         return $result;
     }
 
@@ -121,6 +134,20 @@ class TeacherDAO
             }
         }
         return $resultsNotNull;
+    }
+    
+    public function setTeacherNotActive($id){
+        $q = DB::update(
+            "UPDATE `teachers` SET `active` = 0 WHERE `teacher_id` = :id ", [
+            'id' => $id ]);
+        
+        if($q===1){
+            return "Successfully resigned teacher";
+        }
+        else{
+            return "Problem occured in resigning teacher";
+        }
+        
     }
 
     //////// METHODS IMPLEMENTED IN MY SECTION (YASITH) :) DONT DELETE

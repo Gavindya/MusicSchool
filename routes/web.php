@@ -107,24 +107,41 @@ Route::post('/student/subscribe', [
 | Teacher Management
 |--------------------------------------------------------------------------
 */
-Route::get('/Teacher', [
-    'uses' => 'TeacherController@getTeachersNames',
-
-]);
+//Route::get('/Teacher', [
+//    'uses' => 'TeacherController@getTeachersNames',
+//]);
 Route::patch('/addTeacher', [
     'uses' => 'TeacherController@addTeacher',
 ]);
+
 Route::patch('/updateTeacher', [
     'uses' => 'TeacherController@updateTeacher',
     'as' => 'updateTeacher'
 ]);
+
+Route::patch('/updateTeacherHimself', [
+    'uses' => 'TeacherController@updateTeacherHimself',
+    'as' => 'updateTeacherHimself'
+]);
+
 Route::get('/TeacherManagement', [
     'uses' => 'TeacherController@getTeachersForManagement',
     'as' => 'TeacherManagement'
 ]);
+
 Route::get('/TeacherInformation/ID/{id}', [
     'uses' => 'TeacherController@getTeacherInformation',
     'as' => 'teacherInfo'
+]);
+
+Route::get('/Teacher', [
+    'uses' => 'TeacherController@getPersonalPage',
+    'as'=>'teacher'
+]);
+
+Route::get('/Resign/{id}', [
+    'uses' => 'TeacherController@resignTeacher',
+    'as' => 'resign'
 ]);
 
 /*
@@ -133,17 +150,18 @@ Route::get('/TeacherInformation/ID/{id}', [
 |--------------------------------------------------------------------------
 */
 Route::get('/TeacherAttendence', [
-    'uses' => 'TeacherAttendanceController@showTeacherAttendanceView',
+    'uses' => 'TeacherAttendanceController@getTeachersForAttendence',
     'as' => 'TeacherAttendence'
 ]);
+
 Route::get('/TeacherAttendence/{id}', [
-    'uses' => 'TeacherAttendanceController@showTeacherAttendanceInformationView',
+    'uses' => 'TeacherAttendanceController@getTeacherAttendenceInformation',
     'as' => 'attendence'
 ]);
-Route::patch('/markAttenedence', [
-    'uses' => 'TeacherAttendanceController@addTeacherAttendance',
-]);
 
+Route::patch('/markAttenedence', [
+    'uses' => 'TeacherAttendanceController@markAttendence',
+]);
 /*
 |--------------------------------------------------------------------------
 | Teacher Payments
@@ -153,12 +171,15 @@ Route::get('/Payrole', [
     'uses' => 'SalaryController@getAllPayments',
     'as' => 'salaryController'
 ]);
+
 Route::get('/Payrole/ThisMonth', [
     'uses' => 'SalaryController@getPaymentsOfThisMonth',
 ]);
+
 Route::patch('/payTeachers', [
     'uses' => 'SalaryController@payTeachers',
 ]);
+
 Route::get('/PayrollSummary', [
     'uses' => 'SalaryController@getSummary',
 ]);

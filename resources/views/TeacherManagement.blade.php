@@ -54,15 +54,15 @@
     <form method="post" action="/addTeacher">
         {{method_field('PATCH')}}
         <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">*Name</label>
             <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z].{2,}" required>
         </div>
         <div class="form-group">
-            <label for="address">Address</label>
+            <label for="address">*Address</label>
             <input type="text" class="form-control" id="address" placeholder="Address" name="address" pattern=".{3,}" required>
         </div>
         <div class="form-group">
-            <label for="telephone">Telephone (format: 0xxxxxxxx):</label>
+            <label for="telephone">*Telephone (format: 0xxxxxxxx):</label>
             <input type="tel" class="form-control" id="telephone" placeholder="Telephone" name="telephone" pattern="^\d{10}$" required >
         </div>
         <label>Instruments</label>

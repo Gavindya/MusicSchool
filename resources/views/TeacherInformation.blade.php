@@ -29,10 +29,7 @@
         function edit() {
             document.getElementById("telephone").removeAttribute('readonly');
             document.getElementById("address").removeAttribute('readonly');
-            document.getElementById("username").removeAttribute('readonly');
             document.getElementById("instruments").removeAttribute('readonly');
-            document.getElementById("password").removeAttribute('readonly');
-            document.getElementById("re-password").removeAttribute('readonly');
             document.getElementById("update").removeAttribute('disabled');
         }
     </script>
@@ -43,50 +40,63 @@
     <h1>Teacher Management</h1>
     <hr style="margin: 0">
     <h2>Personal Details</h2>
+    <div>
+        <div id="msgArea">
+            @if(Session::has('msg'))
+                <p class="alert alert-info">{{ Session::get('msg') }}
+                    <button id="m" class="glyphicon glyphicon-remove pull-right"></button></p>
+            @endif
+        </div>
+    </div>
     <div id="form" class="row">
         <form method="post" action="/updateTeacher">
             {{method_field('PATCH')}}
-            <div class="col-lg-4 col-md-4">
+            <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" placeholder="ID" readonly name="id" value={{$teacher['teacher_id']}}>
                 </div>
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" readonly value={{$teacher['teacher_name']}}>
+                    <input type="text" class="form-control" id="name" name="name" readonly
+                           value={{$teacher['teacher_name']}}>
                 </div>
                 <div class="form-group">
                     <label for="instruments">Instruments</label>
-                    <input type="text" class="form-control" id="instruments" name="instruments" readonly>
+                    <input type="text" class="form-control" id="instruments" name="instruments" value={{$instruments}} readonly>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="text" class="form-control" id="password" name="password" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="re-password">Re-Enter Password</label>
-                    <input type="text" class="form-control" id="re-password" name="re-password" readonly>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4">
+            {{--<div class="col-lg-4 col-md-4">--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="username">Username</label>--}}
+                    {{--<input type="text" class="form-control" id="username" name="username" readonly>--}}
+                {{--</div>--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="password">Password</label>--}}
+                    {{--<input type="text" class="form-control" id="password" name="password" readonly>--}}
+                {{--</div>--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="re-password">Re-Enter Password</label>--}}
+                    {{--<input type="text" class="form-control" id="re-password" name="re-password" readonly>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                     <label for="telephone">Telephone Number</label>
                     <input type="text" class="form-control" id="telephone" placeholder="Telephone Number"
-                           name="telephone" readonly value={{$teacher['teacher_telephone']}}>
+                           name="telephone" pattern="^\d{10}$" readonly value={{$teacher['teacher_telephone']}}>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" readonly value={{$teacher['teacher_address']}}>
+                    <input type="text" class="form-control" id="address" name="address" pattern=".{3,}"
+                           readonly value={{$teacher['teacher_address']}}>
                 </div>
             </div>
             <div class="form-group container-fluid pull-left">
                 <button id="update" disabled type="submit" class="btn btn-primary">Update teacher</button>
+            </div>
+            <div class="form-group">
+                <button class="btn-primary btn" type="reset">Cancel</button>
             </div>
             {{csrf_field()}}
         </form>
@@ -95,7 +105,9 @@
             <input type="button" id="edit" onclick="edit()" value="Edit" class="btn-primary btn"/>
             {{--FOR NOW REDIRECTS TO PAYROLE> SHOULD BE FUNCTION FOR RESIGN--}}
             {{--*DO THIS*--}}
-            <a href="{{ route('salaryController') }}" type="button" class="btn btn-primary">Resign</a>
+            <a href="{{ route('resign',['id' => $teacher['teacher_id']])}}"
+               onclick="return confirm('Are you sure you want to resign {{$teacher['teacher_name']}}?')"
+               class="btn-primary btn">Resign</a>
         </div>
     </div>
     <hr>

@@ -47,4 +47,11 @@ class InstrumentDAO
             'instrument_id' => $instrument->instrument_id
         ]);
     }
+    public function getInstrumentsForTeacher($id){
+        $instruments = DB::select('SELECT instruments.instrument_name FROM teaches
+                                  LEFT JOIN instruments on teaches.instrument_id = instruments.instrument_id
+                                  WHERE teaches.teacher_id=:id', ['id' => $id]);
+        $instrumentsResults =json_decode(json_encode($instruments), TRUE);
+        return $instrumentsResults;
+    }
 }
