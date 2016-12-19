@@ -120,7 +120,7 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $object = $request->all();
-        $student = new Student($object['student_name'], $object['student_address'], $object['student_telephone']);
+        $student = new Student($object['student_firstname'],$object['student_lastname'], $object['student_address'], $object['student_telephone']);
         $studentDAO->updateStudent($student);
         return view('Student.singleStudentManagement')->with('students', $student);
     }

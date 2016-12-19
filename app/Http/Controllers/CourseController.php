@@ -9,6 +9,7 @@ use App\DAO\TimeslotDAO;
 use App\Domain\Course;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\View\View;
 
 class CourseController extends Controller
@@ -83,6 +84,7 @@ class CourseController extends Controller
             $object['timeslot_id'],
             $object['charges'],
             $object['teacher_id']));
+
         return redirect()->back();
     }
 
@@ -113,5 +115,8 @@ class CourseController extends Controller
         array_push($clsDetails, "4:30");
         array_push($clsDetails, "6:30");
         return $clsDetails;
+    }
+    public function filter(Request $request){
+        echo dd($request->all());
     }
 }

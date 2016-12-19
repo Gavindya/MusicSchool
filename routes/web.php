@@ -19,6 +19,12 @@
 
 Route::get('/courses', 'CourseController@showCourseManagement');
 Route::post('/courses', 'CourseController@addCourse');
+//Route::patch('/filter', 'CourseController@filter');
+Route::patch('/filter', [
+    'uses' => 'CourseController@filter',
+    'as'=>'filter'
+]);
+
 
 Route::get('/courses/{id}', 'CourseController@showCourseDetails');
 Route::post('/courses/{id}', 'CourseController@editCourse');
