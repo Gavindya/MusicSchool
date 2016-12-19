@@ -16,12 +16,12 @@ use stdClass;
 class CourseDAO
 {
 
-    public function getAllCourses(): array
+    public function getAllCourses()
     {
         return DB::select('SELECT * FROM course_details');
     }
 
-    public function getCourseByCourseId($id): stdClass
+    public function getCourseByCourseId($id)
     {
         return DB::selectOne('SELECT * FROM course_details WHERE course_id = :id', ['id' => $id]);
     }
@@ -33,7 +33,7 @@ class CourseDAO
         return $courseDetails;
     }
 
-    public function addNewCourse(Course $course): bool
+    public function addNewCourse(Course $course)
     {
         return DB::insert(
             'INSERT INTO courses (course_name, instrument_id, weekday, timeslot_id, charges, teacher_id) VALUES (:course_name, :instrument_id, :weekday, :timeslot_id, :charges, :teacher_id)', [
@@ -46,7 +46,7 @@ class CourseDAO
         ]);
     }
 
-    public function updateCourse(Course $course): int
+    public function updateCourse(Course $course)
     {
         return DB::update(
             'UPDATE courses SET course_name = :course_name, instrument_id = :instrument_id, weekday = :weekday, timeslot_id = :timeslot_id, charges = :charges, teacher_id = :teacher_id WHERE course_id = :course_id', [

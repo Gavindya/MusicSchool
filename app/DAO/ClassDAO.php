@@ -9,15 +9,15 @@
 namespace app\DbModels;
 
 
-use App\DbConnection\DBConnection;
+use App\DAO\ConnectionManager;
 use mysqli;
 
-class ClassTableConnector
+class ClassDAO
 {
 
     public function getClassDetails(mysqli $conn)
     {
-        $conn = DBConnection::openConnection();
+        $conn = ConnectionManager::openConnection();
         $sql = "SELECT `id`, `teacher_id`, `instrument_id`,`charges` FROM `courses`";
         $result = $conn->query($sql);
 

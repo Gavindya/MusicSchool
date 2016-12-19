@@ -12,7 +12,7 @@ use mysqli;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class EnrollTableConnector
+class EnrollDAO
 {
     public function enroll(mysqli $conn, Request $request, Array $array)
     {

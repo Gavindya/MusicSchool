@@ -13,14 +13,14 @@ use App\Domain\Guardian;
 
 class GuardianDAO
 {
-    public function getGuardianNames(): array
+    public function getGuardianNames()
     {
         $conn = ConnectionManager::getPDO();
         $sql = "SELECT guardian_name FROM guardians";
         return $conn->query($sql)->fetchAll();
     }
 
-    public function addGuardian(Guardian $guardian): bool
+    public function addGuardian(Guardian $guardian)
     {
         $conn = ConnectionManager::getPDO();
         $sql = "INSERT INTO guardians (guardian_name, guardian_telephone) VALUES (:guardian_name, :guardian_telephone)";
@@ -31,7 +31,7 @@ class GuardianDAO
         ]);
     }
 
-    public function getGuardians(): array
+    public function getGuardians()
     {
         $conn = ConnectionManager::getPDO();
         $sql = "SELECT * FROM guardians";
