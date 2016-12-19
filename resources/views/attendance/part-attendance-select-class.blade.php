@@ -19,7 +19,6 @@
             <div class="col-sm-4 form-group">
                 <label for="filter">Filter By</label>
                 <select class="form-control" id="filter" name="filter">
-                    <option selected disabled>Choose here</option>
                     <option value="All">All</option>
                     <option value="Present">Present</option>
                     <option value="Absent">Absent</option>
