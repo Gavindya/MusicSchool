@@ -1,47 +1,47 @@
 
 <div class="form-group">
-    <label for="firstname"><span class="req">* </span> First name: </label>
-    <input class="form-control" placeholder="Enter Name" class="col-lg-2" type="text" name="first_name"
-           value="{{old('first_name')}}" id="txt" onkeyup="Validate(this)"
+    <label for="student_firstname"><span class="req">* </span> First name: </label>
+    <input class="form-control" placeholder="Enter Name" class="col-lg-2" type="text" name="student_firstname"
+           value="{{old('student_firstname')}}" id="student_firstname" onkeyup="Validate(this)"
            required/>
     <div id="errFirst"></div>
 </div>
 
 
 <div class="form-group">
-    <label for="lastname"><span class="req">* </span> Last name: </label>
-    <input class="form-control" placeholder="Enter last name" type="text" name="last_name" id="txt"
+    <label for="student_lastname"><span class="req">* </span> Last name: </label>
+    <input class="form-control" placeholder="Enter last name" type="text" name="student_lastname" id="student_lastname"
            onkeyup="Validate(this)"
-           value="{{old('last_name')}}" required/>
+           value="{{old('student_lastname')}}" required/>
     <div id="errLast"></div>
 </div>
 
 
 <div class="form-group">
-    <label for="phonenumber"><span class="req">* </span> Phone Number: </label>
-    <input required type="text" name="student_phone_number" id="phone" value="{{old('student_phone_number')}}"
+    <label for="student_telephone"><span class="req">* </span> Phone Number: </label>
+    <input required type="text" name="student_telephone" id="student_telephone" value="{{old('student_telephone')}}"
            class="form-control phone"
            onkeyup="validatephone(this);" placeholder=" Enter Phone Number"/>
 </div>
 
 
 <div class="form-group">
-    <label for="email"><span class="req">* </span> Address: </label>
+    <label for="student_address"><span class="req">* </span> Address: </label>
     <input class="form-control" value="{{old('student_address')}}" placeholder="Enter Address" required type="text"
-           name="student_address" id="txt"/>
+           name="student_address" id="student_address"/>
     <div class="status" id="status"></div>
 </div>
 
 <div class="form-group">
-    <label for="firstname"><span class="req">* </span>Guardian name: </label>
+    <label for="guardian_name"><span class="req">* </span>Guardian name: </label>
     <input class="form-control" placeholder="Enter Phone Number" value="{{old('guardian_name')}}" type="text"
-           name="guardian_name" id="phone" onkeyup="Validate(this)" required/>
+           name="guardian_name" id="guardian_name" onkeyup="Validate(this)" required/>
     <div id="errFirst"></div>
 </div>
 
 <div class="form-group">
-    <label for="phonenumber"><span class="req">* </span> Guardian Phone Number: </label>
-    <input required type="text" value="{{old('guardian_phone')}}" name="guardian_phone" id="phone"
+    <label for="guardian_telephone"><span class="req">* </span> Guardian Phone Number: </label>
+    <input required type="text" value="{{old('guardian_telephone')}}" name="guardian_telephone" id="guardian_telephone"
            class="form-control phone" maxlength="28"
            onkeyup="validatephone(this);" placeholder="Enter PhonNumber"/>
 </div>
