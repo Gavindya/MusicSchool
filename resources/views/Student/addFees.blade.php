@@ -22,11 +22,14 @@
 
 @endsection
 @section('headline')
-    Student Management
+    Add Fees
 @endsection
 @section('content')
+    @if (Session::has('msg'))
+        <div class="alert alert-success">{{ Session::get('msg') }}</div>
+    @endif
 
-    <form action=/student/management/search method="post">
+    <form action=/student/fees/search method="post">
         {{method_field('PATCH')}}
         @include('Student.partials.searchBar')
         {{csrf_field()}}
@@ -53,17 +56,12 @@
                         <tr>
                             <div>
                                 <td class=> {{$students[$i]['id']}}</td>
-                                <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['name']}}</a>
+                                <td><a href="/student/fees/{{$students[$i]['id']}}">{{$students[$i]['name']}}</a></td>
+                                <td><a href="/student/fees/{{$students[$i]['id']}}">{{$students[$i]['address']}}</a>
                                 </td>
-                                <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['address']}}</a>
+                                <td><a href="/student/fees/{{$students[$i]['id']}}">{{$students[$i]['telephone']}}</a>
                                 </td>
-                                <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['telephone']}}</a>
-                                </td>
-                                <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['created_at']}}</a>
+                                <td><a href="/student/fees/{{$students[$i]['id']}}">{{$students[$i]['created_at']}}</a>
                                 </td>
 
                             </div>

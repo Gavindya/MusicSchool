@@ -24,27 +24,6 @@
 @endsection
 @section('content')
     The student is {{$id}}
-    <div class="row">
-    <div class="dropdown ">
-        <button class="btn btn-default dropdown-toggle col-lg-5" data-toggle="dropdown" aria-expanded="false"
-                type="button" name="student-id">Select a student <span class="caret"></span></button>
-        <ul class="dropdown-menu col-lg-5" role="menu" name="student">
-            <li><a href="#">First Item</a></li>
-            <li><a href="#">Second Item</a></li>
-            <li><a href="#">Third Item</a></li>
-            @for($i =0; $i < sizeof($students); $i++)
-
-
-                <li value="{{$i}}"><a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['name']}}</a>
-                </li>
-            @endfor
-
-
-        </ul>
-    </div>
-    </div>
-
-
         <div class="container-fluid ">
             <div class="table-responsive ">
                 <table class="table">
@@ -63,11 +42,11 @@
 
                         <tr>
                             <div>
-                                <td class=>{{$studentpayments[$i]['id']}}</td>
-                                <td>{{$studentpayments[$i]['enroll_id']}}</td>
-                                <td>{{$studentpayments[$i]['amount']}}</td>
+                                <td class=>{{$studentpayments[$i]['student_id']}}</td>
+                                <td>{{$studentpayments[$i]['enrolment_id']}}</td>
+                                <td>{{$studentpayments[$i]['fee_amount']}}</td>
                                 <td>{{$studentpayments[$i]['created_at']}}</td>
-                                <td>{{$studentpayments[$i]['note']}}</td>
+                                <td>{{$studentpayments[$i]['is_paid']}}</td>
 
                             </div>
 
@@ -79,14 +58,23 @@
             </div>
         </div>
 
+    <div class="container">
+
+        <button type="button" href="/student/progress/{{$id}}" class="btn btn-info col-lg-3"><a
+                    href="/student/progress/{{$id}}"> View Progress</a></button>
+
+
+    </div>
+
+
 
     <div>
         <div class="col-lg-6">
         <h1> Edit Student Information </h1>
             <form action="/student/{{$id}}/update " method="POST">
-            {{csrf_token()}}
 
-            <div class="form-group">
+
+                <div class="form-group">
                 <label for="firstname"><span class="req">* </span> First name: </label>
                 <input class="form-control" type="text" name="name" value="{{$students[$id-1]['name']}}" id="txt"
                        onkeyup="Validate(this)" required/>
@@ -130,21 +118,7 @@
                        onkeyup="validatephone(this);" placeholder="not used for marketing"/>
             </div>
 
-            <div class="form-group">
-                <label for="class"><span class="req">*</span> Class:</label>
 
-                <select class="form-control" name="class_id">
-                    <option value="">-- Select a class --</option>
-                    <option value="c1">Class1</option>
-                    <option value="c2">Class2</option>
-                    <option value="c3">Class3</option>
-                    <option value="c4">Class4</option>
-                    <option value="c5">Class5</option>
-                    <option value="c6">Class6</option>
-                    <option value="c7">Class7</option>
-                </select>
-
-            </div>
 
 
             <div class="form-group">
