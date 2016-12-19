@@ -1,7 +1,7 @@
 
 <div class="form-group">
     <label for="firstname"><span class="req">* </span> First name: </label>
-    <input class="form-control" placeholder="Enter Name" class="col-lg-2" type="text" name="first_name"
+    <input class="form-control" placeholder="Enter Name" class="col-lg-2" type="text" name="student_firstname"
            value="{{old('first_name')}}" id="txt" onkeyup="Validate(this)"
            required/>
     <div id="errFirst"></div>
@@ -10,7 +10,7 @@
 
 <div class="form-group">
     <label for="lastname"><span class="req">* </span> Last name: </label>
-    <input class="form-control" placeholder="Enter last name" type="text" name="last_name" id="txt"
+    <input class="form-control" placeholder="Enter last name" type="text" name="student_lastname" id="txt"
            onkeyup="Validate(this)"
            value="{{old('last_name')}}" required/>
     <div id="errLast"></div>
@@ -19,7 +19,7 @@
 
 <div class="form-group">
     <label for="phonenumber"><span class="req">* </span> Phone Number: </label>
-    <input required type="text" name="student_phone_number" id="phone" value="{{old('student_phone_number')}}"
+    <input required type="text" name="student_telephone" id="phone" value="{{old('student_phone_number')}}"
            class="form-control phone"
            onkeyup="validatephone(this);" placeholder=" Enter Phone Number"/>
 </div>
@@ -46,7 +46,7 @@
 </div>
 <div class="form-group">
     <label for="phonenumber"><span class="req">* </span> Guardian Phone Number: </label>
-    <input required type="text" value="{{old('guardian_phone')}}" name="guardian_phone" id="phone"
+    <input required type="text" value="{{old('guardian_phone')}}" name="guardian_telephone" id="phone"
            class="form-control phone" maxlength="28"
            onkeyup="validatephone(this);" placeholder="Enter PhonNumber"/>
 </div>

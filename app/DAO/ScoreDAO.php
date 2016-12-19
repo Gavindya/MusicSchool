@@ -14,14 +14,14 @@ use stdClass;
 
 class ScoreDAO
 {
-    public function getScores($assignment_id): array
+    public function getScores($assignment_id)
     {
         return DB::select(
             'SELECT * FROM scores WHERE assignment_id = :assignment_id', [
             'assignment_id' => $assignment_id]);
     }
 
-    public function addScore(Score $score): bool
+    public function addScore(Score $score)
     {
         return DB::insert('INSERT INTO scores (assignment_id, score, enrolment_id) VALUES (:assignment_id, :score, :enrolment_id)', [
             'assignment_id' => $score->assignment_id,
@@ -30,7 +30,7 @@ class ScoreDAO
         ]);
     }
 
-    public function getScoreForStudent($assignment_id, $enrolment_id): stdClass
+    public function getScoreForStudent($assignment_id, $enrolment_id)
     {
         return DB::selectOne(
             'SELECT * FROM scores WHERE assignment_id = :assignment_id AND enrolment_id = :enrolment_id', [
@@ -39,7 +39,7 @@ class ScoreDAO
         ]);
     }
 
-    public function getStudentProgress($enrolment_id): stdClass
+    public function getStudentProgress($enrolment_id)
     {
         return DB::selectOne(
             'SELECT * FROM scores WHERE enrolment_id = :enrolment_id', [

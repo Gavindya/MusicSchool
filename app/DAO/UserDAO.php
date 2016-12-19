@@ -13,7 +13,7 @@ use App\DAO\ConnectionManager;
 
 class UserDAO
 {
-    public function addUser(User $user): bool
+    public function addUser(User $user)
     {
         $conn = ConnectionManager::getPDO();
         $sql = "INSERT INTO `users` (name, email, password) VALUES (:name, :email, :password)";
@@ -25,7 +25,7 @@ class UserDAO
         ]);
     }
 
-    public function checkUser($email, $password): array
+    public function checkUser($email, $password)
     {
         $conn = ConnectionManager::getPDO();
         $sql = "SELECT `password` FROM `users` WHERE email = :email AND password = :password";

@@ -16,6 +16,6 @@ class HomeController extends Controller
 
  
     public function index(){
-        return view('admin_home.home');
+        return view('LandingPages.Admin.admin');
     }
 }

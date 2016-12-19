@@ -79,7 +79,9 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudents();
-        return view('Student.newClass', compact('students'));
+        $search=0;
+//        echo dd($students);
+        return view('Student.newClass', compact('students','search'));
     }
 
     public function addNewEnrolment(Request $request)

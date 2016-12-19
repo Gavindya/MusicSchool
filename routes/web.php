@@ -44,9 +44,9 @@ Route::post('/administration/instruments/edit', 'SchoolAdministrationController@
 Route::get('/user/add', [
     'uses' => 'UserController@showAddUserView'
 ]);
-Route::get('/login', [
-    'uses' => 'LogInController@showLoginView'
-]);
+//Route::get('/login', [
+//    'uses' => 'LogInController@showLoginView'
+//]);
 
 Route::post('/user/add/store', [
     'uses' => 'UserController@addUser'

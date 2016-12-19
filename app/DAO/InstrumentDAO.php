@@ -14,7 +14,7 @@ use stdClass;
 
 class InstrumentDAO
 {
-    public function getAllInstruments(): array
+    public function getAllInstruments()
     {
         return DB::select('SELECT * FROM instruments');
     }
@@ -26,14 +26,14 @@ class InstrumentDAO
         return $instrumentsResults;
     }
 
-    public function getInstrumentById($id): stdClass
+    public function getInstrumentById($id)
     {
         return DB::selectOne('SELECT * FROM instruments WHERE instrument_id = :instrument_id', [
             'instrument_id' => $id
         ]);
     }
 
-    public function addInstrument(Instrument $instrument): bool
+    public function addInstrument(Instrument $instrument)
     {
         return DB::insert('INSERT INTO instruments (instrument_name) VALUES (:instrument_name)', [
             'instrument_name' => $instrument->instrument_name

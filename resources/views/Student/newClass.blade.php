@@ -26,7 +26,7 @@
 
 @section('content')
 
-    <form action="/class/search/students" method="post">
+    <form action=/class/search/students method="post">
         {{method_field('PATCH')}}
 
         {{csrf_field()}}
@@ -69,12 +69,12 @@
                             <tr>
                                 <div>
                                     <td class=>
-                                        <button href="/adddata/newClass">{{$students[$i]['id']}}</button>
+                                        <button href="/adddata/newClass">{{$students[$i]['student_id']}}</button>
                                     </td>
-                                    <td>{{$students[$i]['name']}}</td>
-                                    <td>{{$students[$i]['address']}}</td>
-                                    <td>{{$students[$i]['telephone']}}</td>
-                                    <td>{{$students[$i]['created_at']}}</td>
+                                    <td>{{$students[$i]['student_name']}}</td>
+                                    <td>{{$students[$i]['student_address']}}</td>
+                                    <td>{{$students[$i]['student_telephone']}}</td>
+                                    <td>{{$students[$i]['student_joindate']}}</td>
 
                                 </div>
 

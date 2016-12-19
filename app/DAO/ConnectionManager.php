@@ -9,7 +9,7 @@ abstract class ConnectionManager
 {
     private static $connection;
 
-    public static function getConnection(): Connection
+    public static function getConnection()
     {
         // Check if connection already exists
         if (!isset(ConnectionManager::$connection)) {
@@ -29,7 +29,7 @@ abstract class ConnectionManager
         return ConnectionManager::$connection;
     }
 
-    public static function getPDO(): PDO
+    public static function getPDO()
     {
         return self::getConnection()->getPdo();
     }
