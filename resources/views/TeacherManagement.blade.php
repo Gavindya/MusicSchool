@@ -14,6 +14,10 @@
             $(".clickable-row").click(function () {
                 window.document.location = $(this).data("href");
             });
+            $("#toggleAddTeacher").click(function () {
+                $("#addTeacher").toggle();
+
+            });
         });
     </script>
 </head>
@@ -50,38 +54,42 @@
 </div>
 <div class="container">
     <h2>Add New Teacher</h2>
+    <div class="container-fluid pull-right">
+        <button id="toggleAddTeacher" class="btn-primary btn glyphicon glyphicon-collapse-down"></button>
+    </div>
     <hr>
-    <form method="post" action="/addTeacher">
-        {{method_field('PATCH')}}
-        <div class="form-group">
-            <label for="name">*Name</label>
-            <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z].{2,}" required>
-        </div>
-        <div class="form-group">
-            <label for="address">*Address</label>
-            <input type="text" class="form-control" id="address" placeholder="Address" name="address" pattern=".{3,}" required>
-        </div>
-        <div class="form-group">
-            <label for="telephone">*Telephone (format: 0xxxxxxxx):</label>
-            <input type="tel" class="form-control" id="telephone" placeholder="Telephone" name="telephone" pattern="^\d{10}$" required >
-        </div>
-        <label>Instruments</label>
-        <div class="container">
-            @for($i =0; $i < sizeof($instruments); $i++)
-            <div class="checkbox">
-                <label><input type="checkbox" value="">{{$instruments[$i]['instrument_name']}}</label>
+    <div id="addTeacher" class="collapse">
+        <form method="post" action="/addTeacher">
+            {{method_field('PATCH')}}
+            <div class="form-group">
+                <label for="name">*Name</label>
+                <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z].{2,}" required>
             </div>
-            @endfor
-        </div>
+            <div class="form-group">
+                <label for="address">*Address</label>
+                <input type="text" class="form-control" id="address" placeholder="Address" name="address" pattern=".{3,}" required>
+            </div>
+            <div class="form-group">
+                <label for="telephone">*Telephone (format: 0xxxxxxxx):</label>
+                <input type="tel" class="form-control" id="telephone" placeholder="Telephone" name="telephone" pattern="^\d{10}$" required >
+            </div>
+            <label>Instruments</label>
+            <div class="container">
+                @for($i =0; $i < sizeof($instruments); $i++)
+                <div class="checkbox">
+                    <label><input type="checkbox" value="">{{$instruments[$i]['instrument_name']}}</label>
+                </div>
+                @endfor
+            </div>
 
-        <div class="form-group">
-            <button type="submit">Add teacher</button>
-        </div>
-        {{csrf_field()}}
-    </form>
-
+            <div class="form-group">
+                <button type="submit">Add teacher</button>
+            </div>
+            {{csrf_field()}}
+        </form>
+    </div>
     <hr>
-    <a href="{{ route('salaryController') }}" type="button" class="btn btn-primary">Payrole</a>
+    <a href="{{ route('payrollSummary') }}" type="button" class="btn btn-primary">Payrole</a>
 </div>
 </body>
 </html>

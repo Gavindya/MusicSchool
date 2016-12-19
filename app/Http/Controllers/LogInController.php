@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UserDAO;
+use Auth;
 use Illuminate\Http\Request;
 use Session;
 
@@ -37,4 +38,13 @@ class LogInController extends Controller
             return redirect()->back();
         }
     }
+//    public function routeHandle(){
+//        $user =  Auth::user();
+//
+//        if($user->type === "Admin"){
+//            return view('adminLanding');
+//        }else{
+//            return view('TeacherManagement');
+//        }
+//    }
 }
