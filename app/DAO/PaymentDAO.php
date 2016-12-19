@@ -14,14 +14,14 @@ class PaymentDAO
 {
     public function getAllUnpaidPayments()
     {
-        $payments =  DB::select('SELECT * FROM payrole NATURAL JOIN teachers WHERE payrole.paid_date IS NULL');
+        $payments = DB::select('SELECT * FROM payrole NATURAL JOIN teachers WHERE payrole.paid_date IS NULL');
         $payments = json_decode(json_encode($payments), TRUE);
         return $payments;
     }
 
     public function getAllPayments()
     {
-        $payments =  DB::select('SELECT * FROM payrole NATURAL JOIN teachers');
+        $payments = DB::select('SELECT * FROM payrole NATURAL JOIN teachers');
         $payments = json_decode(json_encode($payments), TRUE);
         return $payments;
     }
@@ -32,18 +32,19 @@ class PaymentDAO
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
         $resultPeriod = $year . '-' . $month . '%';
-        $payments =  DB::select('SELECT * FROM payrole NATURAL JOIN teachers WHERE generated_date LIKE :monthOfPay AND payrole.paid_date IS NULL',
+        $payments = DB::select('SELECT * FROM payrole NATURAL JOIN teachers WHERE generated_date LIKE :monthOfPay AND payrole.paid_date IS NULL',
             ['monthOfPay' => $resultPeriod]);
         $payments = json_decode(json_encode($payments), TRUE);
         return $payments;
     }
+
     public function getPaymentsOfThisMonth()
     {
         $month = date("m");
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
         $resultPeriod = $year . '-' . $month . '%';
-        $payments =  DB::select('SELECT * FROM payrole NATURAL JOIN teachers WHERE generated_date LIKE :monthOfPay',
+        $payments = DB::select('SELECT * FROM payrole NATURAL JOIN teachers WHERE generated_date LIKE :monthOfPay',
             ['monthOfPay' => $resultPeriod]);
         $payments = json_decode(json_encode($payments), TRUE);
         return $payments;
@@ -51,7 +52,7 @@ class PaymentDAO
 
     public function getPayementsOfATeacher($id)
     {
-        $payments =  DB::select('SELECT * FROM `payrole` WHERE `teacher_id` = :id AND paid_date IS NOT NULL '
+        $payments = DB::select('SELECT * FROM `payrole` WHERE `teacher_id` = :id AND paid_date IS NOT NULL '
             , ['id' => $id]);
         $payments = json_decode(json_encode($payments), TRUE);
         return $payments;
@@ -78,8 +79,8 @@ class PaymentDAO
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
         $resultPeriod = $year . '-' . $month . '%';
-        $amount =  DB::selectOne('SELECT sum(amount) FROM `payrole` WHERE `paid_date` LIKE :today',[
-            'today' =>  $resultPeriod
+        $amount = DB::selectOne('SELECT sum(amount) FROM `payrole` WHERE `paid_date` LIKE :today', [
+            'today' => $resultPeriod
         ]);
         $amount = json_decode(json_encode($amount), TRUE);
         $doubleValue = (double)$amount['sum(amount)'];
@@ -99,17 +100,17 @@ class PaymentDAO
         $res = array();
 
         for ($i = 0; $i < sizeof($paymentsGenerated); $i++) {
-            $done =  DB::selectOne('SELECT * FROM `payrole` WHERE `teacher_id` = :teacher_id AND generated_date LIKE :timePeriod', [
+            $done = DB::selectOne('SELECT * FROM `payrole` WHERE `teacher_id` = :teacher_id AND generated_date LIKE :timePeriod', [
                 'teacher_id' => $paymentsGenerated[$i]['teacher_id'],
                 'timePeriod' => $resultPeriod
             ]);
             $done = json_decode(json_encode($done), TRUE);
-            if($done['teacher_id']!=null){
-                array_push($res,$done['teacher_id']);
+            if ($done['teacher_id'] != null) {
+                array_push($res, $done['teacher_id']);
             }
         }
-        foreach ($paymentsGenerated as $p){
-            if(!in_array($p['teacher_id'],$res)){
+        foreach ($paymentsGenerated as $p) {
+            if (!in_array($p['teacher_id'], $res)) {
                 DB::insert(
                     'INSERT INTO `payrole` (teacher_id,amount,generated_date) VALUES (:teacher_id,:amount,:genDate)', [
                     'teacher_id' => $p['teacher_id'],

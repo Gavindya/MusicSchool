@@ -15,16 +15,22 @@ class UserDAO
 {
     public function addUser(User $user): bool
     {
-        $conn = ConnectionManager::getConnection();
-        $sql = "INSERT INTO `users` (name, email, password) VALUES ('{$user->name}', '{$user->email}', '{$user->password}')";
-        return $conn->getPdo()->exec($sql);
+        $conn = ConnectionManager::getPDO();
+        $sql = "INSERT INTO `users` (name, email, password) VALUES (:name, :email, :password)";
+        $statement = $conn->prepare($sql);
+        return $statement->execute([
+            ':name' => $user->name,
+            ':email' => $user->email,
+            ':password' => $user->password
+        ]);
     }
 
     public function checkUser($email, $password): array
     {
-        $conn = ConnectionManager::getConnection();
+        $conn = ConnectionManager::getPDO();
         $sql = "SELECT `password` FROM `users` WHERE email = :email AND password = :password";
-        $statement = $conn->statement($sql, ['email' => $email, 'password' => $password]);
-        return $conn->getPdo()->query($statement)->fetchAll();
+        $statement = $conn->prepare($sql);
+        $statement->execute([':email' => $email, ':password' => $password]);
+        return $statement->fetch();
     }
 }

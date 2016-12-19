@@ -15,26 +15,26 @@ class GuardianDAO
 {
     public function getGuardianNames(): array
     {
-        $conn = ConnectionManager::getConnection();
+        $conn = ConnectionManager::getPDO();
         $sql = "SELECT guardian_name FROM guardians";
-        return $conn->getPdo()->query($sql)->fetchAll();
+        return $conn->query($sql)->fetchAll();
     }
 
     public function addGuardian(Guardian $guardian): bool
     {
-        $conn = ConnectionManager::getConnection();
+        $conn = ConnectionManager::getPDO();
         $sql = "INSERT INTO guardians (guardian_name, guardian_telephone) VALUES (:guardian_name, :guardian_telephone)";
-        $statement = $conn->statement($sql, [
-            'guardian_name' => $guardian->guardian_name,
-            'guardian_telephone' => $guardian->guardian_telephone
+        $statement = $conn->prepare($sql);
+        return $statement->execute([
+            ':guardian_name' => $guardian->guardian_name,
+            ':guardian_telephone' => $guardian->guardian_telephone
         ]);
-        return $conn->getPdo()->exec($statement);
     }
 
     public function getGuardians(): array
     {
-        $conn = ConnectionManager::getConnection();
+        $conn = ConnectionManager::getPDO();
         $sql = "SELECT * FROM guardians";
-        return $conn->getPdo()->query($sql)->fetchAll();
+        return $conn->query($sql)->fetchAll();
     }
 }

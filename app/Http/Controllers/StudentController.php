@@ -46,9 +46,9 @@ class StudentController extends Controller
 
     {
         $this->validate($request, [
-            'first_name', 'last_name' => 'required|min:2|max:45',
-            'guardian_phone' => 'required|digits:10',
-            'student_phone_number' => 'required|digits:10',
+            'student_firstname', 'student_lastname' => 'required|min:2|max:45',
+            'guardian_telephone' => 'required|digits:10',
+            'student_telephone' => 'required|digits:10',
             'student_address' => 'required|max:45',
             'guardian_name' => 'required|min:2|max:45'
         ]);
@@ -60,7 +60,7 @@ class StudentController extends Controller
         $guardianDAO->addGuardian($guardian);
 
         $studentDAO = new StudentDAO();
-        $student = new Student($object['student_name'], $object['student_address'], $object['student_telephone']);
+        $student = new Student($object['student_firstname'], $object['student_lastname'], $object['student_address'], $object['student_telephone']);
         $studentDAO->addStudent($student);
 
         Session::flash('msg', 'Admission is successful.');

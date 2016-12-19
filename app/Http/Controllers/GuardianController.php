@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DAO\GuardianDAO;
+use App\Domain\Guardian;
 use Illuminate\Http\Request;
 
 class GuardianController extends Controller
@@ -26,6 +27,7 @@ class GuardianController extends Controller
     {
         $guardianConnector = new GuardianDAO();
         $object = $request->all();
-        return $guardianConnector->addGuardian($object);
+        $guardian = new Guardian($object['guardian_name'], $object['guardian_phone']);
+        return $guardianConnector->addGuardian($guardian);
     }
 }

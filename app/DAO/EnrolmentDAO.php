@@ -24,12 +24,12 @@ class EnrolmentDAO
 
     public function addEnrolment(Enrolment $enrolment): bool
     {
-        $conn = ConnectionManager::getConnection();
+        $conn = ConnectionManager::getPDO();
         $sql = "INSERT INTO enrolments (student_id, course_id) VALUES (:student_id, :course_id)";
-        $statement = $conn->statement($sql, [
-            'student_id' => $enrolment->student_id,
-            'course_id' => $enrolment->course_id
+        $statement = $conn->prepare($sql);
+        return $statement->execute([
+            ':student_id' => $enrolment->student_id,
+            ':course_id' => $enrolment->course_id
         ]);
-        return $conn->getPdo()->exec($statement);
     }
 }

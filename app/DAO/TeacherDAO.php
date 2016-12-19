@@ -1,14 +1,16 @@
 <?php
 
 namespace App\DAO;
+
 use App\Domain\Teacher;
 use DB;
 use Crypt;
 
 class TeacherDAO
 {
-    public function getAllTeachers(){
-        $teachers= DB::select('SELECT * FROM teachers');
+    public function getAllTeachers()
+    {
+        $teachers = DB::select('SELECT * FROM teachers');
         $teachers = json_decode(json_encode($teachers), TRUE);
         return $teachers;
     }
@@ -20,7 +22,7 @@ class TeacherDAO
 
     public function getATeacher($id)
     {
-        $teacher =  DB::selectOne('SELECT * FROM `teachers` WHERE `teacher_id` = :id',
+        $teacher = DB::selectOne('SELECT * FROM `teachers` WHERE `teacher_id` = :id',
             ['id' => $id]);
         $teacher = json_decode(json_encode($teacher), TRUE);
         return $teacher;
@@ -101,10 +103,11 @@ class TeacherDAO
             'depart' => $depart
         ]);
     }
+
     public function getAttendence($id)
     {
         $today = date("y-m-d");
-        $result =  DB::selectOne('SELECT * FROM `work` WHERE `work_date`=:today AND `teacher_id`=:id', ['id' => $id,'today'=>$today]);
+        $result = DB::selectOne('SELECT * FROM `work` WHERE `work_date`=:today AND `teacher_id`=:id', ['id' => $id, 'today' => $today]);
         $result = json_decode(json_encode($result), TRUE);
 //        echo dd($result);
         return $result;
@@ -120,14 +123,14 @@ class TeacherDAO
 //        $result =  DB::select('SELECT teacher_id,TotWorkTime_Teacher(:resultPeriod, teacher_id) AS tot FROM teachers
 //                WHERE TotWorkTime_Teacher(:resultPeriod, teacher_id) IS NOT NULL', [
 //            'resultPeriod' => $resultPeriod]);
-        $result =  DB::select('select teacher_id, TotWorkTime_Teacher(:resultPeriod, teacher_id)
-                  as tot from teachers', [
+        $result = DB::select('SELECT teacher_id, TotWorkTime_Teacher(:resultPeriod, teacher_id)
+                  AS tot FROM teachers', [
             'resultPeriod' => $resultPeriod]);
 
         $result = json_decode(json_encode($result), TRUE);
-        foreach ($result as $r){
-            if ($r['tot']!=null){
-                array_push($resultsNotNull,$r);
+        foreach ($result as $r) {
+            if ($r['tot'] != null) {
+                array_push($resultsNotNull, $r);
             }
         }
         return $resultsNotNull;
