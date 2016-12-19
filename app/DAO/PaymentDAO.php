@@ -9,6 +9,7 @@
 namespace App\DAO;
 
 use DB;
+use Mockery\CountValidator\Exception;
 
 class PaymentDAO
 {
@@ -64,6 +65,7 @@ class PaymentDAO
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
         $today = $year . '-' . $MonthDay;
+        DB::beginTransaction();
         for ($i = 0; $i < sizeof($paymentsIdList); $i++) {
             DB::update(
                 'UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id', [
@@ -71,6 +73,7 @@ class PaymentDAO
                 'today' => $today
             ]);
         }
+        DB::commit();
     }
 
     public function totalPaid()

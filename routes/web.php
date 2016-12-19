@@ -60,6 +60,23 @@ Route::post('/user/add/store', [
 Route::patch('/login/user', [
     'uses' => 'LogInController@loginUser'
 ]);
+
+/*
+|--------------------------------------------------------------------------
+| Login-Logout-woth user
+|--------------------------------------------------------------------------
+*/
+//Route::post('/loginUser', [
+//    'uses' => 'AuthController@login',
+//    'as'=>'loginUser'
+//]);
+//Route::get('/logoutUser', [
+//    'uses' => 'AuthController@logout'
+//]);
+//Route::get('/homePHP', [
+//    'uses' => 'LogInController@routeHandle',
+//    'as'=>'home'
+//]);
 /*
 |--------------------------------------------------------------------------
 | Home - With included authentication redirects
@@ -188,6 +205,7 @@ Route::patch('/payTeachers', [
 
 Route::get('/PayrollSummary', [
     'uses' => 'SalaryController@getSummary',
+    'as'=>'payrollSummary'
 ]);
 Route::get('/PayrollSummary/ThisMonth', [
     'uses' => 'SalaryController@getSummaryThisMonth',
