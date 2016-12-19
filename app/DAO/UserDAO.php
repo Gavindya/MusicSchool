@@ -9,28 +9,79 @@
 namespace App;
 
 
-use App\DAO\ConnectionManager;
+use DB;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class UserDAO
 {
     public function addUser(User $user): bool
     {
-        $conn = ConnectionManager::getPDO();
-        $sql = "INSERT INTO `users` (name, email, password) VALUES (:name, :email, :password)";
-        $statement = $conn->prepare($sql);
-        return $statement->execute([
-            ':name' => $user->name,
-            ':email' => $user->email,
-            ':password' => $user->password
+        return DB::insert("INSERT INTO `users` (name, username, password, role) VALUES (:name, :username, :password, :role)", [
+            'name' => $user->getAuthIdentifierName(),
+            'username' => $user->getAuthIdentifier(),
+            'password' => $user->getAuthPassword(),
+            'role' => $user->getRole()
         ]);
     }
 
-    public function checkUser($email, $password): array
+    public function getUserById($identifier): User
     {
-        $conn = ConnectionManager::getPDO();
-        $sql = "SELECT `password` FROM `users` WHERE email = :email AND password = :password";
-        $statement = $conn->prepare($sql);
-        $statement->execute([':email' => $email, ':password' => $password]);
-        return $statement->fetch();
+        $object = DB::selectOne("SELECT * FROM users WHERE username = :username", [
+            'username' => $identifier
+        ]);
+
+        $user = new User();
+        if (!isset($user)) {
+            $user->name = $object->name;
+            $user->username = $object->username;
+            $user->password = $object->password;
+            $user->remember_token = $object->remember_token;
+            $user->role = $object->role;
+        }
+        return $user;
+    }
+
+    public function getUserByCredentials($username, $password): User
+    {
+        $object = DB::selectOne("SELECT * FROM users WHERE username = :username AND password = :password", [
+            'username' => $username,
+            'password' => $password
+        ]);
+
+        $user = new User();
+        if (!isset($user)) {
+            $user->name = $object->name;
+            $user->username = $object->username;
+            $user->password = $object->password;
+            $user->remember_token = $object->remember_token;
+            $user->role = $object->role;
+        }
+        return $user;
+    }
+
+    public function getUserByToken($identifier, $token): User
+    {
+        $object = DB::selectOne("SELECT * FROM users WHERE username = :username AND remember_token = :remember_token", [
+            'username' => $identifier,
+            'remember_token' => $token
+        ]);
+
+        $user = new User();
+        if (!isset($user)) {
+            $user->name = $object->name;
+            $user->username = $object->username;
+            $user->password = $object->password;
+            $user->remember_token = $object->remember_token;
+            $user->role = $object->role;
+        }
+        return $user;
+    }
+
+    public function updateRememberToken(Authenticatable $user, $token)
+    {
+        return DB::update("UPDATE users SET remember_token = :remember_token WHERE username = :username", [
+            'remember_token' => $token,
+            'username' => $user->getAuthIdentifier(),
+        ]);
     }
 }
