@@ -25,6 +25,17 @@ Route::post('/courses/{id}', 'CourseController@editCourse');
 
 /*
 |--------------------------------------------------------------------------
+| Course Management
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/administration', 'SchoolAdministrationController@showSchoolAdministration');
+Route::post('/administration/timeslots/add', 'SchoolAdministrationController@addTimeslot');
+Route::post('/administration/instruments/add', 'SchoolAdministrationController@addInstrument');
+Route::post('/administration/timeslots/edit', 'SchoolAdministrationController@updateTimeslot');
+Route::post('/administration/instruments/edit', 'SchoolAdministrationController@updateInstrument');
+/*
+|--------------------------------------------------------------------------
 | User / Login (Not needed really, because laravel provides this)
 | [Can implement default authentication middleware and override it with raw
 | sql queries. See the project. Authentication is already implemented]

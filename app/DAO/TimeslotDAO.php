@@ -13,7 +13,7 @@ use DB;
 
 class TimeslotDAO
 {
-    public function getAllTimeslots()
+    public function getAllTimeslots() : array
     {
         return DB::select('SELECT * FROM timeslots');
     }
@@ -25,11 +25,20 @@ class TimeslotDAO
         ]);
     }
 
-    public function addTimeslot(Timeslot $timeslot)
+    public function addTimeslot(Timeslot $timeslot) : bool
     {
         return DB::insert('INSERT INTO timeslots (start_time, end_time) VALUES (:start_time, :end_time)', [
             'start_time' => $timeslot->start_time,
             'end_time' => $timeslot->end_time
+        ]);
+    }
+
+    public function updateTimeslot(Timeslot $timeslot) : int
+    {
+        return DB::update('UPDATE timeslots SET start_time = :start_time, end_time = :end_time WHERE timeslot_id = :timeslot_id', [
+            'start_time' => $timeslot->start_time,
+            'end_time' => $timeslot->end_time,
+            'timeslot_id' => $timeslot->timeslot_id
         ]);
     }
 }

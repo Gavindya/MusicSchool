@@ -7,32 +7,28 @@ use Illuminate\Http\Request;
 
 class TeacherAttendanceController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    public function showTeacherAttendanceView()
+    public function getTeachersForAttendence()
     {
 
         $teacherController = new TeacherController();
         $teachers = $teacherController->getTeachersWithoutPagination();
-        $teacherRecord = array(null, null, null, null);
-        $teacher = array(null, null);
+//        echo dd($teachers);
+        $teacherRecord = array('teacher_id'=>null,'arrive_time'=>null,'leave_time'=>null);
+        $teacher = array('teacher_id'=>null, 'teacher_name'=>null);
         return view('TeacherAttendence', ['teacher' => $teacher, 'teachers' => $teachers, 'teacherRecord' => $teacherRecord]);
 
     }
 
-    public function addTeacherAttendance(Request $request)
+    public function markAttendence(Request $request)
     {
         $id = $request->id;
         $dbTeacher = new TeacherDAO();
-        $teacherRecord = $this->getTeacherAttendance($id);
+        $teacherRecord = $this->getAttendenceOfTeacher($id);
         if ($teacherRecord == null) {
             echo("in arrival set");
             $arrive = $request->arrive;
@@ -49,22 +45,23 @@ class TeacherAttendanceController extends Controller
         return redirect()->route("TeacherAttendence");
     }
 
-    private function getTeacherAttendance($id)
+    public function getTeacherAttendenceInformation($id)
     {
-        $dbCon = new TeacherDAO();
-        $teacherRecord = $dbCon->getAttendance($id); // $teacherRecord[0]=id $teacherRecord[1]=date $teacherRecord[2]=arrive_time $teacherRecord[3]=depart_time
-        return $teacherRecord;
-    }
-
-    public function showTeacherAttendanceInformationView($id)
-    {
-        $teacherRecord = $this->getTeacherAttendance($id);
+        $teacherRecord = $this->getAttendenceOfTeacher($id);
 
         $teacherController = new TeacherController();
         $teachers = $teacherController->getTeachersWithoutPagination();
 
         $teacher = $teacherController->getATeacher($id); //$teacher[0]=id $teacher[1]=name
+//        echo dd($teacher);
 
         return view('TeacherAttendence', ['teacher' => $teacher, 'teachers' => $teachers, 'teacherRecord' => $teacherRecord]);
+    }
+
+    public function getAttendenceOfTeacher($id)
+    {
+        $dbCon = new TeacherDAO();
+        $teacherRecord = $dbCon->getAttendence($id); // $teacherRecord[0]=id $teacherRecord[1]=date $teacherRecord[2]=arrive_time $teacherRecord[3]=depart_time
+        return $teacherRecord;
     }
 }

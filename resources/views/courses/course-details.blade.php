@@ -3,7 +3,7 @@
 @section('title', 'Course Details')
 
 @section('content')
-    <div class="container"><h1>Course Details - {{$course['course_name']}}</h1></div>
+    <div class="container"><h1>Course Details - {{$course->course_name}}</h1></div>
 
     @include('courses.part-courses-details')
 

@@ -14,13 +14,13 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{$course['course_name']}}</td>
-                <td>{{$course['credits']}}</td>
-                <td>{{$course['instrument_name']}}</td>
-                <td>{{$course['weekday']}}</td>
-                <td>{{$course['start_time'].' - '.$course['end_time']}}</td>
-                <td>{{$course['teacher_name']}}</td>
-                <td>{{$course['charges']}}</td>
+                <td>{{$course->course_name}}</td>
+                <td>{{$course->credits}}</td>
+                <td>{{$course->instrument_name}}</td>
+                <td>{{$course->weekday}}</td>
+                <td>{{$course->start_time.' - '.$course->end_time}}</td>
+                <td>{{$course->teacher_name}}</td>
+                <td>{{$course->charges}}</td>
             </tr>
         </tbody>
     </table>

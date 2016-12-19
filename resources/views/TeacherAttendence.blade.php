@@ -106,12 +106,12 @@
                 <div class="form-group">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" placeholder="ID" name="id" readonly
-                           value={{$teacher[0]}}>
+                           value={{$teacher['teacher_id']}}>
                 </div>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name" readonly
-                           value={{$teacher[1]}}>
+                           value={{$teacher['teacher_name']}}>
                 </div>
                 <div class="form-group">
                     <label for="day">Date</label>
@@ -119,13 +119,11 @@
                 </div>
                 <div class="form-group">
                     <label for="arrive">Arrival Time</label>
-                    <input type="time" id="arrive" name="arrive" value={{$teacherRecord[2]}}>
-                    {{--<input type="text" class="form-control" id="arrive" placeholder="Arrival Time" name="arrive" value={{$teacherRecord[2]}}>--}}
+                    <input type="time" id="arrive" name="arrive" value={{$teacherRecord['arrive_time']}}>
                 </div>
                 <div class="form-group">
                     <label for="depart">Departure Time</label>
-                    <input type="time" id="depart" name="depart" value={{$teacherRecord[3]}}>
-                    {{--<input type="text" class="form-control" id="depart" placeholder="Arrival Time" name="depart" value={{$teacherRecord[3]}}>--}}
+                    <input type="time" id="depart" name="depart" value={{$teacherRecord['leave_time']}}>
 
                 </div>
                 <div class="form-group">

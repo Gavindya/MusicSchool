@@ -1,140 +1,126 @@
 <?php
 
 namespace App\DAO;
-
 use App\Domain\Teacher;
 use DB;
-use stdClass;
 
 class TeacherDAO
 {
-    public function getAllTeachers()
-    {
-        return DB::select('SELECT * FROM teachers');
+    public function getAllTeachers(){
+        $teachers= DB::select('SELECT * FROM teachers');
+        $teachers = json_decode(json_encode($teachers), TRUE);
+        return $teachers;
     }
 
-    public function getNames(): array
+    public function getNames()
     {
-        $conn = ConnectionManager::getConnection();
-        $sql = "SELECT teachers.teacher_name,teacher_id FROM teachers";
-        $statement = $conn->getPDO()->prepare($sql);
-        $statement->execute();
-        return $statement->fetchAll();
+        return DB::select('SELECT teacher_name,teacher_id FROM teachers');
     }
 
-    public function getTeachers(): array
+    public function getATeacher($id)
     {
-        $conn = ConnectionManager::getConnection();
-        $sql = "SELECT * FROM teachers";
-        $result = $conn->getPDO()->query($sql)->fetchAll();
-        return $result;
-//        $statement = $conn->prepare($sql);
-//        $statement->execute();
-//        return $statement->fetch();
+        $teacher =  DB::selectOne('SELECT * FROM `teachers` WHERE `teacher_id` = :id',
+            ['id' => $id]);
+        $teacher = json_decode(json_encode($teacher), TRUE);
+        return $teacher;
     }
 
-    public function getATeacher($id): stdClass
+    public function addNewTeacher(Teacher $teacher)
     {
-        $conn = ConnectionManager::getConnection();
-        $sql = "SELECT * FROM `teachers` WHERE `teacher_id` = :id";
-        $q = $conn->getPDO()->prepare($sql);
-        $q->execute(array(':id' => "$id"));
-        $done = $q->fetchObject();  //returns an array $done[0]=id and $done[1]=name
-        return $done;
-    }
-
-    public function addNewTeacher(Teacher $teacher): bool
-    {
-        $conn = ConnectionManager::getConnection();
         $nameOfT = $teacher->getTeacherName();
         $address = $teacher->getTeacherAddress();
+        $joined = $teacher->getTeacherJoindate();
         $telephone = $teacher->getTeacherTelephone();
-//        echo $nameOfT;
-//        $sql = "INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
-//                VALUES ('{$nameOfT}','{$address}','{$telephone}','{$joined}')";
-//        $conn->query($sql);
-//        $conn->close();
-        $sql = "INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
-                VALUES (:nameOfT,:address,:telephone, CURRENT_DATE())";
-        $statement = $conn->getPdo()->prepare($sql);
-        $statement->bindValue(":nameOfT", $nameOfT);
-        $statement->bindValue(":address", $address);
-        $statement->bindValue(":telephone", $telephone);
-        return $statement->execute();
+
+        return DB::insert(
+            'INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
+                VALUES (:nameOfT,:address,:telephone,:joined)', [
+            'nameOfT' => $nameOfT,
+            'address' => $address,
+            'telephone' => $telephone,
+            'joined' => $joined
+        ]);
     }
 
-    public function updateTeacher($telephone, $address, $id): int
+    public function updateTeacher($telephone, $address, $id)
     {
-        $conn = ConnectionManager::getConnection();
-        $sql = "UPDATE `teachers` SET `teacher_telephone` = :telephone,
+        return DB::update(
+            'UPDATE `teachers` SET `teacher_telephone` = :telephone,
                                       `teacher_address` = :address
-                                      WHERE `teacher_id` = :id";
-        $statement = $conn->getPdo()->prepare($sql);
-//        $statement->execute(array(":mobile"=> "$mobile",":address"=> "$address",":telephone"=>"$telephone"));
-        $statement->bindValue(":telephone", $telephone);
-        $statement->bindValue(":address", $address);
-        $statement->bindValue(":id", $id);
-        return $statement->execute();
+                                      WHERE `teacher_id` = :id', [
+            'address' => $address,
+            'telephone' => $telephone,
+            'id' => $id
+        ]);
     }
 
-    public function setArriveTime($id, $arrive): bool
+    public function recordAttendence($id, $arrive, $depart)
     {
-        $conn = ConnectionManager::getConnection();
-        echo "arrive";
-        $sql = "INSERT INTO `work` (`teacher_id`,`work_date`,`arrive_time`) VALUES (:id,CURRENT_DATE(),:arrive);";
-
-        $statement = $conn->getPdo()->prepare($sql);
-        $statement->bindValue(":arrive", $arrive);
-        $statement->bindValue(":id", $id);
-        return $statement->execute();
+        $today = date("y-m-d");
+        return DB::insert(
+            'INSERT INTO `work` (`teacher_id`, `work_date`, `arrive_time`, `leave_time`)
+                VALUES (:id,:today,:arrive,:depart)', [
+            'id' => $id,
+            'today' => $today,
+            'arrive' => $arrive,
+            'depart' => $depart
+        ]);
     }
 
-    public function updateLeaveTime($id, $depart): int
+    public function setArriveTime($id, $arrive)
     {
-        $conn = ConnectionManager::getConnection();
-        $sql = "UPDATE `work` SET `leave_time` = :depart
-                                  WHERE `teacher_id` = :id AND `work_date` = CURRENT_DATE()";
-        $statement = $conn->getPdo()->prepare($sql);
-        $statement->bindValue(":depart", $depart);
-        $statement->bindValue(":id", $id);
-        return $statement->execute();
+        $today = date("y-m-d");
+        return DB::insert(
+            'INSERT INTO `work` (`teacher_id`,`work_date`,`arrive_time`) VALUES (:id,:today,:arrive)', [
+            'id' => $id,
+            'today' => $today,
+            'arrive' => $arrive
+        ]);
     }
 
-    public function getAttendance($id): stdClass
+    public function updateLeaveTime($id, $depart)
     {
-        $conn = ConnectionManager::getConnection();
-        $sql = "SELECT * FROM `work` WHERE `work_date`= CURRENT_DATE() AND `teacher_id`=:id";
-        $statement = $conn->getPdo()->prepare($sql);
-        $statement->bindValue(":id", $id);
-        return $statement->fetchObject();  //returns an array $result[0]=id and $result[1]=date etc
+        $today = date("y-m-d");
+        return DB::update(
+            'UPDATE `work` SET `leave_time` = :depart
+                                  WHERE `teacher_id` = :id AND `work_date` = :today', [
+            'id' => $id,
+            'today' => $today,
+            'depart' => $depart
+        ]);
     }
-
-    public function getWorkHours(): array
+    public function getAttendence($id)
     {
-        $conn = ConnectionManager::getConnection();
-        $resultPeriod = $this->GetYearMonthString() . '%';
-
-        $sql = "SELECT teacher_id,TotWorkTime_Teacher(:resultPeriod, teacher_id) AS tot FROM teachers WHERE TotWorkTime_Teacher(:resultPeriod, teacher_id) IS NOT NULL";
-        $statement = $conn->getPdo()->prepare($sql);
-        $statement->bindValue(":resultPeriod", $resultPeriod);
-        $statement->execute();
-        $result = $statement->fetchAll();  //returns an array $result[0]=id and $result[1]=date etc
+        $today = date("y-m-d");
+        $result =  DB::selectOne('SELECT * FROM `work` WHERE `work_date`=:today AND `teacher_id`=:id', ['id' => $id,'today'=>$today]);
+        $result = json_decode(json_encode($result), TRUE);
         return $result;
     }
 
-    //////// METHODS IMPLEMENTED IN MY SECTION (YASITH) :) DONT DELETE
-
-    /**
-     * @return string
-     */
-    public function GetYearMonthString(): string
+    public function getWorkHours()
     {
         $month = date("m");
         $time = strtotime(date("y-m-d"));
         $year = date("Y", $time);
-        $resultPeriod = $year . '-' . $month;
-        return $resultPeriod;
+        $resultPeriod = $year . '-' . $month . '%';
+        $resultsNotNull = array();
+//        $result =  DB::select('SELECT teacher_id,TotWorkTime_Teacher(:resultPeriod, teacher_id) AS tot FROM teachers
+//                WHERE TotWorkTime_Teacher(:resultPeriod, teacher_id) IS NOT NULL', [
+//            'resultPeriod' => $resultPeriod]);
+        $result =  DB::select('select teacher_id, TotWorkTime_Teacher(:resultPeriod, teacher_id)
+                  as tot from teachers', [
+            'resultPeriod' => $resultPeriod]);
+
+        $result = json_decode(json_encode($result), TRUE);
+        foreach ($result as $r){
+            if ($r['tot']!=null){
+                array_push($resultsNotNull,$r);
+            }
+        }
+        return $resultsNotNull;
     }
+
+    //////// METHODS IMPLEMENTED IN MY SECTION (YASITH) :) DONT DELETE
 
     public function getTeacherById($id)
     {
@@ -146,9 +132,9 @@ class TeacherDAO
     public function addTeacher(Teacher $teacher)
     {
         return DB::insert('INSERT INTO teachers (teacher_name, teacher_address, teacher_telephone) VALUES (:teacher_name, :teacher_address, :teacher_telephone )', [
-            'teacher_name' => $teacher->teacher_name,
-            'teacher_address' => $teacher->teacher_address,
-            'teacher_telephone' => $teacher->teacher_telephone
+            'teacher_name' => $teacher->getTeacherName(),
+            'teacher_address' => $teacher->getTeacherAddress(),
+            'teacher_telephone' => $teacher->getTeacherTelephone()
         ]);
     }
 

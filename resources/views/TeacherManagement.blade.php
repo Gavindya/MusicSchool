@@ -34,15 +34,15 @@
             </tr>
             </thead>
             <tbody>
-            @for($i =0; $i < sizeof($teachers); $i++)
-            <tr class="clickable-row" data-href="{{ route('teacherInfo',['id' => $teachers[$i]['teacher_id']])}}">
-                <td>{{$teachers[$i]['teacher_id']}}</td>
-                <td>{{$teachers[$i]['teacher_name']}}</td>
-                <td>{{$teachers[$i]['teacher_telephone']}}</td>
-                <td>{{$teachers[$i]['teacher_address']}}</td>
-                <td>{{$teachers[$i]['teacher_joindate']}}</td>
+            @foreach($teachers as $teacher)
+            <tr class="clickable-row" data-href="{{ route('teacherInfo',['id' => $teacher['teacher_id']])}}">
+                <td>{{$teacher['teacher_id']}}</td>
+                <td>{{$teacher['teacher_name']}}</td>
+                <td>{{$teacher['teacher_telephone']}}</td>
+                <td>{{$teacher['teacher_address']}}</td>
+                <td>{{$teacher['teacher_joindate']}}</td>
             </tr>
-            @endfor
+            @endforeach
             {{$teachers->links()}}
             </tbody>
         </table>
@@ -55,15 +55,15 @@
         {{method_field('PATCH')}}
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name">
+            <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z].{2,}" required>
         </div>
         <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" placeholder="Address" name="address">
+            <input type="text" class="form-control" id="address" placeholder="Address" name="address" pattern=".{3,}" required>
         </div>
         <div class="form-group">
-            <label for="telephone">Telephone</label>
-            <input type="text" class="form-control" id="telephone" placeholder="Telephone" name="telephone">
+            <label for="telephone">Telephone (format: 0xxxxxxxx):</label>
+            <input type="tel" class="form-control" id="telephone" placeholder="Telephone" name="telephone" pattern="^\d{10}$" required >
         </div>
         <label>Instruments</label>
         <div class="container">
