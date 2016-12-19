@@ -57,23 +57,23 @@
                 </div>
                 <div class="form-group">
                     <label for="instruments">Instruments</label>
-                    <input type="text" class="form-control" id="instruments" name="instruments" readonly>
+                    <input type="text" class="form-control" id="instruments" name="instruments" readonly >
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="text" class="form-control" id="password" name="password" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="re-password">Re-Enter Password</label>
-                    <input type="text" class="form-control" id="re-password" name="re-password" readonly>
-                </div>
-            </div>
+            {{--<div class="col-lg-4 col-md-4">--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="username">Username</label>--}}
+                    {{--<input type="text" class="form-control" id="username" name="username" readonly>--}}
+                {{--</div>--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="password">Password</label>--}}
+                    {{--<input type="text" class="form-control" id="password" name="password" readonly>--}}
+                {{--</div>--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="re-password">Re-Enter Password</label>--}}
+                    {{--<input type="text" class="form-control" id="re-password" name="re-password" readonly>--}}
+                {{--</div>--}}
+            {{--</div>--}}
             <div class="col-lg-4 col-md-4">
                 <div class="form-group">
                     <label for="telephone">Telephone Number</label>
@@ -82,7 +82,8 @@
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" class="form-control" id="address" name="address" readonly value={{$teacher['teacher_address']}}>
+                    <input type="text" class="form-control" id="address" name="address" readonly
+                           value={{$teacher['teacher_address']}}>
                 </div>
             </div>
             <div class="form-group container-fluid pull-left">
@@ -93,9 +94,6 @@
 
         <div class="pull-right container-fluid">
             <input type="button" id="edit" onclick="edit()" value="Edit" class="btn-primary btn"/>
-            {{--FOR NOW REDIRECTS TO PAYROLE> SHOULD BE FUNCTION FOR RESIGN--}}
-            {{--*DO THIS*--}}
-            <a href="{{ route('salaryController') }}" type="button" class="btn btn-primary">Resign</a>
         </div>
     </div>
     <hr>
@@ -132,7 +130,6 @@
                     <td>status</td>
                 </tr>
             @endfor
-            {{--{{$teachers->links()}}--}}
             </tbody>
         </table>
     </div>
@@ -163,7 +160,6 @@
 
                 </tr>
             @endfor
-            {{--{{$teachers->links()}}--}}
             </tbody>
         </table>
     </div>

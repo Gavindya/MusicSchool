@@ -102,4 +102,16 @@ class CourseController extends Controller
         $courseDAO->updateCourse($course);
         return redirect()->back();
     }
+
+    public function getAssignedCourseDetails($id)
+    {
+        $clsDetails = array();
+        array_push($clsDetails, 1);
+        array_push($clsDetails, $id);
+        array_push($clsDetails, 2);
+        array_push($clsDetails, 1500);
+        array_push($clsDetails, "4:30");
+        array_push($clsDetails, "6:30");
+        return $clsDetails;
+    }
 }

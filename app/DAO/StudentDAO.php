@@ -27,8 +27,6 @@ class StudentDAO
             array_push($students, $row['name']);
         }
         return $students;
-
-
     }
 
     public function addStudent(Student $student): bool

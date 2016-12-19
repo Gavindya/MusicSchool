@@ -19,6 +19,13 @@ class InstrumentDAO
         return DB::select('SELECT * FROM instruments');
     }
 
+    public function getAllInstruments()
+    {
+        $instruments = DB::select('SELECT * FROM instruments');
+        $instrumentsResults = json_decode(json_encode($instruments), TRUE);
+        return $instrumentsResults;
+    }
+
     public function getInstrumentById($id): stdClass
     {
         return DB::selectOne('SELECT * FROM instruments WHERE instrument_id = :instrument_id', [
