@@ -1,16 +1,17 @@
 <div class="container">
     <div class="row">
+        <div class="col-md-6">
 
-        <div id="custom-search-input">
-            <div class="input-group col-md-6">
-                <input type="text" class="  search-query form-control" placeholder="Search"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button">
-                                        <span class=" glyphicon glyphicon-search"></span>
-                                    </button>
-                                </span>
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control input-lg" name="guess" placeholder="Enter student name"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 </div>
-

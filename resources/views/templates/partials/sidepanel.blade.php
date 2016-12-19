@@ -34,6 +34,9 @@
                 <a href="/user/add">Add User</a>
             </li>
             <li>
+                <a href="/student/fees">Add Fee</a>
+            </li>
+            <li>
                 <a href="#">About</a>
             </li>
             <li>

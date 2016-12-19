@@ -2,13 +2,13 @@
 @section('style')
 
     <link rel="stylesheet" href="{{ URL::asset('css/add_user_form.css') }}"/>
-   @endsection
+@endsection
 
 @section('headline')
 
 
 
-  @endsection
+@endsection
 
 
 
@@ -19,7 +19,9 @@
             <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Please sign up for Bootsnipp <small>It's free!</small></h3>
+                        <h3 class="panel-title">Please sign up for Bootsnipp
+                            <small>It's free!</small>
+                        </h3>
 
 
                         @if (Session::has('msg'))
@@ -41,7 +43,7 @@
 
                         <form role="form" action="/user/add/store" method="POST">
                             {{csrf_field()}}
-                              @include('Users.partials.add_user_form')
+                            @include('Users.partials.add_user_form')
                             {{csrf_field()}}
                         </form>
                     </div>
@@ -49,4 +51,4 @@
             </div>
         </div>
     </div>
-    @endsection
+@endsection
