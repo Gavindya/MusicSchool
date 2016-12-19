@@ -3,6 +3,7 @@ namespace App\DAO;
 
 use DB;
 use Illuminate\Database\Connection;
+use PDO;
 
 abstract class ConnectionManager
 {
@@ -26,6 +27,11 @@ abstract class ConnectionManager
         }
         // Return existing connection
         return ConnectionManager::$connection;
+    }
+
+    public static function getPDO(): PDO
+    {
+        return self::getConnection()->getPdo();
     }
 
     /*

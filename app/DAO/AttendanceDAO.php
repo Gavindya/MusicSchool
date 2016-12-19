@@ -30,8 +30,8 @@ class AttendanceDAO
               courses
               LEFT JOIN
               attendance USING (enrolment_id)
-            WHERE enrolments.course_id = :courseId',[
-                'courseId' => $course_id
+            WHERE enrolments.course_id = :courseId', [
+            'courseId' => $course_id
         ]);
     }
 
@@ -53,7 +53,7 @@ class AttendanceDAO
               courses
               LEFT JOIN
               attendance USING (enrolment_id)
-            WHERE student_id = :studentId',[
+            WHERE student_id = :studentId', [
             'studentId' => $student_id
         ]);
     }
