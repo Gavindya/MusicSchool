@@ -19,7 +19,7 @@ class AttendanceDAO
                     enrolments.is_active    AS status,
                     enrolments.student_id   AS student_id,
                     t1.date                 AS date,
-                    student_name,
+                    student_name
                 FROM enrolments
                 LEFT JOIN ((SELECT * FROM attendance WHERE date = :date) as t1) USING (enrolment_id)
                 NATURAL JOIN students
@@ -38,7 +38,7 @@ class AttendanceDAO
                     enrolments.is_active    AS status,
                     enrolments.student_id   AS student_id,
                     t1.date         AS date,
-                    student_name,
+                    student_name
                 FROM enrolments
                 LEFT JOIN ((SELECT * FROM attendance WHERE date = :date) as t1) USING (enrolment_id)
                 NATURAL JOIN students
@@ -57,7 +57,7 @@ class AttendanceDAO
                     enrolments.is_active    AS status,
                     enrolments.student_id   AS student_id,
                     t1.date         AS date,
-                    student_name,
+                    student_name
                 FROM enrolments
                 LEFT JOIN ((SELECT * FROM attendance WHERE date = :date) as t1) USING (enrolment_id)
                 NATURAL JOIN students

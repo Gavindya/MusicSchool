@@ -43,7 +43,6 @@ class StudentAttendanceController extends Controller
         $attendanceDAO = new AttendanceDAO();
         $filter = $_POST['filter'];
         $courseId = $_POST['course-id'];
-<<<<<<< HEAD
         $date = $_POST['date'];
         if ($filter === 'All') {
             $attendances = $attendanceDAO->getClassAttendance($courseId, $date);
@@ -64,14 +63,12 @@ class StudentAttendanceController extends Controller
                 'attendances' => json_decode(json_encode($attendances), TRUE)
             ]);
         }
-=======
         $attendances = $attendanceDAO->getClassAttendance($courseId);
         return view('attendance.attendance-class', [
             'courses' => json_decode(json_encode($courses), TRUE),
             'attendances' => json_decode(json_encode($attendances), TRUE),
             'courseName' => $courseId
         ]);
->>>>>>> ec8b5c8bbd668f2e338d6f42b24dd64cf0a1e49e
     }
 
     public function showStudentAttendance()
