@@ -85,7 +85,10 @@ Route::post('/user/add/store', [
 */
 Auth::routes();
 Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
+Route::get('/logoutUser', [
+    'uses' => 'UserAccountController@userLogout',
+    'as' => 'logoutUser'
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +130,11 @@ Route::post('/student/subscribe', [
     'uses' => 'StudentController@addNewEnrolment'
 
 ]);
+
+
+Route::post('/user/add', [
+    'uses' => 'UserAccountController@userAccountAccess']);
+
 Route::get('/user/add', function () {
     return view('Users.add_user');
 });
@@ -175,7 +183,7 @@ Route::get('/TeacherInformation/ID/{id}', [
 Route::get('/Teacher', [
     'uses' => 'TeacherController@getPersonalPage',
     'as' => 'teacher'
-]);
+])->middleware('auth','teacherMiddleware');
 
 Route::get('/Resign/{id}', [
     'uses' => 'TeacherController@resignTeacher',
