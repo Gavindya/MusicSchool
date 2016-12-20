@@ -18,13 +18,13 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
+//    /**
+//     * Register bindings in the container.
+//     *
+//     * @return void
+//     */
+//    public function register()
+//    {
+//        //
+//    }
 }

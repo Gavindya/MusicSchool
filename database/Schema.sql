@@ -290,14 +290,11 @@ CREATE TABLE IF NOT EXISTS `work` (
 -- Table `users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
-  `id`             INT         NOT NULL AUTO_INCREMENT,
-  `name`           VARCHAR(60) NOT NULL,
-  `email`          VARCHAR(60) NOT NULL,
+  `username`       VARCHAR(45) NOT NULL,
   `password`       VARCHAR(60) NOT NULL,
-  `updated_at`     DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_at`     DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `remember_token` VARCHAR(60) NULL     DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `remember_token` VARCHAR(60) NULL DEFAULT NULL,
+  `role`           VARCHAR(7)  NOT NULL,
+  PRIMARY KEY (`username`)
 )
   ENGINE = InnoDB;
 

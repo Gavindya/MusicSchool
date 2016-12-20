@@ -3,6 +3,7 @@ namespace App\Providers;
 
 use App\User;
 use App\UserDAO;
+use Hash;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
@@ -31,6 +32,7 @@ class AuthUserProvider implements UserProvider
     public function retrieveByToken($identifier, $token)
     {
         $userDAO = new UserDAO();
+        dd($identifier, $token);
         return $userDAO->getUserByToken($identifier, $token);
     }
 
@@ -56,7 +58,7 @@ class AuthUserProvider implements UserProvider
     public function retrieveByCredentials(array $credentials)
     {
         $userDAO = new UserDAO();
-        $result =  $userDAO->getUserById($credentials['username']);
+        $result = $userDAO->getUserById($credentials['username']);
         $user = new User();
         $user->username = $result->username;
         $user->password = $result->password;
@@ -74,10 +76,10 @@ class AuthUserProvider implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        return (
-            $user->getAuthIdentifier() == $credentials['username'] &&
-            $user->getAuthPassword() == bcrypt($credentials['password']) &&
-            $user->getRememberToken() == $credentials['remember_token']
-        );
+        if (array_key_exists('remember_token', $credentials)) {
+            if ($credentials['remember_token'] != $user->getRememberToken()) return false;
+        }
+        return $credentials['username'] == $user->getAuthIdentifier() &&
+            Hash::check($credentials['password'], $user->getAuthPassword());
     }
 }
