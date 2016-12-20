@@ -85,7 +85,6 @@ class CourseController extends Controller
     {
         $object = $request->all();
         $courseDAO = new CourseDAO();
-
         $courseDAO->addNewCourse(new Course(
             $object['course_name'],
             $object['instrument_id'],
