@@ -16,26 +16,27 @@ class StudentDAO
     /**
      * @return array
      */
-    public function getAllStudentNames(): array
+    public function getAllStudentNames()
     {
         $conn = ConnectionManager::getPDO();
         $sql = "SELECT student_firstname FROM students";
         return $conn->query($sql)->fetchAll();
     }
 
-    public function addStudent(Student $student): bool
+    public function addStudent(Student $student)
     {
         $conn = ConnectionManager::getPDO();
-        $sql = "INSERT INTO students (student_firstname, student_address, student_telephone) VALUES (:student_name, :student_address, :student_telephone)";
+        $sql = "INSERT INTO students (student_firstname,student_lastname, student_address, student_telephone) VALUES (:student_firstname,:student_lastname, :student_address, :student_telephone)";
         $statement = $conn->prepare($sql);
         return $statement->execute([
-            ':student_name' => $student->student_name,
+            ':student_firstname' => $student->student_firstname,
+            ':student_lastname' => $student->student_firstname,
             ':student_address' => $student->student_address,
             ':student_telephone' => $student->student_telephone
         ]);
     }
 
-    public function getAllStudents(): array
+    public function getAllStudents()
     {
         $conn = ConnectionManager::getPDO();
         $sql = "SELECT * FROM students";
@@ -43,7 +44,7 @@ class StudentDAO
 
     }
 
-    public function updateStudent(Student $student): bool
+    public function updateStudent(Student $student)
     {
         $conn = ConnectionManager::getPDO();
         $sql = "UPDATE students SET student_firstname = :student_name, student_telephone = :student_telephone, student_address = :student_address WHERE student_id = :student_id";

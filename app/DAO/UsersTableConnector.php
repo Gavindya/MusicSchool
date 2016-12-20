@@ -58,7 +58,7 @@ class UsersTableConnector
 
         $conn->escape_string($request->index);
 
-        $sql = "SELECT `password` FROM `users` WHERE `id`={$request->index}";
+        $sql = "SELECT `password` FROM `users` WHERE username={$request->index}";
         $result = $conn->query($sql);
         $row_cnt = $result->num_rows;
         if ($row_cnt == 0) {

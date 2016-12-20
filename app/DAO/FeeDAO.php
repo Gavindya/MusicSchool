@@ -11,7 +11,7 @@ namespace App\DAO;
 
 class FeeDAO
 {
-    public function getFees($enrolment_id): array
+    public function getFees($enrolment_id)
     {
         $conn = ConnectionManager::getPDO();
         $sql = "SELECT * FROM fees WHERE enrolment_id = :enrolment_id";

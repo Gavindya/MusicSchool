@@ -13,7 +13,7 @@ use DB;
 
 class AssignmentDAO
 {
-    public function getAssignments($course_id): array
+    public function getAssignments($course_id)
     {
         return DB::select(
             'SELECT * FROM assignments WHERE course_id = :course_id', [
@@ -21,7 +21,7 @@ class AssignmentDAO
         ]);
     }
 
-    public function addAssignment(StudentAssignment $assignment): bool
+    public function addAssignment(StudentAssignment $assignment)
     {
         return DB::insert('INSERT INTO assignments (asignment_title, marks, course_id) VALUES (:assignment_title, :marks, :course_id)', [
             'assignment_title' => $assignment->title,

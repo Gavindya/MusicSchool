@@ -14,17 +14,17 @@ use DB;
 
 class StudentAttendanceDAO
 {
-    public function getAllAttendance(): array
+    public function getAllAttendance()
     {
         return DB::select('SELECT * FROM attendance');
     }
 
-    public function getAttendanceByEnrolment($enrolment_Id): array
+    public function getAttendanceByEnrolment($enrolment_Id)
     {
         return DB::select('SELECT * FROM attendance WHERE enrolment_id = :id', ['id' => $enrolment_Id]);
     }
 
-    public function addNewCourse(Course $course): bool
+    public function addNewCourse(Course $course)
     {
         return DB::insert(
             'INSERT INTO courses (instrument_id, weekday, timeslot_id, charges, teacher_id) VALUES (:instrument_id, :weekday, :timeslot_id, :charges, :teacher_id)', [
@@ -36,7 +36,7 @@ class StudentAttendanceDAO
         ]);
     }
 
-    public function updateCourse(Course $course): int
+    public function updateCourse(Course $course)
     {
         return DB::update(
             'UPDATE courses SET instrument_id = :instrument_id, weekday = :weekday, timeslot_id = :timeslot_id, charges = :charges, teacher_id = :teacher_id WHERE course_id = :course_id', [

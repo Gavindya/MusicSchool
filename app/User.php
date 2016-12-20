@@ -1,29 +1,84 @@
 <?php
-
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\Authenticatable;
 
-class User extends Authenticatable
+class User implements Authenticatable
 {
-    use Notifiable;
+    public $username;
+    public $password;
+    public $remember_token;
+    public $role;
 
     /**
-     * The attributes that are mass assignable.
+     * Get the name of the unique identifier for the user.
      *
-     * @var array
+     * @return string
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    public function getAuthIdentifierName()
+    {
+        return "username";
+    }
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Get the unique identifier for the user.
      *
-     * @var array
+     * @return mixed
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function getAuthIdentifier()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        // Returns the (hashed) password for the user
+        return $this->password;
+    }
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return $this->remember_token;
+    }
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        return "remember_token";
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
 }

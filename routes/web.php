@@ -19,6 +19,12 @@
 
 Route::get('/courses', 'CourseController@showCourseManagement');
 Route::post('/courses', 'CourseController@addCourse');
+//Route::patch('/filter', 'CourseController@filter');
+Route::patch('/filter', [
+    'uses' => 'CourseController@filter',
+    'as'=>'filter'
+]);
+
 
 Route::get('/courses/{id}', 'CourseController@showCourseDetails');
 Route::post('/courses/{id}', 'CourseController@editCourse');
@@ -44,16 +50,16 @@ Route::post('/administration/instruments/edit', 'SchoolAdministrationController@
 Route::get('/user/add', [
     'uses' => 'UserController@showAddUserView'
 ]);
-Route::get('/login', [
-    'uses' => 'LogInController@showLoginView'
-]);
+//Route::get('/login', [
+//    'uses' => 'LogInController@showLoginView'
+//]);
 
 Route::post('/user/add/store', [
     'uses' => 'UserController@addUser'
 ]);
-Route::patch('/login/user', [
-    'uses' => 'LogInController@loginUser'
-]);
+//Route::patch('/login/user', [
+//    'uses' => 'LogInController@loginUser'
+//]);
 
 /*
 |--------------------------------------------------------------------------

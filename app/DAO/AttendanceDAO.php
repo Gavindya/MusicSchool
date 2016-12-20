@@ -12,7 +12,7 @@ use DB;
 
 class AttendanceDAO
 {
-    public function getClassAttendance($course_id): array
+    public function getClassAttendance($course_id)
     {
         return DB::select(
             'SELECT
@@ -35,7 +35,7 @@ class AttendanceDAO
         ]);
     }
 
-    public function getStudentAttendance($student_id): array
+    public function getStudentAttendance($student_id)
     {
         return DB::select(
             'SELECT
@@ -58,7 +58,7 @@ class AttendanceDAO
         ]);
     }
 
-    public function addAttendance($enrolment_id): bool
+    public function addAttendance($enrolment_id)
     {
         DB::insert(
             'INSERT INTO attendance (enrolment_id, date) VALUES (:enrolment_id, CURRENT_DATE)', [

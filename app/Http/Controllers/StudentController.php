@@ -79,14 +79,16 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudents();
-        return view('Student.newClass', compact('students'));
+        $search=0;
+//        echo dd($students);
+        return view('Student.newClass', compact('students','search'));
     }
 
     public function addNewEnrolment(Request $request)
     {
         $this->validate($request, [
             'student_id' => 'required',
-            'class_id' => 'required'
+            'course_id' => 'required'
         ]);
         $object = $request->all();
 
@@ -120,7 +122,7 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $object = $request->all();
-        $student = new Student($object['student_name'], $object['student_address'], $object['student_telephone']);
+        $student = new Student($object['student_firstname'],$object['student_lastname'], $object['student_address'], $object['student_telephone']);
         $studentDAO->updateStudent($student);
         return view('Student.singleStudentManagement')->with('students', $student);
     }

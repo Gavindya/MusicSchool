@@ -13,7 +13,7 @@ use DB;
 
 class EnrolmentDAO
 {
-    public function getEnrolment($studentId, $courseId): array
+    public function getEnrolment($studentId, $courseId)
     {
         return DB::select(
             'SELECT * FROM enrolments WHERE student_id = :studentId AND course_id = :courseId', [
@@ -22,7 +22,7 @@ class EnrolmentDAO
         ]);
     }
 
-    public function addEnrolment(Enrolment $enrolment): bool
+    public function addEnrolment(Enrolment $enrolment)
     {
         $conn = ConnectionManager::getPDO();
         $sql = "INSERT INTO enrolments (student_id, course_id) VALUES (:student_id, :course_id)";
