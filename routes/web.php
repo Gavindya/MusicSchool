@@ -251,3 +251,15 @@ Route::get('/Attendance/Student',[
 Route::post('/Attendance/Student',[
     'uses' => 'StudentAttendanceController@showStudentAttendance'
 ]);
+
+Route::get('/Attendance/Mark',[
+    'uses' => 'StudentAttendanceController@getMarkAttendance'
+]);
+
+Route::post('/Attendance/Mark',[
+    'uses' => 'StudentAttendanceController@getEnrolledStudents'
+]);
+
+Route::post('Attendance/Mark/MarkAttendance',[
+    'uses' => 'StudentAttendanceController@markAttendance'
+]);
