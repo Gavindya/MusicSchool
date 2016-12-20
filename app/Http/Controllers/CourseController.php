@@ -34,7 +34,7 @@ class CourseController extends Controller
         $courses = $courseDAO->getAllCourses();
         $instruments = $instrumentDAO->getAllInstruments();
         $timeslots = $timeslotDAO->getAllTimeslots();
-        $teachers = $teacherDAO->getAllTeachers();
+        $teachers = $teacherDAO->getAllTeachersAsObj();
 
         return view('courses.course-management', [
             'courses' => $courses,
@@ -58,7 +58,7 @@ class CourseController extends Controller
 
         $instruments = $instrumentDAO->getAllInstruments();
         $timeslots = $timeslotDAO->getAllTimeslots();
-        $teachers = $teacherDAO->getAllTeachers();
+        $teachers = $teacherDAO->getAllTeachersAsObj();
 
         return view('courses.course-details')->with([
             'course' => $course,

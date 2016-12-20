@@ -53,10 +53,7 @@
     </div>
 </div>
 <div class="container">
-    <h2>Add New Teacher</h2>
-    <div class="container-fluid pull-right">
-        <button id="toggleAddTeacher" class="btn-primary btn glyphicon glyphicon-collapse-down"></button>
-    </div>
+    <button id="toggleAddTeacher" class="btn-primary btn">Add New Teacher</button>
     <hr>
     <div id="addTeacher" class="collapse">
         <form method="post" action="/addTeacher">
@@ -73,15 +70,6 @@
                 <label for="telephone">*Telephone (format: 0xxxxxxxx):</label>
                 <input type="tel" class="form-control" id="telephone" placeholder="Telephone" name="telephone" pattern="^\d{10}$" required >
             </div>
-            <label>Instruments</label>
-            <div class="container">
-                @for($i =0; $i < sizeof($instruments); $i++)
-                <div class="checkbox">
-                    <label><input type="checkbox" value="">{{$instruments[$i]['instrument_name']}}</label>
-                </div>
-                @endfor
-            </div>
-
             <div class="form-group">
                 <button type="submit">Add teacher</button>
             </div>
