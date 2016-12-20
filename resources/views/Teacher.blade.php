@@ -3,7 +3,7 @@
 <?php
 ?>
 <head>
-    <title>Teacher Informationt</title>
+    <title>Personal Details</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -30,7 +30,6 @@
         function edit() {
             document.getElementById("telephone").removeAttribute('readonly');
             document.getElementById("address").removeAttribute('readonly');
-            document.getElementById("instruments").removeAttribute('readonly');
             document.getElementById("password").removeAttribute('readonly');
             document.getElementById("re-password").removeAttribute('readonly');
             document.getElementById("update").removeAttribute('disabled');
@@ -51,33 +50,46 @@
 </head>
 <body>
 <div class="container">
-    <h1>Teacher Management</h1>
     <hr style="margin: 0">
-    <h2>Personal Details</h2>
+    <h2>Welcome {{$teacher['teacher_name']}}! </h2>
+
+    <div id="msgArea">
+        @if(Session::has('msg'))
+            <p class="alert alert-info">{{ Session::get('msg') }}
+                <button id="m" class="glyphicon glyphicon-remove pull-right"></button></p>
+        @endif
+        @if(Session::has('updated'))
+            <p class="alert {{ Session::get('alertType') }}">{{ Session::get('updated') }}
+                <button id="m" class="glyphicon glyphicon-remove pull-right"></button></p>
+        @endif
+    </div>
     <div id="form" class="row">
         <form method="post" action="/updateTeacherHimself">
             {{method_field('PATCH')}}
             <div class="col-lg-4 col-md-4">
                 <div class="form-group">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" placeholder="ID" readonly name="id" value={{$teacher['teacher_id']}}>
-                </div>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" readonly value={{$teacher['teacher_name']}}>
+                    <label for="name">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" readonly value={{$teacher['teacher_id']}}>
                 </div>
                 <div class="form-group">
                     <label for="instruments">Instruments</label>
-                    <input type="text" class="form-control" id="instruments" name="instruments" value={{$instruments}} readonly >
+                    <input type="text" class="form-control" id="instruments" readonly name="instruments" value={{$instrumentsOfTeacher}} >
                 </div>
+                <label for="instrument-id">Add Instrument</label>
+                <select class="form-control" id="instrument-id" name="instrument_id">
+                    <option selected disabled>Choose here</option>
+                    @foreach($allInstruments as $ins)
+                        <option value="{{$ins['instrument_id']}}">{{$ins['instrument_name']}}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="col-lg-4 col-md-4">
                 <div class="form-group">
-                    <label for="username">Username (must be more than 3 characters-all lowercase)</label>
+                    <label for="username">Username (more than 3 lowercase chars)</label>
                     <input type="text" class="form-control" id="username" name="username" pattern="[a-z].{2,}" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password (must be more than 3 characters)</label>
+                    <label for="password">Password (more than 3 characters)</label>
                     <input type="password" class="form-control" id="password" pattern=".{3,}" name="password" readonly>
                 </div>
                 <div class="form-group">

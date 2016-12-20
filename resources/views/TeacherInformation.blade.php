@@ -29,7 +29,6 @@
         function edit() {
             document.getElementById("telephone").removeAttribute('readonly');
             document.getElementById("address").removeAttribute('readonly');
-            document.getElementById("instruments").removeAttribute('readonly');
             document.getElementById("update").removeAttribute('disabled');
         }
     </script>
@@ -44,6 +43,10 @@
         <div id="msgArea">
             @if(Session::has('msg'))
                 <p class="alert alert-info">{{ Session::get('msg') }}
+                    <button id="m" class="glyphicon glyphicon-remove pull-right"></button></p>
+            @endif
+            @if(Session::has('updated'))
+                <p class="alert {{ Session::get('alertType') }}">{{ Session::get('updated') }}
                     <button id="m" class="glyphicon glyphicon-remove pull-right"></button></p>
             @endif
         </div>
@@ -63,8 +66,17 @@
                 </div>
                 <div class="form-group">
                     <label for="instruments">Instruments</label>
-                    <input type="text" class="form-control" id="instruments" name="instruments" value={{$instruments}} readonly>
+                    <input type="text" class="form-control" id="instruments" readonly name="instruments" value={{$TeacherInstruments}}>
                 </div>
+
+                <label for="instrument-id">Add Instrument</label>
+                <select class="form-control" id="instrument-id" name="instrument_id">
+                    <option selected disabled>Choose here</option>
+                    @foreach($allInstruments as $instrument)
+                        <option value="{{$instrument['instrument_id']}}">{{$instrument['instrument_name']}}</option>
+                    @endforeach
+                </select>
+
             </div>
             {{--<div class="col-lg-4 col-md-4">--}}
                 {{--<div class="form-group">--}}

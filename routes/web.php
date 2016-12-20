@@ -209,6 +209,13 @@ Route::get('/PayrollSummary/ThisMonth', [
     'uses' => 'SalaryController@getSummaryThisMonth',
 ]);
 
+Route::patch('/setPaymentPerHour', [
+    'uses' => 'SalaryController@setPaymentPerHour',
+]);
+
+Route::patch('/setPaymentDate', [
+    'uses' => 'SalaryController@setPaymentDate',
+]);
 /*
 |--------------------------------------------------------------------------
 | Student Attendance

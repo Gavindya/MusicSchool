@@ -66,14 +66,22 @@ class PaymentDAO
         $year = date("Y", $time);
         $today = $year . '-' . $MonthDay;
         DB::beginTransaction();
-        for ($i = 0; $i < sizeof($paymentsIdList); $i++) {
-            DB::update(
-                'UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id', [
-                'id' => $paymentsIdList[$i],
-                'today' => $today
-            ]);
+        try{
+            for ($i = 0; $i < sizeof($paymentsIdList); $i++) {
+                DB::update(
+                    'UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id', [
+                    'id' => $paymentsIdList[$i],
+                    'today' => $today
+                ]);
+            }
+            
+            DB::commit();
+            return "1";
+        }catch (Exception $ex){
+            DB::rollBack();
+            return "0";
         }
-        DB::commit();
+        
     }
 
     public function totalPaid()
@@ -122,5 +130,22 @@ class PaymentDAO
                 ]);
             }
         }
+    }
+    
+    public function changePayementPerHour($payment){
+//        DB::update(
+//            'UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id', [
+//            'id' => $paymentsIdList[$i],
+//            'today' => $today
+//        ]);
+        echo dd("Not Implemented");
+    }
+    public function changePayementDate($date){
+//        DB::update(
+//            'UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id', [
+//            'id' => $paymentsIdList[$i],
+//            'today' => $today
+//        ]);
+        echo dd("Not Implemented");
     }
 }
