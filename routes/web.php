@@ -23,6 +23,9 @@ Route::post('/courses', 'CourseController@addCourse');
 Route::get('/courses/{id}', 'CourseController@showCourseDetails');
 Route::post('/courses/{id}', 'CourseController@editCourse');
 
+Route::get('/teachers/all', 'CourseController@getAllTeachers');
+Route::get('/instruments/all', 'CourseController@getAllInstruments');
+
 // Routes for loading teaches table
 Route::get('/teaches/instrument/{id}', 'SchoolAdministrationController@getTeachesByInstrumentId');
 Route::get('/teaches/teacher/{id}', 'SchoolAdministrationController@getInstrumentsByTeacherId');
@@ -124,10 +127,9 @@ Route::post('/student/subscribe', [
     'uses' => 'StudentController@addNewEnrolment'
 
 ]);
-Route::get('/user/add',function (){
+Route::get('/user/add', function () {
     return view('Users.add_user');
 });
-
 
 
 Route::patch('/class/search/students', [
@@ -172,7 +174,7 @@ Route::get('/TeacherInformation/ID/{id}', [
 
 Route::get('/Teacher', [
     'uses' => 'TeacherController@getPersonalPage',
-    'as'=>'teacher'
+    'as' => 'teacher'
 ]);
 
 Route::get('/Resign/{id}', [
@@ -218,7 +220,7 @@ Route::patch('/payTeachers', [
 
 Route::get('/PayrollSummary', [
     'uses' => 'SalaryController@getSummary',
-    'as'=>'payrollSummary'
+    'as' => 'payrollSummary'
 ]);
 Route::get('/PayrollSummary/ThisMonth', [
     'uses' => 'SalaryController@getSummaryThisMonth',
@@ -236,18 +238,18 @@ Route::patch('/setPaymentDate', [
 | Student Attendance
 |--------------------------------------------------------------------------
 */
-Route::get('/Attendance/Class',[
+Route::get('/Attendance/Class', [
     'uses' => 'StudentAttendanceController@getClassAttendance'
 ]);
 
-Route::post('/Attendance/Class',[
+Route::post('/Attendance/Class', [
     'uses' => 'StudentAttendanceController@showClassAttendance'
 ]);
 
-Route::get('/Attendance/Student',[
+Route::get('/Attendance/Student', [
     'uses' => 'StudentAttendanceController@getStudentAttendance'
 ]);
 
-Route::post('/Attendance/Student',[
+Route::post('/Attendance/Student', [
     'uses' => 'StudentAttendanceController@showStudentAttendance'
 ]);
