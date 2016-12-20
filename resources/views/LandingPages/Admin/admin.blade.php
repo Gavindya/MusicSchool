@@ -34,7 +34,7 @@
     }
 </style>
 <body class="w3-black">
-<h>You are logged in as </h>
+<h>You are logged in as {{ Auth::user()->username }}</h>
 
 <!-- Icon Bar (Sidenav - hidden on small screens) -->
 @include('LandingPages.Admin.partials.admin_side_navbar')

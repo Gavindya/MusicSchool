@@ -67,7 +67,7 @@ class RegisterController extends Controller
         $userDAO = new UserDAO();
         $user = new User();
         $user->username = $data['username'];
-        $user->password = bcrypt($data['password']);
+        $user->password = ($data['password']);
         $user->role = $data['role'];
         $user->remember_token = $data['_token'];
         $userDAO->addUser($user);
