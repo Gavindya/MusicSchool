@@ -7,9 +7,9 @@ use App\DAO\InstrumentDAO;
 use App\DAO\TeacherDAO;
 use App\DAO\TimeslotDAO;
 use App\Domain\Course;
+use DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\View\View;
 
 class CourseController extends Controller
@@ -24,6 +24,16 @@ class CourseController extends Controller
         $this->middleware('auth');
     }
 
+    public function getAllTeachers()
+    {
+        return DB::select('SELECT teacher_id, teacher_name FROM teachers');
+    }
+
+    public function getAllInstruments()
+    {
+        return DB::select('SELECT instrument_id, instrument_name FROM instruments');
+    }
+
     public function showCourseManagement(): View
     {
         $courseDAO = new CourseDAO();
@@ -34,7 +44,7 @@ class CourseController extends Controller
         $courses = $courseDAO->getAllCourses();
         $instruments = $instrumentDAO->getAllInstruments();
         $timeslots = $timeslotDAO->getAllTimeslots();
-        $teachers = $teacherDAO->getAllTeachers();
+        $teachers = $teacherDAO->getAllTeachersAsObj();
 
         return view('courses.course-management', [
             'courses' => $courses,
@@ -58,7 +68,7 @@ class CourseController extends Controller
 
         $instruments = $instrumentDAO->getAllInstruments();
         $timeslots = $timeslotDAO->getAllTimeslots();
-        $teachers = $teacherDAO->getAllTeachers();
+        $teachers = $teacherDAO->getAllTeachersAsObj();
 
         return view('courses.course-details')->with([
             'course' => $course,
@@ -115,8 +125,5 @@ class CourseController extends Controller
         array_push($clsDetails, "4:30");
         array_push($clsDetails, "6:30");
         return $clsDetails;
-    }
-    public function filter(Request $request){
-        echo dd($request->all());
     }
 }

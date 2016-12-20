@@ -4,9 +4,10 @@
         <table class="table table-striped table-hover table-responsive">
             <thead>
             <tr>
-                <th width="25%">Student Id</th>
-                <th width="10%">Student Name</th>
-                <th width="10%">Payment Status</th>
+                <th width="20%">Student Id</th>
+                <th width="20%">First Name</th>
+                <th width="30%">Last Name</th>
+                <th width="15%">Payment Status</th>
                 <th width="15%">Present/Absent</th>
             </tr>
             </thead>
@@ -14,7 +15,8 @@
             @foreach($attendances as $attendance)
                 <tr>
                     <td>{{$attendance['student_id']}}</td>
-                    <td>{{$attendance['student_name']}}</td>
+                    <td>{{$attendance['student_firstname']}}</td>
+                    <td>{{$attendance['student_lastname']}}</td>
                     @if($attendance['status'] === 1)
                         <td class="text-success">Active</td>
                     @else

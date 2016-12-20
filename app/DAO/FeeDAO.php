@@ -11,12 +11,13 @@ namespace App\DAO;
 
 class FeeDAO
 {
-    public function getFees($enrolment_id)
+    public function getFees($student_id)
     {
         $conn = ConnectionManager::getPDO();
-        $sql = "SELECT * FROM fees WHERE enrolment_id = :enrolment_id";
+        $sql = "SELECT * FROM fees WHERE enrolment_id IN (SELECT enrolment_id FROM 
+                  enrolments WHERE student_id = :student_id);";
         $statement = $conn->prepare($sql);
-        $statement->execute([':enrolment_id' => $enrolment_id]);
+        $statement->execute([':student_id' => $student_id]);
         return $statement->fetchAll();
     }
 }

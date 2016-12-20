@@ -171,6 +171,11 @@ class TeacherDAO
 
     //////// METHODS IMPLEMENTED IN MY SECTION (YASITH) :) DONT DELETE
 
+    public function getAllTeachersAsObj()
+    {
+        return DB::select('SELECT * FROM teachers');
+    }
+
     public function getTeacherById($id)
     {
         return DB::selectOne('SELECT * FROM teachers WHERE teacher_id = :teacher_id', [

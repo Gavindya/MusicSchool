@@ -6,6 +6,7 @@ use App\DAO\CourseDAO;
 use App\DAO\InstrumentDAO;
 use App\DAO\TeacherDAO;
 use App\Domain\Teacher;
+use DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\Request;

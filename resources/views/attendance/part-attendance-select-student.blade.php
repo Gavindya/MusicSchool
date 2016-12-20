@@ -8,7 +8,8 @@
                 <select class="form-control" id="student-id" name="student-id">
                     <option selected disabled>Choose here</option>
                     @foreach($students as $student)
-                        <option value="{{$student['student_id']}}">{{$student['student_name']}}</option>
+                        <option value="{{$student['student_id']}}">
+                            {{$student['student_id']}}</option>
                     @endforeach
                 </select>
             </div>

@@ -11,14 +11,19 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($students as $student)
+            @foreach($attendances as $attendance)
                 <tr>
-                    <td>{{$student['date']}}</td>
-                    <td>{{$student['class']}}</td>
-                    @if($student['status'] === 1)
+                    <td>{{$attendance['date']}}</td>
+                    <td>{{$attendance['course_name']}}</td>
+                    @if($attendance['status'] === 1)
                         <td class="text-success">Active</td>
                     @else
                         <td class="text-danger">Expired</td>
+                    @endif
+                    @if($attendance['date'] === null)
+                        <td class="text-danger">Absent</td>
+                    @else
+                        <td class="text-success">Present</td>
                     @endif
                 </tr>
             @endforeach

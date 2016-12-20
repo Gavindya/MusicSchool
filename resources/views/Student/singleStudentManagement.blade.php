@@ -76,7 +76,7 @@
 
                 <div class="form-group">
                 <label for="firstname"><span class="req">* </span> First name: </label>
-                <input class="form-control" type="text" name="name" value="{{$students[$id-1]['name']}}" id="txt"
+                <input class="form-control" type="text" name="student_firstname" value="{{$students[$id-1]['student_firstname']}}" id="txt"
                        onkeyup="Validate(this)" required/>
                 <div id="errFirst"></div>
             </div>
@@ -84,15 +84,15 @@
 
             <div class="form-group">
                 <label for="lastname"><span class="req">* </span> Last name: </label>
-                <input class="form-control" type="text" name="last_name" id="txt" onkeyup="Validate(this)"
-                       placeholder="{{old('first_name')}}" required/>
+                <input class="form-control" type="text" name="student_lastname" id="txt" onkeyup="Validate(this)"
+                       placeholder="{{old('student_lastname')}}" required/>
                 <div id="errLast"></div>
             </div>
 
 
             <div class="form-group">
                 <label for="phonenumber"><span class="req">* </span> Phone Number: </label>
-                <input required type="text" name="phone_number" value="{{$students[$id-1]['telephone']}}"
+                <input required type="text" name="student_telephone" value="{{$students[$id-1]['student_telephone']}}"
                        id="phone" class="form-control phone" maxlength="28"
                        onkeyup="validatephone(this);" placeholder="Phone Number"/>
             </div>
@@ -100,8 +100,8 @@
 
             <div class="form-group">
                 <label for="email"><span class="req">* </span> Address: </label>
-                <input class="form-control" required type="text" value="{{$students[$id-1]['address']}}"
-                       name="address" id="txt"/>
+                <input class="form-control" required type="text" value="{{$students[$id-1]['student_address']}}"
+                       name="student_address" id="txt"/>
                 <div class="status" id="status"></div>
             </div>
 
@@ -114,7 +114,7 @@
 
             <div class="form-group">
                 <label for="phonenumber"><span class="req">* </span> Phone Number: </label>
-                <input required type="text" name="guardian_phone" id="phone" class="form-control phone" maxlength="28"
+                <input required type="text" name="guardian_telephone" id="phone" class="form-control phone" maxlength="28"
                        onkeyup="validatephone(this);" placeholder="not used for marketing"/>
             </div>
 
