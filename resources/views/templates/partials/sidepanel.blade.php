@@ -37,6 +37,21 @@
                 <a href="/student/fees">Add Fee</a>
             </li>
             <li>
+                <a href="/TeacherManagement">Teacher Management</a>
+            </li>
+            <li>
+                <a href="/Payrole">Payroll</a>
+            </li>
+            <li>
+                <a href="/Payrole/ThisMonth">Payroll This Month</a>
+            </li>
+            <li>
+                <a href="/PayrollSummary">Payroll Summary</a>
+            </li>
+            <li>
+                <a href="/PayrollSummary/ThisMonth">Payroll Summary This Month</a>
+            </li>
+            <li>
                 <a href="#">About</a>
             </li>
             <li>

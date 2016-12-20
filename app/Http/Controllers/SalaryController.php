@@ -23,8 +23,9 @@ class SalaryController extends Controller
         }
         $dbCon = new PaymentDAO();
         $payments = $dbCon->getUnpaidPaymentsOfThisMonth();
+        $hourlyPayment = $dbCon->getHourlyPay();
         $tot = $dbCon->totalPaid();
-        return view('payRole', ['payments' => $payments, 'tot' => $tot, 'paymentWinType' => "ThisMonth"]);
+        return view('payRole', ['payments' => $payments, 'hourlyPayment' => $hourlyPayment['hourly_amount'],'tot' => $tot, 'paymentWinType' => "ThisMonth"]);
     }
 
     public function getAllPayments()
@@ -36,7 +37,11 @@ class SalaryController extends Controller
         $dbCon = new PaymentDAO();
         $payments = $dbCon->getAllUnpaidPayments();
         $tot = $dbCon->totalPaid();
-        return view('payRole', ['payments' => $payments, 'tot' => $tot, 'paymentWinType' => "All"]);
+        $hourlyPayment = $dbCon->getHourlyPay();
+        return view('payRole', ['payments' => $payments,
+                                'hourlyPayment' => $hourlyPayment['hourly_amount'],
+                                'tot' => $tot,
+                                'paymentWinType' => "All"]);
     }
 
     public function getSummary()
@@ -94,36 +99,40 @@ class SalaryController extends Controller
         $payment=$request->paymentPerHour;
         $intPayment = (int)$payment;
         if($intPayment>10000){
-            echo dd("too large");
+            Session::flash('error', "Could Not Set Payment Per Hour");
+            return redirect()->back();
         }else{
             $paymentDAO = new PaymentDAO();
-            $paymentDAO->changePayementPerHour($intPayment);
-        }
-
-    }
-
-    public function setPaymentDate(Request $request){
-        $payDay=$request->paymentDate;
-        $intPayDay = (int)$payDay;
-        if($intPayDay>30){
-            echo dd("too large");
-        }else{
-            $paymentDAO = new PaymentDAO();
-            $paymentDAO->changePayementDate($intPayDay);
+            $msg=$paymentDAO->changePaymentPerHour($intPayment);
+            if($msg==="1"){
+                Session::flash('msg', "Changed Payment Per Hour");
+                return redirect()->back();
+            }else{
+                Session::flash('msg', "A value has been already set");
+                return redirect()->back();
+            }
+            
         }
     }
-
+    
     public function generateSalary()
     {
         $teacherDAO = new TeacherDAO();
-        $workHours = $teacherDAO->getWorkHours();
-
-        $genSalary = new Payrole();
-        $paymentsOfMonth = $genSalary->generateMonthlySalary($workHours);
-
         $paymentDAO = new PaymentDAO();
+        $genSalary = new Payrole();
+        
+        $workHours = $teacherDAO->getWorkHours();
+        
+        $hourlyPayment = $paymentDAO->getHourlyPay();
+        $hourlyPayment=$hourlyPayment['hourly_amount'];
+        
+        $paymentsOfMonth = $genSalary->generateMonthlySalary($workHours,$hourlyPayment);
+        
+        
         $paymentDAO->generatePayments($paymentsOfMonth);
 
+        
+        
         return "Salary Generated For this Month";
     }
 

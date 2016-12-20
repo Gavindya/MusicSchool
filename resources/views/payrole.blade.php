@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-?>
-<head>
-    <title>Payroll</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('templates.newMaster')
+@section('script')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -39,12 +33,12 @@
             document.getElementById("ids").value = arr;
         });
     </script>
-</head>
-<body>
-<div class="container">
-    <h1>Payroll</h1>
-    <hr>
-    {{--<a href="{{route('generate')}}">Generate Salary</a>--}}
+@endsection
+@section('headline')
+    Payroll
+@endsection
+
+@section('content')
     <div>
         <div id="msgArea">
             @if(Session::has('msg'))
@@ -103,35 +97,21 @@
         {{--<button id="toggleChangePayment" class="btn-primary btn">Change Payment Per Hour</button>--}}
         {{--<hr>--}}
         <div id="payment" class="col-lg-6">
-            <div class="col-lg-6">
+            <div>
                 <form method="post" action="/setPaymentPerHour">
                     {{method_field('PATCH')}}
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="paymentPerHour">Payment Per Hour</label>
-                        <input type="text" class="form-control" id="paymentPerHour" pattern="[0-9]{1,5}" name="paymentPerHour">
+                        <input type="text" class="form-control" id="paymentPerHour" pattern="[0-9]{1,5}" name="paymentPerHour" value="{{$hourlyPayment}}">
                     </div>
                     <div class="form-group">
-                        <button class="btn-primary" type="submit">Change Payment</button>
-                    </div>
-                </form>
-            </div>
+                        <button class="btn-primary" type="submit"
+                                onclick="return confirm('Are you sure you want to change monthly Payment?')">Change Payment</button>
 
-            <div class="col-lg-6 pull-right">
-                <form method="post" action="/setPaymentDate">
-                    {{method_field('PATCH')}}
-                    {{csrf_field()}}
-                    <div class="form-group">
-                        <label for="paymentDate">Payment Date</label>
-                        <input type="text" class="form-control" id="paymentDate" pattern="[0-9]{1,2}" name="paymentDate">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn-primary" type="submit">Change Payment Date</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+@endsection

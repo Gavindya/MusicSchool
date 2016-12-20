@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-?>
-<head>
-    <title>Teacher Informationt</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('templates.newMaster')
+@section('script')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -33,11 +27,13 @@
         }
     </script>
 
-</head>
-<body>
-<div class="container">
-    <h1>Teacher Management</h1>
-    <hr style="margin: 0">
+@endsection
+@section('headline')
+    Teacher Information
+@endsection
+
+@section('content')
+
     <h2>Personal Details</h2>
     <div>
         <div id="msgArea">
@@ -78,20 +74,6 @@
                 </select>
 
             </div>
-            {{--<div class="col-lg-4 col-md-4">--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="username">Username</label>--}}
-                    {{--<input type="text" class="form-control" id="username" name="username" readonly>--}}
-                {{--</div>--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="password">Password</label>--}}
-                    {{--<input type="text" class="form-control" id="password" name="password" readonly>--}}
-                {{--</div>--}}
-                {{--<div class="form-group">--}}
-                    {{--<label for="re-password">Re-Enter Password</label>--}}
-                    {{--<input type="text" class="form-control" id="re-password" name="re-password" readonly>--}}
-                {{--</div>--}}
-            {{--</div>--}}
             <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                     <label for="telephone">Telephone Number</label>
@@ -115,8 +97,7 @@
 
         <div class="pull-right container-fluid">
             <input type="button" id="edit" onclick="edit()" value="Edit" class="btn-primary btn"/>
-            {{--FOR NOW REDIRECTS TO PAYROLE> SHOULD BE FUNCTION FOR RESIGN--}}
-            {{--*DO THIS*--}}
+
             <a href="{{ route('resign',['id' => $teacher['teacher_id']])}}"
                onclick="return confirm('Are you sure you want to resign {{$teacher['teacher_name']}}?')"
                class="btn-primary btn">Resign</a>
@@ -191,6 +172,4 @@
             </tbody>
         </table>
     </div>
-</div>
-</body>
-</html>
+@endsection
