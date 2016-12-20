@@ -52,18 +52,18 @@
 
                         <tr>
                             <div>
-                                <td class=> {{$students[$i]['id']}}</td>
+                                <td class=> {{$students[$i]['student_id']}}</td>
                                 <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['name']}}</a>
+                                    <a href="/student/view/payment/{{$students[$i]['student_id']}}">{{$students[$i]['student_firstname']}}</a>
                                 </td>
                                 <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['address']}}</a>
+                                    <a href="/student/view/payment/{{$students[$i]['student_id']}}">{{$students[$i]['student_address']}}</a>
                                 </td>
                                 <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['telephone']}}</a>
+                                    <a href="/student/view/payment/{{$students[$i]['student_id']}}">{{$students[$i]['student_telephone']}}</a>
                                 </td>
                                 <td>
-                                    <a href="/student/view/payment/{{$students[$i]['id']}}">{{$students[$i]['created_at']}}</a>
+                                    <a href="/student/view/payment/{{$students[$i]['student_id']}}">{{$students[$i]['student_joindate']}}</a>
                                 </td>
 
                             </div>

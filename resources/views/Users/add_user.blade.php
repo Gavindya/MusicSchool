@@ -41,7 +41,7 @@
                     </div>
                     <div class="panel-body">
 
-                        <form role="form" action="/user/add/store" method="POST">
+                        <form role="form" action=/user/add/store method="POST">
                             {{csrf_field()}}
                             @include('Users.partials.add_user_form')
                             {{csrf_field()}}

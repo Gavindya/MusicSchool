@@ -10,6 +10,7 @@ namespace App\DAO;
 
 
 use App\Domain\Student;
+use Symfony\Component\HttpFoundation\Request;
 
 class StudentDAO
 {
@@ -56,4 +57,41 @@ class StudentDAO
             ':student_id' => $student->student_id
         ]);
     }
+
+
+    public function searchStudents(Request $request)
+        
+    {
+
+       // $word = "%{$request->guess}%";
+       // $sql = "SELECT * FROM `students` WHERE `name` LIKE '{$word}' ";
+
+        $conn = ConnectionManager::getPDO();
+        $word = "%{$request->guess}%";
+        //  echo( '%'.$request->guess}.'%');
+
+         $sql = "SELECT * FROM `students` WHERE `student_firstname` LIKE $word";
+//       // $statement = $conn->prepare($sql);
+//        echo "%{$request->guess}%";
+//        return $statement->execute([
+//            ':guess' => "%{$request->guess}%"]);
+
+
+
+
+        $word = "%{$request->guess}%";
+        $sql = "SELECT * FROM `students` WHERE `student_firstname` LIKE '{$word}' ";
+        $result = $conn->query($sql);
+        // $conn->close();
+
+        return $conn->query($sql)->fetchAll();
+        var_dump($conn->query($sql)->fetchAll());
+
+//       //
+
+
+    }
+    
+    
+    
 }

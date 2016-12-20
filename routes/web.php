@@ -124,7 +124,18 @@ Route::post('/student/enroll', [
 ]);
 Route::post('/student/subscribe', [
     'uses' => 'StudentController@addNewEnrolment'
+
 ]);
+
+
+Route::patch('/class/search/students', [
+    'uses' => 'StudentController@searchStudentsForClass'
+]);
+Route::patch('/student/management/search', [
+    'uses' => 'StudentController@searchStudentsForManagement'
+]);
+
+
 /*
 |--------------------------------------------------------------------------
 | Teacher Management
