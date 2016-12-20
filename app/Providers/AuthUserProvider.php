@@ -58,10 +58,10 @@ class AuthUserProvider implements UserProvider
         $userDAO = new UserDAO();
         $result =  $userDAO->getUserById($credentials['username']);
         $user = new User();
-        $user->username = $credentials['username'];
-        $user->password = $result->getAuthPassword();
-        $user->remember_token = $result->getRememberToken();
-        $user->role = $result->getRole();
+        $user->username = $result->username;
+        $user->password = $result->password;
+        $user->remember_token = $result->remember_token;
+        $user->role = $result->role;
         return $user;
     }
 
@@ -76,7 +76,7 @@ class AuthUserProvider implements UserProvider
     {
         return (
             $user->getAuthIdentifier() == $credentials['username'] &&
-            $user->getAuthPassword() == $credentials['password'] &&
+            $user->getAuthPassword() == bcrypt($credentials['password']) &&
             $user->getRememberToken() == $credentials['remember_token']
         );
     }

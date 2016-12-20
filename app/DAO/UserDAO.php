@@ -16,8 +16,7 @@ class UserDAO
 {
     public function addUser(User $user): bool
     {
-        return DB::insert("INSERT INTO `users` (name, username, password, role) VALUES (:name, :username, :password, :role)", [
-            'name' => $user->getAuthIdentifierName(),
+        return DB::insert("INSERT INTO `users` (username, password, role) VALUES (:username, :password, :role)", [
             'username' => $user->getAuthIdentifier(),
             'password' => $user->getAuthPassword(),
             'role' => $user->getRole()
@@ -29,10 +28,8 @@ class UserDAO
         $object = DB::selectOne("SELECT * FROM users WHERE username = :username", [
             'username' => $identifier
         ]);
-
         $user = new User();
-        if (!isset($user)) {
-            $user->name = $object->name;
+        if (isset($object)) {
             $user->username = $object->username;
             $user->password = $object->password;
             $user->remember_token = $object->remember_token;
@@ -49,8 +46,7 @@ class UserDAO
         ]);
 
         $user = new User();
-        if (!isset($user)) {
-            $user->name = $object->name;
+        if (isset($object)) {
             $user->username = $object->username;
             $user->password = $object->password;
             $user->remember_token = $object->remember_token;
@@ -67,8 +63,7 @@ class UserDAO
         ]);
 
         $user = new User();
-        if (!isset($user)) {
-            $user->name = $object->name;
+        if (isset($object)) {
             $user->username = $object->username;
             $user->password = $object->password;
             $user->remember_token = $object->remember_token;

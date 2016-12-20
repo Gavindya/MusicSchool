@@ -52,6 +52,7 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'role' => 'required|in:admin,staff,teacher',
         ]);
     }
 
@@ -64,7 +65,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $userDAO = new UserDAO();
-        $user = new User($data['username'], bcrypt($data['password']), $data['role']);
+        $user = new User();
+        $user->username = $data['username'];
+        $user->password = bcrypt($data['password']);
+        $user->role = $data['role'];
+        $user->remember_token = $data['_token'];
         $userDAO->addUser($user);
         return $user;
     }
