@@ -29,8 +29,8 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudentNames();
-        $search=0;
-        return view('Student.studentManagement')->with('students', $students,'search',$search);
+        $search = 0;
+        return view('Student.studentManagement')->with('students', $students, 'search', $search);
     }
 
 
@@ -80,9 +80,9 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudents();
-        $search=0;
+        $search = 0;
 //        echo dd($students);
-        return view('Student.newClass', compact('students','search'));
+        return view('Student.newClass', compact('students', 'search'));
     }
 
     public function addNewEnrolment(Request $request)
@@ -107,8 +107,8 @@ class StudentController extends Controller
         //$namelist=$studentDAO->getName();
         $studentDAO = new StudentDAO();
         $students = $studentDAO->getAllStudents();
-        $search=0;
-        return view('Student.studentManagement', compact('students','search'));
+        $search = 0;
+        return view('Student.studentManagement', compact('students', 'search'));
     }
 
     public function showStudentFeesView($id)
@@ -126,10 +126,9 @@ class StudentController extends Controller
 
 
         $studentDAO = new StudentDAO();
-        
-      
 
-       $students = $studentDAO->searchStudents( $request);
+
+        $students = $studentDAO->searchStudents($request);
         $search = 1;
         return view('Student.studentManagement', compact('students', 'search'));
 
@@ -141,17 +140,22 @@ class StudentController extends Controller
     {
         $studentDAO = new StudentDAO();
         $object = $request->all();
-        $student = new Student($object['student_firstname'],$object['student_lastname'], $object['student_address'], $object['student_telephone']);
+        $student = new Student($object['student_firstname'], $object['student_lastname'], $object['student_address'], $object['student_telephone']);
         $studentDAO->updateStudent($student);
-        $search=1;
-        return view('Student.singleStudentManagement')->with('students', $student,'search',$search);
+        session()->flash('msg', 'Update is successful.');
+        $search = 0;
+
+        return view('Student.studentManagement', compact('students', 'search'));
     }
 
-    public function showStudentProgressView($enrolment_id)
+    public function showStudentProgressView($id)
+
     {
+
         $scoreDAO = new ScoreDAO();
 
-        $studentProgress = $scoreDAO->getStudentProgress($enrolment_id);
-        return view('Student.viewProgress')->with('studentprogress', $studentProgress);
+        $studentprogress = $scoreDAO->getStudentProgress($id);
+
+        return view('Student.viewProgress', compact('studentprogress', 'id'));
     }
 }

@@ -51,7 +51,7 @@ class StudentDAO
         $sql = "UPDATE students SET student_firstname = :student_name, student_telephone = :student_telephone, student_address = :student_address WHERE student_id = :student_id";
         $statement = $conn->prepare($sql);
         return $statement->execute([
-            ':student_name' => $student->student_name,
+            ':student_name' => $student->student_firstname,
             ':student_telephone' => $student->student_telephone,
             ':student_address' => $student->student_address,
             ':student_id' => $student->student_id
@@ -89,6 +89,21 @@ class StudentDAO
 
 //       //
 
+
+    }
+
+
+    public function getStudentProgress($student_id)
+    {
+
+        // $conn = DBConnection::openConnection();
+        $conn = ConnectionManager::getPDO();
+        $sql = "SELECT students.student_id, enrolments.enrolment_id, scores.assignment_id,assignments.asignment_title,scores.score FROM `students` JOIN `enrolments` ON students.student_id=enrolments.student_id JOIN scores on scores.enrolment_id=enrolments.enrolment_id join assignments on scores.assignment_id=assignments.assignment_id where students.student_id= :std_id";
+        $statement = $conn->prepare($sql);
+        return $statement->execute([
+            ':std_id' => $student_id
+
+        ]);
 
     }
     

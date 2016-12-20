@@ -124,6 +124,10 @@ Route::post('/student/subscribe', [
     'uses' => 'StudentController@addNewEnrolment'
 
 ]);
+Route::get('/user/add',function (){
+    return view('Users.add_user');
+});
+
 
 
 Route::patch('/class/search/students', [

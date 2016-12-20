@@ -77,11 +77,11 @@
 
                         <tr>
                             <div>
-                                <td class=>{{$studentprogress[$i]["id"]}}</td>
+                                <td class=>{{$studentprogress[$i]["student_id"]}}</td>
                                 <td>{{$studentprogress[$i]["enrolment_id"]}}</td>
                                 <td>{{$studentprogress[$i]["assignment_id"]}}</td>
 
-                                <td>{{$studentprogress[$i]["tiltle"]}}</td>
+                                <td>{{$studentprogress[$i]["assignment_tiltle"]}}</td>
                                 <td>{{$studentprogress[$i]["score"]}}</td>
 
 
@@ -118,8 +118,6 @@
         </div>
         <p class="w3-wide">Photoshop</p>
         <div class="w3-progress-container">
-            <div class="w3-progressbar" style="width:80%"></div>
-            </di
 
 
 
