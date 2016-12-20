@@ -17,9 +17,9 @@ class Payrole extends BaseModel
     public $generated_date;
     public $paid_date;
 
-    public function generateMonthlySalary($workingHoursArray)
+    public function generateMonthlySalary($workingHoursArray,$payPerHour)
     {
-        $paymentperHour = 2000;
+        $paymentperHour = $payPerHour;
         $paymentsArr = array();
         foreach ($workingHoursArray as $t) {
             $t['tot'] = (integer)($t['tot'] * $paymentperHour);

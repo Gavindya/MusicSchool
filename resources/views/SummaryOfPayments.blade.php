@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-?>
-<head>
-    <title>Payroll Summary</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('templates.newMaster')
+@section('script')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -30,10 +24,12 @@
             document.getElementById("date").innerHTML = String(d.getDate());
         });
     </script>
-</head>
-<body>
-<div class="container">
-    <h1>Payroll Summary</h1>
+@endsection
+@section('headline')
+    Payroll Summary
+@endsection
+
+@section('content')
     <h2><span id="year"></span>-<span id="month"></span>-<span id="date"></span></h2>
     <hr>
         <div>
@@ -72,7 +68,4 @@
             <h3>Total Payment for <span id="month2"></span>&nbsp;&nbsp;
                 <input class="pay" type="text" placeholder="Total Payment" readonly value="{{$tot}}"></h3>
         </div>
-    </div>
-</div>
-</body>
-</html>
+@endsection

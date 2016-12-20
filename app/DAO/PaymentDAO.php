@@ -132,20 +132,39 @@ class PaymentDAO
         }
     }
     
-    public function changePayementPerHour($payment){
-//        DB::update(
-//            'UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id', [
-//            'id' => $paymentsIdList[$i],
-//            'today' => $today
-//        ]);
-        echo dd("Not Implemented");
+    public function changePaymentPerHour($payment){
+
+        $MonthDay = date("m-d");
+        $time = strtotime(date("y-m-d"));
+        $year = date("Y", $time);
+        $today = $year . '-' . $MonthDay;
+
+        try {
+            DB::insert(
+                'INSERT INTO `salaries` (hourly_amount, revision_date) VALUES (:amount,:today) ON DUPLICATE KEY UPDATE
+                  hourly_amount = VALUES(hourly_amount);'
+//                'INSERT INTO `salaries` VALUES (:amount,:today);'
+            , [
+                'today' => $today,
+                'amount' => $payment
+            ]);
+            return "1";
+        }catch(Exception $ex){
+            return "0";
+        }
+//        echo dd("Not Implemented");
     }
-    public function changePayementDate($date){
-//        DB::update(
-//            'UPDATE `payrole` SET `paid_date`=:today WHERE `payment_id` = :id', [
-//            'id' => $paymentsIdList[$i],
-//            'today' => $today
-//        ]);
-        echo dd("Not Implemented");
+
+    public function getHourlyPay(){
+//        $month = date("m");
+//        $time = strtotime(date("y-m-d"));
+//        $year = date("Y", $time);
+//        $resultPeriod = $year . '-' . $month . '%';
+
+        $payment = DB::selectOne('SELECT * FROM salaries ORDER BY revision_date DESC LIMIT 1;');
+        $payment = json_decode(json_encode($payment), TRUE);
+        return $payment;
+
     }
+
 }

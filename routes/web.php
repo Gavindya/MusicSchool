@@ -230,9 +230,6 @@ Route::patch('/setPaymentPerHour', [
     'uses' => 'SalaryController@setPaymentPerHour',
 ]);
 
-Route::patch('/setPaymentDate', [
-    'uses' => 'SalaryController@setPaymentDate',
-]);
 /*
 |--------------------------------------------------------------------------
 | Student Attendance

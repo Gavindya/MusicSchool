@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-//echo var_dump($instruments); ?>
-<head>
-    <title>Teacher Management</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('templates.newMaster')
+@section('script')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -20,11 +14,13 @@
             });
         });
     </script>
-</head>
-<body>
-<div class="container">
-    <h1>Teacher Management</h1>
-    <hr>
+@endsection
+@section('headline')
+    Teacher Management
+@endsection
+
+@section('content')
+
     <h2>Current Staff</h2>
     <div id="myTable">
         <table id="teachersTable" class="table table-hover table-responsive">
@@ -51,8 +47,7 @@
             </tbody>
         </table>
     </div>
-</div>
-<div class="container">
+
     <button id="toggleAddTeacher" class="btn-primary btn">Add New Teacher</button>
     <hr>
     <div id="addTeacher" class="collapse">
@@ -76,8 +71,4 @@
             {{csrf_field()}}
         </form>
     </div>
-    <hr>
-    <a href="{{ route('payrollSummary') }}" type="button" class="btn btn-primary">Payrole</a>
-</div>
-</body>
-</html>
+@endsection
