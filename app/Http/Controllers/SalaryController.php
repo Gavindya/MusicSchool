@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DAO\PaymentDAO;
 use App\DAO\TeacherDAO;
-use App\GenerateSalary;
+use App\Domain\Payrole;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -67,8 +67,14 @@ class SalaryController extends Controller
         if (isset($request->all()['selected'])) {
             $paymentsIdList = $request->all()['selected'];
             $paymentDao = new PaymentDAO();
-            $paymentDao->pay($paymentsIdList);
-            Session::flash('paid', "Successfully Paid Teachers");
+            $paidMsg = $paymentDao->pay($paymentsIdList);
+            if($paidMsg==="1"){
+                Session::flash('paidMsg', "Successfully paid the teacher");
+                Session::flash('alertType', "alert-success");
+            }else{
+                Session::flash('paidMsg', "Error Occurred");
+                Session::flash('alertType', "alert-danger");
+            }
             return redirect()->back();
         }
         else {
@@ -83,13 +89,36 @@ class SalaryController extends Controller
         $result = $dbCon->getPayementsOfATeacher($id);
         return $result;
     }
+    
+    public function setPaymentPerHour(Request $request){
+        $payment=$request->paymentPerHour;
+        $intPayment = (int)$payment;
+        if($intPayment>10000){
+            echo dd("too large");
+        }else{
+            $paymentDAO = new PaymentDAO();
+            $paymentDAO->changePayementPerHour($intPayment);
+        }
+
+    }
+
+    public function setPaymentDate(Request $request){
+        $payDay=$request->paymentDate;
+        $intPayDay = (int)$payDay;
+        if($intPayDay>30){
+            echo dd("too large");
+        }else{
+            $paymentDAO = new PaymentDAO();
+            $paymentDAO->changePayementDate($intPayDay);
+        }
+    }
 
     public function generateSalary()
     {
         $teacherDAO = new TeacherDAO();
         $workHours = $teacherDAO->getWorkHours();
 
-        $genSalary = new GenerateSalary();
+        $genSalary = new Payrole();
         $paymentsOfMonth = $genSalary->generateMonthlySalary($workHours);
 
         $paymentDAO = new PaymentDAO();

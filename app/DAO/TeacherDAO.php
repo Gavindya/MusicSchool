@@ -5,6 +5,7 @@ namespace App\DAO;
 use App\Domain\Teacher;
 use DB;
 use Crypt;
+use Exception;
 
 class TeacherDAO
 {
@@ -45,16 +46,34 @@ class TeacherDAO
         ]);
     }
 
-    public function updateTeacher($telephone, $address, $id)
+    public function updateTeacher($telephone, $address, $id,$newInstrument_id)
     {
-        return DB::update(
+        DB::beginTransaction();
+        try{
+            DB::update(
             'UPDATE `teachers` SET `teacher_telephone` = :telephone,
                                       `teacher_address` = :address
                                       WHERE `teacher_id` = :id', [
             'address' => $address,
             'telephone' => $telephone,
             'id' => $id
-        ]);
+            ]);
+            DB::insert(
+                'INSERT INTO `teaches` VALUES (:teacher_id,:instrument_id)', [
+                'teacher_id' => $id,
+                'instrument_id' => $newInstrument_id
+            ]);
+//            $error = 'Always throw this error';
+//            throw new Exception($error);
+            DB::commit();
+            return "1";
+        }
+        catch (Exception $ex)
+        {
+            DB::rollBack();
+            return "0";
+        }
+        
     }
 
     public function updateUser($username,$pw){

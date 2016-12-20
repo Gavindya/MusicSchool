@@ -22,7 +22,7 @@
             width: 160px;
         }
     </style>
-    <script>
+    <script type="text/javascript">
         jQuery(document).ready(function ($) {
             var monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
@@ -51,8 +51,8 @@
                 <p class="alert alert-info">{{ Session::get('msg') }}
                     <button id="m" class="glyphicon glyphicon-remove pull-right"></button></p>
             @endif
-            @if(Session::has('paid'))
-                <p class="alert alert-success">{{ Session::get('paid') }}
+            @if(Session::has('paidMsg'))
+                <p class="alert {{ Session::get('alertType') }}">{{ Session::get('paidMsg') }}
                     <button id="p" class="glyphicon glyphicon-remove pull-right"></button></p>
                 @endif
             @if(Session::has('error'))
@@ -93,11 +93,43 @@
             </div>
             {{csrf_field()}}
         </form>
-        <br>
         <hr>
-        <div class="container">
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
             <h3>Total Payment for <span id="month"></span>&nbsp;&nbsp;&nbsp;
                 <input class="pay" type="text" placeholder="Total Payment" readonly value="{{$tot}}"></h3>
+        </div>
+        {{--<button id="toggleChangePayment" class="btn-primary btn">Change Payment Per Hour</button>--}}
+        {{--<hr>--}}
+        <div id="payment" class="col-lg-6">
+            <div class="col-lg-6">
+                <form method="post" action="/setPaymentPerHour">
+                    {{method_field('PATCH')}}
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <label for="paymentPerHour">Payment Per Hour</label>
+                        <input type="text" class="form-control" id="paymentPerHour" pattern="[0-9]{1,5}" name="paymentPerHour">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn-primary" type="submit">Change Payment</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-6 pull-right">
+                <form method="post" action="/setPaymentDate">
+                    {{method_field('PATCH')}}
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <label for="paymentDate">Payment Date</label>
+                        <input type="text" class="form-control" id="paymentDate" pattern="[0-9]{1,2}" name="paymentDate">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn-primary" type="submit">Change Payment Date</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
