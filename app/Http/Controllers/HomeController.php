@@ -18,7 +18,17 @@ class HomeController extends Controller
 
  
     public function index(){
-        
-        return view('LandingPages.Admin.admin');
+
+        $user=Auth::user();
+        if ($user->role=='teacher'){
+//            return view('LandingPages.Teacher.teacher');
+            return view('userLanding');
+        }
+        elseif ($user->role=='staff'){
+            return redirect()->route('TeacherAttendence');
+        }
+        elseif ($user->role=='admin'){
+            return view('LandingPages.Admin.admin');
+        }
     }
 }

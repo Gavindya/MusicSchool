@@ -1,0 +1,1 @@
+<a href="{{route('logoutUser')}}" class="btn-primary btn">Logout</a>
