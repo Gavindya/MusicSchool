@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DAO\InstrumentDAO;
+use App\DAO\TeachesDAO;
 use App\DAO\TimeslotDAO;
 use App\Domain\Instrument;
 use App\Domain\Timeslot;
@@ -22,7 +23,7 @@ class SchoolAdministrationController extends Controller
         $this->middleware('auth');
     }
 
-    public function showSchoolAdministration(): View
+    public function showSchoolAdministration()
     {
         $timeslotDAO = new TimeslotDAO();
         $instrumentDAO = new InstrumentDAO();
@@ -36,7 +37,7 @@ class SchoolAdministrationController extends Controller
         ]);
     }
 
-    public function addTimeslot(Request $request): RedirectResponse
+    public function addTimeslot(Request $request)
     {
         $object = $request->all();
         $timeslot = new Timeslot($object['start_time'], $object['end_time']);
@@ -45,7 +46,7 @@ class SchoolAdministrationController extends Controller
         return redirect()->back();
     }
 
-    public function updateTimeslot(Request $request): RedirectResponse
+    public function updateTimeslot(Request $request)
     {
         $object = $request->all();
         $timeslot = new Timeslot($object['start_time'], $object['end_time']);
@@ -55,7 +56,7 @@ class SchoolAdministrationController extends Controller
         return redirect()->back();
     }
 
-    public function addInstrument(Request $request): RedirectResponse
+    public function addInstrument(Request $request)
     {
         $object = $request->all();
         $instrument = new Instrument($object['instrument_name']);
@@ -64,7 +65,7 @@ class SchoolAdministrationController extends Controller
         return redirect()->back();
     }
 
-    public function updateInstrument(Request $request): RedirectResponse
+    public function updateInstrument(Request $request)
     {
         $object = $request->all();
         $instrument = new Instrument($object['instrument_name']);
@@ -72,5 +73,15 @@ class SchoolAdministrationController extends Controller
         $instrumentDAO = new InstrumentDAO();
         $instrumentDAO->updateInstrument($instrument);
         return redirect()->back();
+    }
+
+    public function getInstrumentsByTeacherId($id){
+        $teachesDAO = new TeachesDAO();
+        return $teachesDAO->getInstrumentsByTeacher($id);
+    }
+
+    public function getTeachesByInstrumentId($id){
+        $teachesDAO = new TeachesDAO();
+        return $teachesDAO->getTeachersByInstrument($id);
     }
 }
