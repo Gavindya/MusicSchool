@@ -101,7 +101,7 @@
                         @for($i =0; $i < sizeof($students); $i++)
 
 
-                            <option value="{{$students[$i]['id']}}">{{$students[$i]['name']}}</option>
+                            <option value="{{$students[$i]['student_id']}}">{{$students[$i]['student_firstname']}}</option>
 
 
 

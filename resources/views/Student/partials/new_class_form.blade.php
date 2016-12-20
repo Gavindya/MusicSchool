@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="firstclass"><span class="req">* </span> Class: </label>
-    <select class="form-control" name="class_id">
+    <select class="form-control" name="course_id">
 
         <option value="">-- Select a class --</option>
         <option value="1">Class1</option>

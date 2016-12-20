@@ -14,7 +14,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class UserDAO
 {
-    public function addUser(User $user): bool
+    public function addUser(User $user)
     {
         return DB::insert("INSERT INTO `users` (username, password, role) VALUES (:username, :password, :role)", [
             'username' => $user->getAuthIdentifier(),
@@ -23,7 +23,8 @@ class UserDAO
         ]);
     }
 
-    public function getUserById($identifier): User
+    public function getUserById($identifier)
+
     {
         $object = DB::selectOne("SELECT * FROM users WHERE username = :username", [
             'username' => $identifier
@@ -38,7 +39,7 @@ class UserDAO
         return $user;
     }
 
-    public function getUserByCredentials($username, $password): User
+    public function getUserByCredentials($username, $password)
     {
         $object = DB::selectOne("SELECT * FROM users WHERE username = :username AND password = :password", [
             'username' => $username,
@@ -55,7 +56,7 @@ class UserDAO
         return $user;
     }
 
-    public function getUserByToken($identifier, $token): User
+    public function getUserByToken($identifier, $token)
     {
         $object = DB::selectOne("SELECT * FROM users WHERE username = :username AND remember_token = :remember_token", [
             'username' => $identifier,

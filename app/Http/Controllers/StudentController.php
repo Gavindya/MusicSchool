@@ -88,7 +88,7 @@ class StudentController extends Controller
     {
         $this->validate($request, [
             'student_id' => 'required',
-            'class_id' => 'required'
+            'course_id' => 'required'
         ]);
         $object = $request->all();
 
