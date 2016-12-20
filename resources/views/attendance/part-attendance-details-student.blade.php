@@ -4,19 +4,17 @@
         <table class="table table-striped table-hover table-responsive">
             <thead>
             <tr>
-                <th width="20%">Student Id</th>
-                <th width="20%">First Name</th>
-                <th width="30%">Last Name</th>
-                <th width="15%">Payment Status</th>
+                <th width="10%">Date</th>
+                <th width="25%">Class</th>
+                <th width="10%">Payment Status</th>
                 <th width="15%">Present/Absent</th>
             </tr>
             </thead>
             <tbody>
             @foreach($attendances as $attendance)
                 <tr>
-                    <td>{{$attendance['student_id']}}</td>
-                    <td>{{$attendance['student_firstname']}}</td>
-                    <td>{{$attendance['student_lastname']}}</td>
+                    <td>{{$attendance['date']}}</td>
+                    <td>{{$attendance['course_name']}}</td>
                     @if($attendance['status'] === 1)
                         <td class="text-success">Active</td>
                     @else
