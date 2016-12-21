@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DAO\CourseDAO;
 use App\DAO\EnrolmentDAO;
 use App\DAO\FeeDAO;
 use App\DAO\GuardianDAO;
@@ -79,10 +80,12 @@ class StudentController extends Controller
     public function showNewEnrolmentView()
     {
         $studentDAO = new StudentDAO();
+        $courseDAO = new CourseDAO();
         $students = $studentDAO->getAllStudents();
+        $courses = $courseDAO->getAllCourses();
         $search = 0;
 //        echo dd($students);
-        return view('Student.newClass', compact('students', 'search'));
+        return view('Student.newClass', compact('students', 'search', 'courses'));
     }
 
     public function addNewEnrolment(Request $request)
