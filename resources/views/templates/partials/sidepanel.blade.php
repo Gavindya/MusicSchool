@@ -34,7 +34,7 @@
                 <a href="/user/add">Add User</a>
             </li>
             <li>
-                <a href="/student/fees">Add Fee</a>
+                {{--<a href="/student/fees">Add Fee</a>--}}
             </li>
             <li>
                 <a href="/courses">Course Management</a>

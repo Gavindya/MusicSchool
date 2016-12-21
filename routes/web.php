@@ -100,6 +100,9 @@ Route::get('/logoutUser', [
 */
 
 // GET
+
+Route::get('/student/fees', 'FeeController@showFeeWindow');
+
 Route::get('/students', [
     'uses' => 'StudentController@showStudentsView'
 ]);
