@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DAO\AssignmentDAO;
 use App\DAO\CourseDAO;
 use App\DAO\InstrumentDAO;
 use App\DAO\TeacherDAO;
@@ -60,6 +61,7 @@ class CourseController extends Controller
         $instrumentDAO = new InstrumentDAO();
         $timeslotDAO = new TimeslotDAO();
         $teacherDAO = new TeacherDAO();
+        $assignmentDAO = new AssignmentDAO();
 
         $course = $courseDAO->getCourseByCourseId($id);
         $instrument = $instrumentDAO->getInstrumentById($course->instrument_id);
@@ -69,6 +71,7 @@ class CourseController extends Controller
         $instruments = $instrumentDAO->getAllInstruments();
         $timeslots = $timeslotDAO->getAllTimeslots();
         $teachers = $teacherDAO->getAllTeachersAsObj();
+        $assignments = $assignmentDAO->getAssignments($course->course_id);
 
         return view('courses.course-details')->with([
             'course' => $course,
@@ -78,6 +81,7 @@ class CourseController extends Controller
             'instruments' => $instruments,
             'timeslots' => $timeslots,
             'teachers' => $teachers,
+            'assignments' => $assignments
         ]);
     }
 

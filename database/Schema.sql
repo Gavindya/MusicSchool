@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS `students` (
   `student_address`   TEXT        NOT NULL,
   `student_telephone` VARCHAR(45) NULL,
   `student_joindate`  DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`student_id`)
+  PRIMARY KEY (`student_id`),
+  INDEX `idx_student_firstname` (`student_firstname` ASC)
 )
   ENGINE = InnoDB;
 
@@ -59,6 +60,18 @@ CREATE TABLE IF NOT EXISTS `timeslots` (
   ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `users` (
+  `username`       VARCHAR(45) NOT NULL,
+  `password`       VARCHAR(60) NOT NULL,
+  `remember_token` VARCHAR(60) NULL DEFAULT NULL,
+  `role`           VARCHAR(7)  NOT NULL,
+  PRIMARY KEY (`username`)
+)
+  ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `teachers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `teachers` (
@@ -68,7 +81,15 @@ CREATE TABLE IF NOT EXISTS `teachers` (
   `teacher_telephone` VARCHAR(10) NOT NULL,
   `teacher_joindate`  DATETIME    NOT NULL,
   `active`            TINYINT(1)  NOT NULL DEFAULT 1,
-  PRIMARY KEY (`teacher_id`)
+  `username`          VARCHAR(45) NULL,
+  PRIMARY KEY (`teacher_id`),
+  INDEX `idx_teacher_name` (`teacher_name` ASC),
+  INDEX `fk_teacher_username_idx` (`username` ASC),
+  CONSTRAINT `fk_teacher_username`
+  FOREIGN KEY (`username`)
+  REFERENCES `users` (`username`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
 )
   ENGINE = InnoDB;
 
@@ -215,10 +236,10 @@ CREATE TABLE IF NOT EXISTS `families` (
 -- Table `assignments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `assignments` (
-  `assignment_id`   INT         NOT NULL AUTO_INCREMENT,
-  `course_id`       INT         NOT NULL,
-  `asignment_title` VARCHAR(45) NOT NULL,
-  `marks`           INT         NOT NULL,
+  `assignment_id`    INT         NOT NULL AUTO_INCREMENT,
+  `course_id`        INT         NOT NULL,
+  `assignment_title` VARCHAR(45) NOT NULL,
+  `marks`            INT         NOT NULL,
   PRIMARY KEY (`assignment_id`),
   INDEX `idx_course_id` (`course_id` ASC),
   CONSTRAINT `fk_assignment_course`
@@ -287,14 +308,12 @@ CREATE TABLE IF NOT EXISTS `work` (
   ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `users`
+-- Table `salaries`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `users` (
-  `username`       VARCHAR(45) NOT NULL,
-  `password`       VARCHAR(60) NOT NULL,
-  `remember_token` VARCHAR(60) NULL DEFAULT NULL,
-  `role`           VARCHAR(7)  NOT NULL,
-  PRIMARY KEY (`username`)
+CREATE TABLE IF NOT EXISTS `salaries` (
+  `revision_date` DATETIME NOT NULL,
+  `hourly_amount` DECIMAL  NOT NULL,
+  PRIMARY KEY (`revision_date`)
 )
   ENGINE = InnoDB;
 
@@ -306,6 +325,7 @@ USE `musicschool`;
 CREATE TABLE IF NOT EXISTS `course_details` (
   `course_id`       INT,
   `course_name`     INT,
+  `credits`         INT,
   `instrument_id`   INT,
   `instrument_name` INT,
   `weekday`         INT,
@@ -315,6 +335,29 @@ CREATE TABLE IF NOT EXISTS `course_details` (
   `charges`         INT,
   `teacher_id`      INT,
   `teacher_name`    INT
+);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `student_details`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `student_details` (
+  `student_id`   INT,
+  `student_name` INT
+);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `student_progress`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `student_progress` (
+  `student_id`        INT,
+  `student_firstname` INT,
+  `student_lastname`  INT,
+  `course_id`         INT,
+  `course_name`       INT,
+  `assignment_id`     INT,
+  `assignment_title`  INT,
+  `marks`             INT,
+  `score`             INT
 );
 
 -- -----------------------------------------------------
@@ -342,6 +385,7 @@ CREATE OR REPLACE VIEW course_details AS
   SELECT
     course_id,
     course_name,
+    credits,
     instrument_id,
     instrument_name,
     weekday,
@@ -355,6 +399,40 @@ CREATE OR REPLACE VIEW course_details AS
     NATURAL JOIN instruments
     NATURAL JOIN timeslots
     NATURAL JOIN teachers;
+
+-- -----------------------------------------------------
+-- View `student_details`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `student_details`;
+USE `musicschool`;
+CREATE OR REPLACE VIEW student_details AS
+  SELECT
+    student_id,
+    concat(student_firstname, student_lastname) student_name
+  FROM students;
+
+-- -----------------------------------------------------
+-- View `student_progress`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `student_progress`;
+USE `musicschool`;
+CREATE OR REPLACE VIEW student_progress AS
+  SELECT
+    student_id,
+    student_firstname,
+    student_lastname,
+    course_id,
+    course_name,
+    assignment_id,
+    assignment_title,
+    marks,
+    score
+  FROM
+    students
+    JOIN enrolments USING (student_id)
+    JOIN courses USING (course_id)
+    JOIN assignments USING (course_id)
+    JOIN scores USING (assignment_id);
 USE `musicschool`;
 
 DELIMITER $$

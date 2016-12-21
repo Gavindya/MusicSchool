@@ -10,4 +10,5 @@
     @include('courses.part-courses-edit')
 
     @include('courses.part-courses-progress')
+
 @stop
