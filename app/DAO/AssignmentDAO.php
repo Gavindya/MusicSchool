@@ -23,7 +23,7 @@ class AssignmentDAO
 
     public function addAssignment(StudentAssignment $assignment)
     {
-        return DB::insert('INSERT INTO assignments (asignment_title, marks, course_id) VALUES (:assignment_title, :marks, :course_id)', [
+        return DB::insert('INSERT INTO assignments (assignment_title, marks, course_id) VALUES (:assignment_title, :marks, :course_id)', [
             'assignment_title' => $assignment->title,
             'marks' => $assignment->marks,
             'course_id' => $assignment->course_id
