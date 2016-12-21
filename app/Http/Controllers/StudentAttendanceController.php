@@ -112,7 +112,7 @@ class StudentAttendanceController extends Controller
         $present = $_POST['present'];
         $attendanceDAO = new AttendanceDAO();
         $attendanceDAO->addAttendance($present);
-        Session::flash('msg',"Successfully updated");
+        Session::flash('randilsmsg',"Successfully updated");
         return redirect()->back();
     }
 }

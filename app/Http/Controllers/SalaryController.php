@@ -30,7 +30,7 @@ class SalaryController extends Controller
 
     public function getAllPayments()
     {
-        if(date("d")==="28") {
+        if(date("d")==="21") {
             $msg = $this->generateSalary();
             Session::flash('msg', $msg);
         }

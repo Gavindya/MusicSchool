@@ -21,9 +21,9 @@
             <li>
                 <a href="/student/new">Student Admission</a>
             </li>
-            <li>
-                <a href="/view/students">View Students</a>
-            </li>
+            {{--<li>--}}
+                {{--<a href="/view/students">View Students</a>--}}
+            {{--</li>--}}
             <li>
                 <a href="/student/new_class">Enroll For Classes</a>
             </li>
