@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DAO\AssignmentDAO;
 use App\DAO\CourseDAO;
 use App\DAO\InstrumentDAO;
 use App\DAO\TeacherDAO;
 use App\DAO\TimeslotDAO;
 use App\Domain\Course;
+use App\Domain\StudentAssignment;
 use DB;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,7 +36,7 @@ class CourseController extends Controller
         return DB::select('SELECT instrument_id, instrument_name FROM instruments');
     }
 
-    public function showCourseManagement(): View
+    public function showCourseManagement()
     {
         $courseDAO = new CourseDAO();
         $instrumentDAO = new InstrumentDAO();
@@ -54,12 +56,13 @@ class CourseController extends Controller
         ]);
     }
 
-    public function showCourseDetails($id): View
+    public function showCourseDetails($id)
     {
         $courseDAO = new CourseDAO();
         $instrumentDAO = new InstrumentDAO();
         $timeslotDAO = new TimeslotDAO();
         $teacherDAO = new TeacherDAO();
+        $assignmentDAO = new AssignmentDAO();
 
         $course = $courseDAO->getCourseByCourseId($id);
         $instrument = $instrumentDAO->getInstrumentById($course->instrument_id);
@@ -69,6 +72,7 @@ class CourseController extends Controller
         $instruments = $instrumentDAO->getAllInstruments();
         $timeslots = $timeslotDAO->getAllTimeslots();
         $teachers = $teacherDAO->getAllTeachersAsObj();
+        $assignments = $assignmentDAO->getAssignments($course->course_id);
 
         return view('courses.course-details')->with([
             'course' => $course,
@@ -78,14 +82,14 @@ class CourseController extends Controller
             'instruments' => $instruments,
             'timeslots' => $timeslots,
             'teachers' => $teachers,
+            'assignments' => $assignments
         ]);
     }
 
-    public function addCourse(Request $request): RedirectResponse
+    public function addCourse(Request $request)
     {
         $object = $request->all();
         $courseDAO = new CourseDAO();
-
         $courseDAO->addNewCourse(new Course(
             $object['course_name'],
             $object['instrument_id'],
@@ -98,7 +102,19 @@ class CourseController extends Controller
         return redirect()->back();
     }
 
-    public function editCourse(Request $request): RedirectResponse
+    public function addAssignment(Request $request)
+    {
+        $object = $request->all();
+        $assignmentDAO = new AssignmentDAO();
+        $assignmentDAO->addAssignment(new StudentAssignment(
+            $object['course_id'],
+            $object['title'],
+            $object['marks']));
+
+        return redirect()->back();
+    }
+
+    public function editCourse(Request $request)
     {
         $object = $request->all();
         $courseDAO = new CourseDAO();

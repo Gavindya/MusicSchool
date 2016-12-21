@@ -23,6 +23,8 @@ Route::post('/courses', 'CourseController@addCourse');
 Route::get('/courses/{id}', 'CourseController@showCourseDetails');
 Route::post('/courses/{id}', 'CourseController@editCourse');
 
+Route::post('/assignments/add', 'CourseController@addAssignment');
+
 Route::get('/teachers/all', 'CourseController@getAllTeachers');
 Route::get('/instruments/all', 'CourseController@getAllInstruments');
 

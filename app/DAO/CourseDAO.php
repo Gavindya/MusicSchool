@@ -10,7 +10,6 @@ namespace App\DAO;
 
 use App\Domain\Course;
 use DB;
-use stdClass;
 
 
 class CourseDAO
@@ -36,9 +35,10 @@ class CourseDAO
     public function addNewCourse(Course $course)
     {
         return DB::insert(
-            'INSERT INTO courses (course_name, instrument_id, weekday, timeslot_id, charges, teacher_id) VALUES (:course_name, :instrument_id, :weekday, :timeslot_id, :charges, :teacher_id)', [
+            'INSERT INTO courses (course_name, instrument_id, credits, weekday, timeslot_id, charges, teacher_id) VALUES (:course_name, :instrument_id, :credits, :weekday, :timeslot_id, :charges, :teacher_id)', [
             'course_name' => $course->course_name,
             'instrument_id' => $course->instrument_id,
+            'credits' => $course->credits,
             'weekday' => $course->weekday,
             'timeslot_id' => $course->timeslot_id,
             'charges' => $course->charges,
@@ -49,9 +49,10 @@ class CourseDAO
     public function updateCourse(Course $course)
     {
         return DB::update(
-            'UPDATE courses SET course_name = :course_name, instrument_id = :instrument_id, weekday = :weekday, timeslot_id = :timeslot_id, charges = :charges, teacher_id = :teacher_id WHERE course_id = :course_id', [
+            'UPDATE courses SET course_name = :course_name, instrument_id = :instrument_id, credits = :credits, weekday = :weekday, timeslot_id = :timeslot_id, charges = :charges, teacher_id = :teacher_id WHERE course_id = :course_id', [
             'course_name' => $course->course_name,
             'instrument_id' => $course->instrument_id,
+            'credits' => $course->credits,
             'weekday' => $course->weekday,
             'timeslot_id' => $course->timeslot_id,
             'charges' => $course->charges,

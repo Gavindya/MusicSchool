@@ -15,31 +15,26 @@
                 <input type="number" min="0" max="10" class="form-control" id="credits" placeholder="Credits"
                        name="credits">
             </div>
-
-            {{--Start of Inner Form--}}
-            <form id="instrument_id_form" method="post">
-                <div class="col-sm-4 form-group">
-                    <label for="instrument-id">Instrument</label>
-                    <select class="form-control" id="instrument-id" name="instrument_id"
-                            onchange="refreshTeaches('instrument')">
-                        <option selected disabled>Choose here</option>
-                        @foreach($instruments as $instrument)
-                            <option value="{{$instrument->instrument_id}}">{{$instrument->instrument_name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-4 form-group">
-                    <label for="teacher-id">Teacher</label>
-                    <select class="form-control" id="teacher-id" name="teacher_id"
-                            onchange="refreshTeaches('teacher')">
-                        <option selected disabled>Choose here</option>
-                        @foreach($teachers as $teacher)
-                            <option value="{{$teacher->teacher_id}}">{{$teacher->teacher_name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </form>
-            {{--End of Inner Form--}}
+            <div class="col-sm-4 form-group">
+                <label for="instrument-id">Instrument</label>
+                <select class="form-control" id="instrument-id" name="instrument_id"
+                        onchange="refreshTeaches('instrument')">
+                    <option selected disabled>Choose here</option>
+                    @foreach($instruments as $instrument)
+                        <option value="{{$instrument->instrument_id}}">{{$instrument->instrument_name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm-4 form-group">
+                <label for="teacher-id">Teacher</label>
+                <select class="form-control" id="teacher-id" name="teacher_id"
+                        onchange="refreshTeaches('teacher')">
+                    <option selected disabled>Choose here</option>
+                    @foreach($teachers as $teacher)
+                        <option value="{{$teacher->teacher_id}}">{{$teacher->teacher_name}}</option>
+                    @endforeach
+                </select>
+            </div>
 
             {{--This script refreshes the instruments and teachers lists when either is changed--}}
             <script type="text/javascript">

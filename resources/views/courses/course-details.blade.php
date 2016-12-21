@@ -9,5 +9,6 @@
 
     @include('courses.part-courses-edit')
 
-    @include('courses.part-courses-progress')
+    @include('courses.part-courses-assignments')
+
 @stop
