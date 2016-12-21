@@ -377,6 +377,27 @@ CREATE FUNCTION totworktime_teacher(yearmonth VARCHAR(8), id INT)
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- procedure get_siblings
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `musicschool`$$
+CREATE PROCEDURE get_siblings(IN s_id INT)
+  BEGIN
+    SELECT
+      student_id,
+      student_firstname,
+      student_lastname
+    FROM students
+      JOIN families USING (student_Id)
+    WHERE student_id IN (SELECT guardian_id
+                         FROM families
+                         WHERE student_id = s_id);
+  END$$
+
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- View `course_details`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `course_details`;
