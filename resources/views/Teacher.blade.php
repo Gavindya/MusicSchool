@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php
-?>
-<head>
-    <title>Personal Details</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('userLanding')
+@section('script')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -28,11 +22,12 @@
         });
 
         function edit() {
+            document.getElementById("update").removeAttribute('disabled');
             document.getElementById("telephone").removeAttribute('readonly');
             document.getElementById("address").removeAttribute('readonly');
             document.getElementById("password").removeAttribute('readonly');
             document.getElementById("re-password").removeAttribute('readonly');
-            document.getElementById("update").removeAttribute('disabled');
+
         }
         function checkPasswordMatch() {
             var password = $("#password").val();
@@ -44,14 +39,14 @@
                 $("#divCheckPasswordMatch").html("Passwords match");
         }
 
-
     </script>
 
-</head>
-<body>
-<div class="container">
-    <hr style="margin: 0">
+@endsection
+@section('headline')
     <h2>Welcome {{$teacher['teacher_name']}}! </h2>
+@endsection
+
+@section('content')
 
     <div id="msgArea">
         @if(Session::has('msg'))
@@ -66,7 +61,7 @@
     <div id="form" class="row">
         <form method="post" action="/updateTeacherHimself">
             {{method_field('PATCH')}}
-            <div class="col-lg-4 col-md-4">
+            <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                     <label for="name">ID</label>
                     <input type="text" class="form-control" id="id" name="id" readonly value={{$teacher['teacher_id']}}>
@@ -83,24 +78,24 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-lg-4 col-md-4">
-                <div class="form-group">
-                    <label for="username">Username (more than 3 lowercase chars)</label>
-                    <input type="text" class="form-control" id="username" name="username" pattern="[a-z].{2,}" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password (more than 3 characters)</label>
-                    <input type="password" class="form-control" id="password" pattern=".{3,}" name="password" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="re-password">Re-Enter Password</label>
-                    <input type="password" class="form-control" id="re-password" name="re_password"
-                           pattern=".{3,}" onChange="checkPasswordMatch()" readonly>
-                </div>
-                <div class="form-group" id="divCheckPasswordMatch"></div>
+            {{--<div class="col-lg-4 col-md-4">--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="username">Username (more than 3 lowercase chars)</label>--}}
+                    {{--<input type="text" class="form-control" id="username" name="username" pattern="[a-z].{2,}" readonly>--}}
+                {{--</div>--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="password">Password (more than 3 characters)</label>--}}
+                    {{--<input type="password" class="form-control" id="password" pattern=".{3,}" name="password" readonly>--}}
+                {{--</div>--}}
+                {{--<div class="form-group">--}}
+                    {{--<label for="re-password">Re-Enter Password</label>--}}
+                    {{--<input type="password" class="form-control" id="re-password" name="re_password"--}}
+                           {{--pattern=".{3,}" onChange="checkPasswordMatch()" readonly>--}}
+                {{--</div>--}}
+                {{--<div class="form-group" id="divCheckPasswordMatch"></div>--}}
 
-            </div>
-            <div class="col-lg-4 col-md-4">
+            {{--</div>--}}
+            <div class="col-lg-6 col-md-6">
                 <div class="form-group">
                     <label for="telephone">Telephone Number</label>
                     <input type="text" class="form-control" id="telephone" placeholder="Telephone Number"
@@ -192,6 +187,4 @@
             </tbody>
         </table>
     </div>
-</div>
-</body>
-</html>
+@endsection

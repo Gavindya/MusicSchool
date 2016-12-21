@@ -37,9 +37,10 @@ class TeacherDAO
         $telephone = $teacher->getTeacherTelephone();
 
         return DB::insert(
-            'INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`)
-                VALUES (:nameOfT,:address,:telephone,:joined)', [
+            'INSERT INTO `teachers` (`teacher_name`, `teacher_address`, `teacher_telephone`,`teacher_joindate`,`username`)
+                VALUES (:nameOfT,:address,:telephone,:joined,:username)', [
             'nameOfT' => $nameOfT,
+            'username' => $nameOfT,
             'address' => $address,
             'telephone' => $telephone,
             'joined' => $joined
@@ -185,7 +186,8 @@ class TeacherDAO
 
     public function addTeacher(Teacher $teacher)
     {
-        return DB::insert('INSERT INTO teachers (teacher_name, teacher_address, teacher_telephone) VALUES (:teacher_name, :teacher_address, :teacher_telephone )', [
+        return DB::insert('INSERT INTO teachers (teacher_name, teacher_address, teacher_telephone) 
+                    VALUES (:teacher_name, :teacher_address, :teacher_telephone )', [
             'teacher_name' => $teacher->getTeacherName(),
             'teacher_address' => $teacher->getTeacherAddress(),
             'teacher_telephone' => $teacher->getTeacherTelephone()

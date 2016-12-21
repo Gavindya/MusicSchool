@@ -37,6 +37,9 @@
                 <a href="/student/fees">Add Fee</a>
             </li>
             <li>
+                <a href="/courses">Course Management</a>
+            </li>
+            <li>
                 <a href="/TeacherManagement">Teacher Management</a>
             </li>
             <li>

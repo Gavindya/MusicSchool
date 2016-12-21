@@ -17,6 +17,8 @@
     </div>
 
     @include('attendance.attendance-mark-selectclass')
-
+    @if(Session::has('msg'))
+        <p class="alert alert-info">{{ Session::get('msg') }}
+    @endif
     @include('attendance.attendance-studentlist')
 @stop

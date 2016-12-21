@@ -6,6 +6,7 @@ use App\DAO\AttendanceDAO;
 use App\DAO\CourseDAO;
 use App\DAO\StudentDAO;
 use app\DbModels\EnrollDAO;
+use Session;
 
 class StudentAttendanceController extends Controller
 {
@@ -111,6 +112,7 @@ class StudentAttendanceController extends Controller
         $present = $_POST['present'];
         $attendanceDAO = new AttendanceDAO();
         $attendanceDAO->addAttendance($present);
+        Session::flash('msg',"Successfully updated");
         return redirect()->back();
     }
 }

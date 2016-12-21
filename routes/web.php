@@ -84,7 +84,7 @@ Route::post('/user/add/store', [
 |--------------------------------------------------------------------------
 */
 Auth::routes();
-Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 Route::get('/logoutUser', [
     'uses' => 'UserAccountController@userLogout',
     'as' => 'logoutUser'
